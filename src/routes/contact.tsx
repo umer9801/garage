@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Reveal, SectionHeading, PrimaryButton } from "@/components/ui-bits";
-import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle, ArrowRight, CalendarCheck } from "lucide-react";
 import { useState, useRef } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { submitContact } from "@/lib/server-fns";
 
 export const Route = createFileRoute("/contact")({
@@ -20,6 +21,7 @@ function ContactPage() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [submittedName, setSubmittedName] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -27,10 +29,11 @@ function ContactPage() {
     setLoading(true);
     setError("");
     const form = e.currentTarget;
+    const name = (form.elements.namedItem("name") as HTMLInputElement).value;
     try {
       await submitContact({
         data: {
-          name: (form.elements.namedItem("name") as HTMLInputElement).value,
+          name,
           phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
           email: (form.elements.namedItem("email") as HTMLInputElement).value,
           reg: (form.elements.namedItem("reg") as HTMLInputElement).value,
@@ -38,6 +41,7 @@ function ContactPage() {
           message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
         },
       });
+      setSubmittedName(name);
       setSent(true);
       formRef.current?.reset();
     } catch (err) {
@@ -49,6 +53,88 @@ function ContactPage() {
 
   return (
     <>
+      {/* Full-screen success overlay */}
+      <AnimatePresence>
+        {sent && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-primary/95 backdrop-blur-sm px-6"
+          >
+            {/* Background glow orbs */}
+            <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-[oklch(0.78_0.17_60)] opacity-20 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
+
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0, y: 40 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              transition={{ delay: 0.15, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-full max-w-lg rounded-[2rem] bg-white p-10 shadow-2xl text-center"
+            >
+              {/* Icon */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.35, type: "spring", stiffness: 200, damping: 15 }}
+                className="mx-auto mb-6 grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-[oklch(0.78_0.17_60)] to-[oklch(0.65_0.19_40)] shadow-lg"
+              >
+                <CheckCircle className="h-10 w-10 text-white" strokeWidth={2.5} />
+              </motion.div>
+
+              {/* Heading */}
+              <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                Message Received
+              </h2>
+              <p className="mt-3 text-base leading-relaxed text-ink-soft">
+                Thank you{submittedName ? `, ${submittedName}` : ""}. Our team will review your enquiry and get back to you within one hour during opening hours.
+              </p>
+
+              {/* What happens next */}
+              <div className="mt-8 rounded-2xl bg-surface p-5 text-left space-y-3">
+                <p className="text-xs font-semibold uppercase tracking-widest text-ink-soft mb-3">What happens next</p>
+                {[
+                  "We review your enquiry and match you with the right technician",
+                  "You receive a confirmation call or email with your slot details",
+                  "Drop off your vehicle — we handle everything from there",
+                ].map((step, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+                      {i + 1}
+                    </span>
+                    <span className="text-sm text-ink">{step}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Actions */}
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+                <a
+                  href="tel:+441204000000"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[oklch(0.78_0.17_60)] to-[oklch(0.65_0.19_40)] px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-[1.02]"
+                >
+                  <Phone className="h-4 w-4" />
+                  Call us now
+                </a>
+                <button
+                  onClick={() => setSent(false)}
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-semibold text-ink transition hover:border-primary hover:text-primary"
+                >
+                  <ArrowRight className="h-4 w-4" />
+                  Send another message
+                </button>
+              </div>
+
+              {/* Reference note */}
+              <p className="mt-6 text-xs text-ink-soft/60">
+                Sleek Automotive And Fleet Specialists · Mon–Fri 8:00–18:00 · Sat 9:00–14:00
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <section className="container-px mx-auto max-w-7xl px-6 pb-12 pt-36">
         <SectionHeading
           eyebrow="Contact"
@@ -117,15 +203,20 @@ function ContactPage() {
               </div>
               {error && <p className="sm:col-span-2 text-sm text-red-500">{error}</p>}
               <div className="flex flex-wrap items-center justify-between gap-4 sm:col-span-2">
-                <span className="text-xs text-ink-soft">
-                  {sent ? "✅ Thanks — we'll be in touch shortly." : "By submitting you agree to our privacy policy."}
-                </span>
+                <span className="text-xs text-ink-soft">By submitting you agree to our privacy policy.</span>
                 <button
                   type="submit"
-                  disabled={loading || sent}
+                  disabled={loading}
                   className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[oklch(0.78_0.17_60)] to-[oklch(0.65_0.19_40)] px-6 py-3.5 text-sm font-semibold text-white shadow-glow-orange transition-transform hover:-translate-y-0.5 disabled:opacity-60"
                 >
-                  {loading ? "Sending…" : sent ? "Sent ✓" : <><Send className="h-4 w-4" /> Send</>}
+                  {loading ? (
+                    <>
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                      Sending
+                    </>
+                  ) : (
+                    <><Send className="h-4 w-4" /> Send Message</>
+                  )}
                 </button>
               </div>
             </form>
