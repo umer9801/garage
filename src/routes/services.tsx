@@ -6,9 +6,9 @@ import { ChevronRight } from "lucide-react";
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "Services — Garage Bolton" },
+      { title: "Services — Sleek Automotive And Fleet Specialists" },
       { name: "description", content: "MOT testing, repairs, tyres, diagnostics, motorcycle servicing, fleet, AC recharge and laser wheel alignment in Bolton." },
-      { property: "og:title", content: "Services — Garage" },
+      { property: "og:title", content: "Services — Sleek Automotive And Fleet Specialists" },
       { property: "og:description", content: "Premium automotive services in Bolton." },
     ],
   }),

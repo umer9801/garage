@@ -8,9 +8,9 @@ import certImg from "@/assets/certificate.jpg";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Garage Bolton" },
-      { name: "description", content: "Two decades of trusted automotive care in Bolton. Meet the team behind Garage." },
-      { property: "og:title", content: "About — Garage Bolton" },
+      { title: "About — Sleek Automotive And Fleet Specialists" },
+      { name: "description", content: "Two decades of trusted automotive care in Bolton. Meet the team behind Sleek Automotive And Fleet Specialists." },
+      { property: "og:title", content: "About — Sleek Automotive And Fleet Specialists" },
       { property: "og:description", content: "Two decades of trusted automotive care in Bolton." },
     ],
   }),

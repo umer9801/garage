@@ -16,9 +16,9 @@ import { useState } from "react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Garage — Premium Car Care in Bolton" },
-      { name: "description", content: "DVSA approved MOT testing, repairs, diagnostics, tyres & servicing in Bolton. Premium care, honest pricing." },
-      { property: "og:title", content: "Garage — Premium Car Care in Bolton" },
+      { title: "Sleek Automotive And Fleet Specialists — Bolton" },
+      { name: "description", content: "DVSA approved MOT testing, repairs, diagnostics, tyres & servicing in Bolton. Honest pricing, expert care." },
+      { property: "og:title", content: "Sleek Automotive And Fleet Specialists — Bolton" },
       { property: "og:description", content: "DVSA approved MOT testing, repairs, diagnostics, tyres & servicing in Bolton." },
     ],
   }),
@@ -41,7 +41,7 @@ const PROCESS = [
 
 const TESTIMONIALS = [
   { name: "Sarah J.", role: "BMW 3 Series owner", quote: "Honest, fast and the workshop is immaculate. Best garage I've used in 15 years of driving." },
-  { name: "Aamir K.", role: "Fleet Manager — JK Logistics", quote: "We run 22 vans through the Garage — uptime is up, costs are down. A genuine partner." },
+  { name: "Aamir K.", role: "Fleet Manager — JK Logistics", quote: "We run 22 vans through Sleek Automotive — uptime is up, costs are down. A genuine partner." },
   { name: "Lena P.", role: "Mini Cooper owner", quote: "They explained everything in plain English and saved me £400 on a quote I had elsewhere." },
   { name: "Tom R.", role: "Audi A4 owner", quote: "Booked online at 9pm, MOT'd by lunch. Faultless service from start to finish." },
 ];
@@ -82,7 +82,7 @@ function HomePage() {
       <section className="bg-surface-3 py-24">
         <div className="container-px mx-auto max-w-7xl px-6">
           <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
-            <SectionHeading eyebrow="What We Do" title={<>Premium services,<br />engineered for every drive.</>} />
+            <SectionHeading eyebrow="What We Do" title={<>Expert services,<br />engineered for every drive.</>} />
             <Reveal delay={0.1}>
               <GhostButton to="/services">View all services <ChevronRight className="h-4 w-4" /></GhostButton>
             </Reveal>
@@ -127,7 +127,7 @@ function HomePage() {
             </div>
           </Reveal>
           <div>
-            <SectionHeading eyebrow="About Us" title="20 years of trusted care in Bolton." subtitle="Garage was founded with one mission: deliver main-dealer quality with the warmth of a local family garage. Today we look after thousands of drivers across Greater Manchester." />
+            <SectionHeading eyebrow="About Us" title="20 years of trusted care in Bolton." subtitle="Sleek Automotive And Fleet Specialists was founded with one mission: deliver main-dealer quality with the warmth of a local family garage. Today we look after thousands of drivers across Greater Manchester." />
             <ul className="mt-8 space-y-4">
               {["DVSA approved Class 1, 2 & 4 station", "Latest Hunter & Bosch equipment", "Genuine OEM parts only"].map((t) => (
                 <li key={t} className="flex items-center gap-3 text-ink">

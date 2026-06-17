@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -11,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SiteShell } from "../components/site-shell";
 
 function NotFoundComponent() {
   return (
@@ -77,10 +79,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Garage — Premium Car Care in Bolton" },
+      { title: "Sleek Automotive And Fleet Specialists — Bolton" },
       { name: "description", content: "DVSA approved MOT testing, repairs, diagnostics, tyres & servicing in Bolton. Premium car care for every make and model." },
-      { name: "author", content: "Garage" },
-      { property: "og:title", content: "Garage — Premium Car Care in Bolton" },
+      { name: "author", content: "Sleek Automotive And Fleet Specialists" },
+      { property: "og:title", content: "Sleek Automotive And Fleet Specialists — Bolton" },
       { property: "og:description", content: "DVSA approved MOT testing, repairs, diagnostics, tyres & servicing in Bolton." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -118,14 +120,16 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isAdmin = pathname.startsWith("/admin");
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SiteShell>
-        <Outlet />
-      </SiteShell>
+      {isAdmin ? <Outlet /> : (
+        <SiteShell>
+          <Outlet />
+        </SiteShell>
+      )}
     </QueryClientProvider>
   );
 }
-
-import { SiteShell } from "../components/site-shell";

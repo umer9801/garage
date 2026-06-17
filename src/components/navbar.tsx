@@ -48,11 +48,11 @@ export function Navbar() {
               <span className={cn(
                 "text-sm font-extrabold tracking-tight transition-colors duration-500",
                 light ? "text-white" : "text-primary",
-              )}>GARAGE</span>
+              )}>SLEEK AUTOMOTIVE</span>
               <span className={cn(
                 "text-[10px] font-medium uppercase tracking-[0.18em] transition-colors duration-500",
                 light ? "text-white/70" : "text-ink-soft",
-              )}>Bolton</span>
+              )}>Fleet Specialists · Bolton</span>
             </div>
           </Link>
 
@@ -129,7 +129,7 @@ export function Navbar() {
               className="fixed inset-y-0 right-0 z-[70] flex w-[88%] max-w-sm flex-col gap-6 rounded-l-3xl bg-white p-6 shadow-elegant"
             >
               <div className="flex items-center justify-between">
-                <span className="text-sm font-extrabold tracking-tight text-primary">GARAGE</span>
+                <span className="text-sm font-extrabold tracking-tight text-primary">SLEEK AUTOMOTIVE</span>
                 <button
                   onClick={() => setOpen(false)}
                   aria-label="Close menu"

@@ -12,9 +12,9 @@ export const Route = createFileRoute("/services/$slug")({
     const s = loaderData?.service ?? SERVICES[0];
     return {
       meta: [
-        { title: `${s.title} ΓÇö MA Service Centre` },
+        { title: `${s.title} — Sleek Automotive And Fleet Specialists` },
         { name: "description", content: s.shortDescription },
-        { property: "og:title", content: `${s.title} ΓÇö MA Service Centre` },
+        { property: "og:title", content: `${s.title} — Sleek Automotive And Fleet Specialists` },
         { property: "og:description", content: s.shortDescription },
         { property: "og:image", content: s.hero },
       ],

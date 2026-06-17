@@ -14,7 +14,7 @@ export function Footer() {
                 <Wrench className="h-6 w-6" />
               </div>
               <div>
-                <div className="text-lg font-extrabold">Garage</div>
+                <div className="text-lg font-extrabold">Sleek Automotive And Fleet Specialists</div>
                 <div className="text-xs uppercase tracking-[0.18em] text-white/60">Bolton · Since 2003</div>
               </div>
             </div>
@@ -80,14 +80,14 @@ export function Footer() {
             <ul className="mt-4 space-y-3 text-sm text-white/80">
               <li className="flex gap-3"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[oklch(0.78_0.17_60)]" />Unit 4, Bolton Industrial Estate, BL1 2AB</li>
               <li className="flex gap-3"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-[oklch(0.78_0.17_60)]" />01204 000 000</li>
-              <li className="flex gap-3"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-[oklch(0.78_0.17_60)]" />hello@maservicecentre.co.uk</li>
+              <li className="flex gap-3"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-[oklch(0.78_0.17_60)]" />info@sleekautomotive.uk</li>
               <li className="flex gap-3"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-[oklch(0.78_0.17_60)]" />Mon–Fri 8:00–18:00 · Sat 9:00–14:00</li>
             </ul>
           </div>
         </div>
 
         <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-8 text-xs text-white/50 md:flex-row md:items-center">
-          <span>© {new Date().getFullYear()} Garage Ltd. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Sleek Automotive And Fleet Specialists Ltd. All rights reserved.</span>
           <span>DVSA Approved · VAT GB 000 0000 00</span>
         </div>
       </div>
