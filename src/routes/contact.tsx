@@ -58,6 +58,7 @@ function ContactPage() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
             className="fixed inset-0 z-[100] flex items-center justify-center bg-primary/95 backdrop-blur-sm px-6"
+            onClick={() => setSent(false)}
           >
             {/* Background glow orbs */}
             <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-[oklch(0.78_0.17_60)] opacity-20 blur-3xl" />
@@ -68,6 +69,7 @@ function ContactPage() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="relative w-full max-w-lg rounded-[2rem] bg-white p-10 shadow-2xl text-center"
+              onClick={(e) => e.stopPropagation()}
             >
               {/* Icon */}
               <motion.div
