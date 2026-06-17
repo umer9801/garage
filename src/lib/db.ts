@@ -1,34 +1,30 @@
 import { MongoClient, type Db } from "mongodb";
 
-const uri = process.env["MONGODB_URI"] as string;
+let clientPromise: Promise<MongoClient> | null = null;
 
-if (!uri) {
-  throw new Error("MONGODB_URI environment variable is not set");
-}
+function getClientPromise(): Promise<MongoClient> {
+  if (clientPromise) return clientPromise;
 
-let client: MongoClient;
-let clientPromise: Promise<MongoClient>;
-
-declare global {
-  // eslint-disable-next-line no-var
-  var _mongoClientPromise: Promise<MongoClient> | undefined;
-}
-
-// In development, reuse the connection across hot-reloads
-if (process.env["NODE_ENV"] !== "production") {
-  if (!globalThis._mongoClientPromise) {
-    client = new MongoClient(uri);
-    globalThis._mongoClientPromise = client.connect();
+  const uri = process.env["MONGODB_URI"];
+  if (!uri) {
+    throw new Error("MONGODB_URI environment variable is not set");
   }
-  clientPromise = globalThis._mongoClientPromise;
-} else {
-  client = new MongoClient(uri);
-  clientPromise = client.connect();
+
+  // In development reuse across hot-reloads via globalThis
+  if (process.env["NODE_ENV"] !== "production") {
+    const g = globalThis as typeof globalThis & { _mongoClientPromise?: Promise<MongoClient> };
+    if (!g._mongoClientPromise) {
+      g._mongoClientPromise = new MongoClient(uri).connect();
+    }
+    clientPromise = g._mongoClientPromise;
+  } else {
+    clientPromise = new MongoClient(uri).connect();
+  }
+
+  return clientPromise;
 }
 
 export async function getDb(): Promise<Db> {
-  const c = await clientPromise;
-  return c.db("sleek");
+  const client = await getClientPromise();
+  return client.db("sleek");
 }
-
-export default clientPromise;

@@ -49,7 +49,10 @@ function AdminPage() {
       setToken(result.token);
       void fetchSubmissions(result.token);
     } catch (err) {
-      setLoginError(err instanceof Error ? err.message : "Login failed");
+      const msg = err instanceof Error ? err.message : String(err);
+      // Strip any HTML if the server returned an error page
+      const clean = msg.replace(/<[^>]*>/g, "").trim().slice(0, 200);
+      setLoginError(clean || "Login failed — check your password and try again.");
     } finally {
       setLoggingIn(false);
     }

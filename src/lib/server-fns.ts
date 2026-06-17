@@ -15,9 +15,21 @@ export type Submission = {
   read: boolean;
 };
 
+// Hardcoded fallback — works without any env var set
+const FALLBACK_PASSWORD = "sleekadmin2024";
+
+function getAdminSecret(): string {
+  // Try all the ways an env var might be available in different runtimes
+  try {
+    const e = process.env["ADMIN_SECRET"];
+    if (e) return e;
+  } catch {}
+  return FALLBACK_PASSWORD;
+}
+
 function checkAuth(token: string | undefined): boolean {
-  const secret = process.env["ADMIN_SECRET"] ?? "sleekadmin2024";
-  return token === secret;
+  if (!token) return false;
+  return token === getAdminSecret();
 }
 
 // ── Contact form submission ────────────────────────────────────────────────────
@@ -51,18 +63,24 @@ export const submitContact = createServerFn({ method: "POST" })
     return { success: true, id: result.insertedId.toString() };
   });
 
-// ── Admin: login ───────────────────────────────────────────────────────────────
+// ── Admin: login (pure password check — no DB) ─────────────────────────────────
 export const adminLogin = createServerFn({ method: "POST" })
   .validator((data: unknown) => data as { password: string })
   .handler(async ({ data }) => {
-    const secret = process.env["ADMIN_SECRET"] ?? "sleekadmin2024";
-    if (data.password !== secret) throw new Error("Invalid password");
+    const secret = getAdminSecret();
+    if (!data.password || data.password !== secret) {
+      throw new Error("Invalid password");
+    }
+    // Return the secret as the session token (simple, stateless)
     return { token: secret };
   });
 
 // ── Admin: get submissions ─────────────────────────────────────────────────────
-export const getSubmissions = createServerFn({ method: "GET" })
-  .validator((data: unknown) => data as { token: string; skip?: number; limit?: number })
+export const getSubmissions = createServerFn({ method: "POST" })
+  .validator(
+    (data: unknown) =>
+      data as { token: string; skip?: number; limit?: number },
+  )
   .handler(async ({ data }) => {
     if (!checkAuth(data.token)) throw new Error("Unauthorized");
     const db = await getDb();
@@ -76,7 +94,9 @@ export const getSubmissions = createServerFn({ method: "GET" })
       .limit(limit)
       .toArray();
     const total = await db.collection("submissions").countDocuments();
-    const unread = await db.collection("submissions").countDocuments({ read: false });
+    const unread = await db
+      .collection("submissions")
+      .countDocuments({ read: false });
     return {
       submissions: rows.map((s) => ({
         _id: s._id.toString(),
@@ -86,7 +106,10 @@ export const getSubmissions = createServerFn({ method: "GET" })
         reg: String(s.reg ?? ""),
         service: String(s.service ?? ""),
         message: String(s.message ?? ""),
-        createdAt: (s.createdAt as Date).toISOString(),
+        createdAt:
+          s.createdAt instanceof Date
+            ? s.createdAt.toISOString()
+            : String(s.createdAt),
         read: Boolean(s.read),
       })) as Submission[],
       total,
@@ -94,15 +117,20 @@ export const getSubmissions = createServerFn({ method: "GET" })
     };
   });
 
-// ── Admin: mark read ───────────────────────────────────────────────────────────
+// ── Admin: mark read / unread ──────────────────────────────────────────────────
 export const markSubmissionRead = createServerFn({ method: "POST" })
-  .validator((data: unknown) => data as { token: string; id: string; read: boolean })
+  .validator(
+    (data: unknown) => data as { token: string; id: string; read: boolean },
+  )
   .handler(async ({ data }) => {
     if (!checkAuth(data.token)) throw new Error("Unauthorized");
     const db = await getDb();
     await db
       .collection("submissions")
-      .updateOne({ _id: new ObjectId(data.id) }, { $set: { read: data.read } });
+      .updateOne(
+        { _id: new ObjectId(data.id) },
+        { $set: { read: data.read } },
+      );
     return { success: true };
   });
 
@@ -112,6 +140,8 @@ export const deleteSubmissionFn = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     if (!checkAuth(data.token)) throw new Error("Unauthorized");
     const db = await getDb();
-    await db.collection("submissions").deleteOne({ _id: new ObjectId(data.id) });
+    await db
+      .collection("submissions")
+      .deleteOne({ _id: new ObjectId(data.id) });
     return { success: true };
   });
