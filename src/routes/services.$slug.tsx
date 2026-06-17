@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+﻿import { createFileRoute, notFound } from "@tanstack/react-router";
 import { getService, SERVICES } from "@/data/services";
 import { ServicePage } from "@/components/service-page";
 
@@ -12,9 +12,9 @@ export const Route = createFileRoute("/services/$slug")({
     const s = loaderData?.service ?? SERVICES[0];
     return {
       meta: [
-        { title: `${s.title} — Garage` },
+        { title: `${s.title} ΓÇö MA Service Centre` },
         { name: "description", content: s.shortDescription },
-        { property: "og:title", content: `${s.title} — Garage` },
+        { property: "og:title", content: `${s.title} ΓÇö MA Service Centre` },
         { property: "og:description", content: s.shortDescription },
         { property: "og:image", content: s.hero },
       ],
