@@ -56,13 +56,13 @@ export function Hero() {
             transition={{ duration: 1.2, ease: "easeInOut" }}
           />
         </AnimatePresence>
-        <div className="absolute inset-0 gradient-hero-bg opacity-80" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.14_0.05_260)] via-[oklch(0.18_0.06_255)/.5] to-transparent" />
+        <div className="absolute inset-0 gradient-hero-bg opacity-50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
       </div>
 
       {/* Ambient blobs */}
-      <div className="pointer-events-none absolute -left-32 top-32 -z-10 h-96 w-96 rounded-full bg-[oklch(0.78_0.17_60)] opacity-30 blur-3xl animate-blob" />
-      <div className="pointer-events-none absolute right-0 top-1/3 -z-10 h-[28rem] w-[28rem] rounded-full bg-[oklch(0.45_0.15_250)] opacity-40 blur-3xl animate-blob" style={{ animationDelay: "4s" }} />
+      <div className="pointer-events-none absolute -left-32 top-32 -z-10 h-96 w-96 rounded-full bg-[oklch(0.78_0.17_60)] opacity-20 blur-3xl animate-blob" />
+      <div className="pointer-events-none absolute right-0 top-1/3 -z-10 h-[28rem] w-[28rem] rounded-full bg-[oklch(0.45_0.15_250)] opacity-20 blur-3xl animate-blob" style={{ animationDelay: "4s" }} />
 
       <div className="container-px mx-auto flex max-w-7xl flex-col gap-16 px-6 pb-20 pt-10 lg:pt-20">
         <div className="grid items-center gap-10 lg:grid-cols-12">
