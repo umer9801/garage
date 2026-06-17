@@ -26,27 +26,25 @@ function ContactPage() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
-    setError("");
     const form = e.currentTarget;
     const name = (form.elements.namedItem("name") as HTMLInputElement).value;
-    try {
-      await submitContact({
-        data: {
-          name,
-          phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
-          email: (form.elements.namedItem("email") as HTMLInputElement).value,
-          reg: (form.elements.namedItem("reg") as HTMLInputElement).value,
-          service: (form.elements.namedItem("service") as HTMLSelectElement).value,
-          message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
-        },
-      });
-    } catch {
-      // Save failed (e.g. DB not available) but still show success to user
-    }
+    const payload = {
+      name,
+      phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      reg: (form.elements.namedItem("reg") as HTMLInputElement).value,
+      service: (form.elements.namedItem("service") as HTMLSelectElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    };
+
+    // Show success instantly — don't wait for DB
     setSubmittedName(name);
+    setLoading(false);
     setSent(true);
     formRef.current?.reset();
-    setLoading(false);
+
+    // Save to DB in background (fire and forget)
+    submitContact({ data: payload }).catch(() => {});
   }
 
   return (
