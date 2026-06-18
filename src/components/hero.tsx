@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { ShieldCheck, Star } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import heroImg from "@/assets/hero-garage.jpg";
 import aboutImg from "@/assets/about-workshop.jpg";
@@ -14,7 +14,7 @@ const SLOGANS = [
   { line1: "Car care", line2: "you can trust." },
   { line1: "Your vehicle,", line2: "our expertise." },
   { line1: "Honest repairs,", line2: "every time." },
-  { line1: "Trusted by drivers", line2: "since 2003." },
+  { line1: "Full fleet &", line2: "vehicle care." },
   { line1: "Fleet & automotive", line2: "specialists." },
 ];
 
@@ -109,23 +109,6 @@ export function Hero() {
           <GhostButton to="/services" className="border-white/25 bg-white/10 text-white hover:bg-white/15">
             View Services
           </GhostButton>
-        </motion.div>
-
-        {/* Social proof */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.45 }}
-          className="mt-6 flex flex-wrap items-center justify-center gap-5 text-sm text-white/60"
-        >
-          <div className="flex items-center gap-2">
-            <div className="flex">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-[oklch(0.82_0.16_75)] text-[oklch(0.82_0.16_75)]" />
-              ))}
-            </div>
-            <span>4.9 · 1,200+ reviews</span>
-          </div>
         </motion.div>
 
         {/* Slogan dots */}
