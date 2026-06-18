@@ -219,26 +219,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Gallery */}
-      <section className="container-px mx-auto max-w-7xl px-6 pb-24">
-        <SectionHeading eyebrow="Gallery" title="Inside the workshop." />
-        <div className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:[grid-auto-rows:160px]">
-          {[
-            { src: aboutImg, span: "col-span-2 row-span-2" },
-            { src: alignImg, span: "" },
-            { src: tyresImg, span: "" },
-            { src: diagImg, span: "" },
-            { src: repairsImg, span: "row-span-2" },
-            { src: teamImg, span: "col-span-2" },
-            { src: certImg, span: "" },
-          ].map((g, i) => (
-            <Reveal key={i} delay={i * 0.05} className={`group overflow-hidden rounded-2xl ${g.span}`}>
-              <img src={g.src} alt="Workshop" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
       {/* Brands */}
       <section className="border-y border-border bg-white py-14">
         <div className="container-px mx-auto max-w-7xl px-6">
