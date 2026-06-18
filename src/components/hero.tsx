@@ -126,8 +126,6 @@ export function Hero() {
             </div>
             <span>4.9 · 1,200+ reviews</span>
           </div>
-          <div className="hidden h-1 w-1 rounded-full bg-white/30 sm:block" />
-          <span>20+ years of trusted service</span>
         </motion.div>
 
         {/* Slogan dots */}
