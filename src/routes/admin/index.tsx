@@ -3,18 +3,32 @@ import { useState, useEffect } from "react";
 import {
   Mail, Phone, Car, Clock, Trash2, CheckCircle,
   Circle, LogOut, Users, MessageSquare, RefreshCw,
+  Star, ThumbsUp, ThumbsDown,
 } from "lucide-react";
 import {
   adminLogin,
   getSubmissions,
   markSubmissionRead,
   deleteSubmissionFn,
+  getReviews,
+  setReviewApproval,
+  deleteReviewFn,
   type Submission,
 } from "@/lib/server-fns";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminPage,
 });
+
+type Review = {
+  _id: string;
+  name: string;
+  role: string;
+  rating: number;
+  quote: string;
+  approved: boolean;
+  createdAt: string;
+};
 
 function getToken() {
   if (typeof window === "undefined") return null;
@@ -32,12 +46,40 @@ function AdminPage() {
   const [unread, setUnread] = useState(0);
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState<Submission | null>(null);
-  const [activeTab, setActiveTab] = useState<"submissions" | "content">("submissions");
+  const [activeTab, setActiveTab] = useState<"submissions" | "reviews" | "content">("submissions");
+
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
 
   useEffect(() => {
     const t = getToken();
-    if (t) { setToken(t); void fetchSubmissions(t); }
+    if (t) { setToken(t); void fetchSubmissions(t); void fetchReviews(t); }
   }, []);
+
+  async function fetchReviews(t: string) {
+    setReviewsLoading(true);
+    try {
+      const result = await getReviews({ data: { token: t } });
+      setReviews(result.reviews as Review[]);
+    } catch (err) {
+      console.error("fetchReviews error:", err);
+    } finally {
+      setReviewsLoading(false);
+    }
+  }
+
+  async function approveReview(id: string, approved: boolean) {
+    if (!token) return;
+    await setReviewApproval({ data: { token, id, approved } });
+    setReviews((r) => r.map((x) => x._id === id ? { ...x, approved } : x));
+  }
+
+  async function removeReview(id: string) {
+    if (!token) return;
+    if (!confirm("Delete this review?")) return;
+    await deleteReviewFn({ data: { token, id } });
+    setReviews((r) => r.filter((x) => x._id !== id));
+  }
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -48,6 +90,7 @@ function AdminPage() {
       localStorage.setItem("admin_token", result.token);
       setToken(result.token);
       void fetchSubmissions(result.token);
+      void fetchReviews(result.token);
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       // Strip any HTML if the server returned an error page
@@ -153,7 +196,7 @@ function AdminPage() {
           </div>
           <div className="flex items-center gap-3">
             <button
-              onClick={() => token && fetchSubmissions(token)}
+              onClick={() => { if (token) { void fetchSubmissions(token); void fetchReviews(token); } }}
               className="grid h-9 w-9 place-items-center rounded-xl border border-border bg-white text-ink-soft transition hover:text-primary"
               aria-label="Refresh"
             >
@@ -171,15 +214,16 @@ function AdminPage() {
 
       <div className="mx-auto max-w-7xl px-6 py-8">
         {/* Stats */}
-        <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
           <StatCard icon={Users} label="Total Enquiries" value={total} color="bg-blue-50 text-blue-600" />
           <StatCard icon={MessageSquare} label="Unread" value={unread} color="bg-orange-50 text-orange-500" />
           <StatCard icon={CheckCircle} label="Read" value={total - unread} color="bg-green-50 text-green-600" />
+          <StatCard icon={Star} label="Pending Reviews" value={reviews.filter(r => !r.approved).length} color="bg-purple-50 text-purple-600" />
         </div>
 
         {/* Tabs */}
         <div className="mb-6 flex gap-2">
-          {(["submissions", "content"] as const).map((tab) => (
+          {(["submissions", "reviews", "content"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -189,7 +233,7 @@ function AdminPage() {
                   : "border border-border bg-white text-ink-soft hover:text-primary"
               }`}
             >
-              {tab === "submissions" ? "Contact Submissions" : "Site Content"}
+              {tab === "submissions" ? "Contact Submissions" : tab === "reviews" ? "Reviews" : "Site Content"}
             </button>
           ))}
         </div>
@@ -312,6 +356,15 @@ function AdminPage() {
           </div>
         )}
 
+        {activeTab === "reviews" && (
+          <ReviewsPanel
+            reviews={reviews}
+            loading={reviewsLoading}
+            onApprove={approveReview}
+            onDelete={removeReview}
+          />
+        )}
+
         {activeTab === "content" && <ContentPanel />}
       </div>
     </div>
@@ -378,6 +431,122 @@ function ContentPanel() {
             <div className="text-sm font-medium text-ink">{f.value}</div>
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function ReviewsPanel({
+  reviews, loading, onApprove, onDelete,
+}: {
+  reviews: Review[];
+  loading: boolean;
+  onApprove: (id: string, approved: boolean) => void;
+  onDelete: (id: string) => void;
+}) {
+  const pending = reviews.filter((r) => !r.approved);
+  const approved = reviews.filter((r) => r.approved);
+
+  return (
+    <div className="space-y-6">
+      {/* Pending */}
+      <div className="rounded-2xl border border-border bg-white shadow-sm">
+        <div className="flex items-center justify-between border-b border-border px-5 py-4">
+          <h2 className="font-extrabold text-ink">
+            Pending Approval
+            {pending.length > 0 && (
+              <span className="ml-2 rounded-full bg-orange-100 px-2 py-0.5 text-xs font-bold text-orange-600">
+                {pending.length}
+              </span>
+            )}
+          </h2>
+          {loading && <span className="text-xs text-ink-soft">Loading…</span>}
+        </div>
+        {pending.length === 0 && !loading ? (
+          <div className="px-5 py-8 text-center text-sm text-ink-soft">No pending reviews.</div>
+        ) : (
+          <div className="divide-y divide-border">
+            {pending.map((r) => (
+              <ReviewRow key={r._id} review={r} onApprove={onApprove} onDelete={onDelete} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Approved */}
+      <div className="rounded-2xl border border-border bg-white shadow-sm">
+        <div className="border-b border-border px-5 py-4">
+          <h2 className="font-extrabold text-ink">
+            Published on Website
+            <span className="ml-2 rounded-full bg-green-100 px-2 py-0.5 text-xs font-bold text-green-600">
+              {approved.length}
+            </span>
+          </h2>
+        </div>
+        {approved.length === 0 ? (
+          <div className="px-5 py-8 text-center text-sm text-ink-soft">No approved reviews yet.</div>
+        ) : (
+          <div className="divide-y divide-border">
+            {approved.map((r) => (
+              <ReviewRow key={r._id} review={r} onApprove={onApprove} onDelete={onDelete} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ReviewRow({
+  review: r, onApprove, onDelete,
+}: {
+  review: Review;
+  onApprove: (id: string, approved: boolean) => void;
+  onDelete: (id: string) => void;
+}) {
+  return (
+    <div className="flex items-start gap-4 px-5 py-4">
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-sm font-extrabold text-ink">{r.name}</span>
+          {r.role && <span className="text-xs text-ink-soft">· {r.role}</span>}
+          <div className="flex">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star
+                key={i}
+                className={`h-3.5 w-3.5 ${i < r.rating ? "fill-[oklch(0.78_0.17_60)] text-[oklch(0.78_0.17_60)]" : "text-border"}`}
+              />
+            ))}
+          </div>
+        </div>
+        <p className="mt-1 text-sm text-ink-soft line-clamp-2">"{r.quote}"</p>
+        <div className="mt-1 text-xs text-ink-soft/60">
+          {new Date(r.createdAt).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}
+        </div>
+      </div>
+      <div className="flex shrink-0 items-center gap-2">
+        {r.approved ? (
+          <button
+            onClick={() => onApprove(r._id, false)}
+            className="flex items-center gap-1.5 rounded-xl border border-orange-200 bg-orange-50 px-3 py-1.5 text-xs font-semibold text-orange-600 transition hover:bg-orange-100"
+          >
+            <ThumbsDown className="h-3.5 w-3.5" /> Unpublish
+          </button>
+        ) : (
+          <button
+            onClick={() => onApprove(r._id, true)}
+            className="flex items-center gap-1.5 rounded-xl border border-green-200 bg-green-50 px-3 py-1.5 text-xs font-semibold text-green-600 transition hover:bg-green-100"
+          >
+            <ThumbsUp className="h-3.5 w-3.5" /> Approve
+          </button>
+        )}
+        <button
+          onClick={() => onDelete(r._id)}
+          className="rounded-xl border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-500 transition hover:bg-red-100"
+          aria-label="Delete"
+        >
+          <Trash2 className="h-3.5 w-3.5" />
+        </button>
       </div>
     </div>
   );

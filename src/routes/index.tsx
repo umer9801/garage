@@ -12,7 +12,9 @@ import tyresImg from "@/assets/tyres.jpg";
 import diagImg from "@/assets/diagnostics.jpg";
 import repairsImg from "@/assets/repairs.jpg";
 import fleetImg from "@/assets/fleet.jpg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ReviewForm } from "@/components/review-form";
+import { getApprovedReviews } from "@/lib/server-fns";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,13 +40,6 @@ const PROCESS = [
   { step: "02", title: "Drop Off or Collect", desc: "Drop in, or use our free local collection service." },
   { step: "03", title: "Inspect & Quote", desc: "Full digital inspection with photo evidence and an honest quote." },
   { step: "04", title: "Drive Away", desc: "Repaired, road-tested, and backed by our 12-month warranty." },
-];
-
-const TESTIMONIALS = [
-  { name: "Sarah J.", role: "BMW 3 Series owner", quote: "Honest, fast and the workshop is immaculate. Best garage I've used in 15 years of driving." },
-  { name: "Aamir K.", role: "Fleet Manager — JK Logistics", quote: "We run 22 vans through Sleek Automotive — uptime is up, costs are down. A genuine partner." },
-  { name: "Lena P.", role: "Mini Cooper owner", quote: "They explained everything in plain English and saved me £400 on a quote I had elsewhere." },
-  { name: "Tom R.", role: "Audi A4 owner", quote: "Booked online at 9pm, MOT'd by lunch. Faultless service from start to finish." },
 ];
 
 const BRANDS = ["AUDI", "BMW", "MERCEDES", "FORD", "VAUXHALL", "HONDA", "TOYOTA", "VOLKSWAGEN", "JAGUAR", "LAND ROVER"];
@@ -201,23 +196,7 @@ function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section className="container-px mx-auto max-w-7xl px-6 py-24">
-        <SectionHeading eyebrow="Testimonials" title="Drivers who keep coming back." />
-        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {TESTIMONIALS.map((t, i) => (
-            <Reveal key={t.name} delay={i * 0.06}>
-              <div className="flex h-full flex-col gap-5 rounded-3xl bg-white p-7 shadow-card-soft ring-1 ring-border/60">
-                <div className="flex">{Array.from({ length: 5 }).map((_, k) => <Star key={k} className="h-4 w-4 fill-[oklch(0.78_0.17_60)] text-[oklch(0.78_0.17_60)]" />)}</div>
-                <p className="flex-1 text-sm leading-relaxed text-ink">"{t.quote}"</p>
-                <div>
-                  <div className="text-sm font-bold text-ink">{t.name}</div>
-                  <div className="text-xs text-ink-soft">{t.role}</div>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+      <ReviewsSection />
 
       {/* Brands */}
       <section className="border-y border-border bg-white py-14">
@@ -265,6 +244,71 @@ function HomePage() {
         </div>
       </section>
     </>
+  );
+}
+
+function ReviewsSection() {
+  const [reviews, setReviews] = useState<{ _id: string; name: string; role: string; rating: number; quote: string }[]>([]);
+  const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => {
+    getApprovedReviews({ data: {} as never }).then((r) => setReviews(r.reviews)).catch(() => {});
+  }, []);
+
+  return (
+    <section className="container-px mx-auto max-w-7xl px-6 py-24">
+      <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+        <SectionHeading eyebrow="Reviews" title="Drivers who keep coming back." />
+        <button
+          onClick={() => setShowForm((v) => !v)}
+          className="shrink-0 rounded-full border border-primary px-5 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary hover:text-white"
+        >
+          {showForm ? "Close" : "Leave a Review"}
+        </button>
+      </div>
+
+      {/* Review form */}
+      {showForm && (
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-8"
+        >
+          <ReviewForm />
+        </motion.div>
+      )}
+
+      {/* Reviews grid */}
+      {reviews.length > 0 ? (
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {reviews.map((r, i) => (
+            <Reveal key={r._id} delay={i * 0.05}>
+              <div className="flex h-full flex-col gap-5 rounded-3xl bg-white p-7 shadow-card-soft ring-1 ring-border/60">
+                <div className="flex">
+                  {Array.from({ length: 5 }).map((_, k) => (
+                    <Star
+                      key={k}
+                      className={`h-4 w-4 ${k < r.rating ? "fill-[oklch(0.78_0.17_60)] text-[oklch(0.78_0.17_60)]" : "text-border"}`}
+                    />
+                  ))}
+                </div>
+                <p className="flex-1 text-sm leading-relaxed text-ink">"{r.quote}"</p>
+                <div>
+                  <div className="text-sm font-bold text-ink">{r.name}</div>
+                  {r.role && <div className="text-xs text-ink-soft">{r.role}</div>}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      ) : (
+        !showForm && (
+          <div className="mt-10 rounded-3xl border border-dashed border-border bg-white py-14 text-center text-sm text-ink-soft">
+            No reviews yet — be the first to leave one.
+          </div>
+        )
+      )}
+    </section>
   );
 }
 

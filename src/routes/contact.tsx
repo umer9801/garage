@@ -1,9 +1,51 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Reveal, SectionHeading, PrimaryButton } from "@/components/ui-bits";
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle, ArrowRight } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle, ArrowRight, Car, Truck } from "lucide-react";
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { submitContact } from "@/lib/server-fns";
+
+const PUBLIC_SERVICES = [
+  "MOT Testing",
+  "Full Service",
+  "Interim Service",
+  "Major Service",
+  "Manufacturer-Schedule Servicing",
+  "Repairs & Diagnostics",
+  "Tyres & Wheel Alignment",
+  "Brake Pad & Disc Replacement",
+  "Air Conditioning Re-gas",
+  "Battery Testing & Replacement",
+  "Clutch Replacement",
+  "Exhaust System Repair",
+  "DPF Cleaning",
+  "Timing Belt / Chain Replacement",
+  "Suspension & Shock Absorber Repair",
+  "Steering Component Repair",
+  "Cooling System & Radiator Repair",
+  "Winter Vehicle Health Check",
+  "Pre-Purchase Car Inspection",
+  "Minor Bodywork & Trim Repair",
+];
+
+const FLEET_SERVICES = [
+  "Fleet Servicing & Compliance",
+  "MOT & Pre-MOT Inspections",
+  "Statutory Vehicle Safety Inspections",
+  "Preventive Maintenance Scheduling",
+  "Routine Servicing (Oils, Fluids, Filters)",
+  "Engine & Transmission Repairs",
+  "Advanced Diagnostic Testing",
+  "Brake System Maintenance & Replacement",
+  "24/7 Priority Breakdown Support",
+  "Mobile Technician Call-Out",
+  "Digital Fleet Health Reporting",
+  "Shelving & Racking Installation",
+  "Bulkhead & Partition Fitting",
+  "Pre-Purchase Vehicle Inspection",
+  "Minor Bodywork & Trim Repair",
+  "Account Management",
+];
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -21,6 +63,7 @@ function ContactPage() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submittedName, setSubmittedName] = useState("");
+  const [category, setCategory] = useState<"public" | "fleet">("public");
   const formRef = useRef<HTMLFormElement>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -182,17 +225,51 @@ function ContactPage() {
               <Field label="Phone" name="phone" type="tel" />
               <Field label="Email" name="email" type="email" className="sm:col-span-2" required />
               <Field label="Vehicle reg" name="reg" />
-              <div>
-                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-ink-soft">Service</label>
-                <select name="service" className="w-full rounded-2xl border border-border bg-surface px-4 py-3.5 text-sm text-ink outline-none transition focus:border-primary focus:bg-white">
-                  <option>MOT Testing</option>
-                  <option>Car Repairs &amp; Servicing</option>
-                  <option>Tyres</option>
-                  <option>Diagnostics</option>
-                  <option>Motorcycles</option>
-                  <option>Fleet Management</option>
-                  <option>Air Conditioning Recharge</option>
-                  <option>Laser Wheel Alignment</option>
+
+              {/* Category picker */}
+              <div className="sm:col-span-2">
+                <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-ink-soft">
+                  I am enquiring as a
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setCategory("public")}
+                    className={`flex items-center gap-2.5 rounded-2xl border px-4 py-3 text-sm font-semibold transition-all ${
+                      category === "public"
+                        ? "border-primary bg-primary/5 text-primary"
+                        : "border-border bg-surface text-ink-soft hover:border-primary/40"
+                    }`}
+                  >
+                    <Car className="h-4 w-4 shrink-0" />
+                    Private motorist
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCategory("fleet")}
+                    className={`flex items-center gap-2.5 rounded-2xl border px-4 py-3 text-sm font-semibold transition-all ${
+                      category === "fleet"
+                        ? "border-[oklch(0.68_0.19_45)] bg-[oklch(0.78_0.17_60)]/5 text-[oklch(0.58_0.19_45)]"
+                        : "border-border bg-surface text-ink-soft hover:border-[oklch(0.78_0.17_60)]/40"
+                    }`}
+                  >
+                    <Truck className="h-4 w-4 shrink-0" />
+                    Fleet operator
+                  </button>
+                </div>
+              </div>
+
+              {/* Service dropdown — changes based on category */}
+              <div className="sm:col-span-2">
+                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-ink-soft">Service required</label>
+                <select
+                  name="service"
+                  className="w-full rounded-2xl border border-border bg-surface px-4 py-3.5 text-sm text-ink outline-none transition focus:border-primary focus:bg-white"
+                >
+                  <option value="">— Select a service —</option>
+                  {(category === "fleet" ? FLEET_SERVICES : PUBLIC_SERVICES).map((s) => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
                 </select>
               </div>
               <div className="sm:col-span-2">
