@@ -9,9 +9,9 @@ export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact — Sleek Automotive And Fleet Specialists" },
-      { name: "description", content: "Book your MOT, service or repair. Visit our Bolton workshop or call 01204 000 000." },
+      { name: "description", content: "Book your MOT, service or repair. Visit our workshop or call 01204 000 000." },
       { property: "og:title", content: "Contact — Sleek Automotive And Fleet Specialists" },
-      { property: "og:description", content: "Book your MOT, service or repair in Bolton." },
+      { property: "og:description", content: "Book your MOT, service or repair." },
     ],
   }),
   component: ContactPage,

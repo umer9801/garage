@@ -15,7 +15,7 @@ export function Footer() {
               </div>
               <div>
                 <div className="text-lg font-extrabold">Sleek Automotive And Fleet Specialists</div>
-                <div className="text-xs uppercase tracking-[0.18em] text-white/60">Bolton · Since 2003</div>
+                <div className="text-xs uppercase tracking-[0.18em] text-white/60">Since 2003</div>
               </div>
             </div>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/70">

@@ -17,6 +17,7 @@ export type ServiceCard = {
 
 export type Service = {
   slug: string;
+  category: "fleet" | "public";
   title: string;
   subtitle: string;
   description: string;
@@ -27,148 +28,322 @@ export type Service = {
   faqs: { q: string; a: string }[];
 };
 
-export const SERVICES: Service[] = [
+// ─── FLEET SERVICES ────────────────────────────────────────────────────────────
+export const FLEET_SERVICES: Service[] = [
   {
-    slug: "mot",
-    title: "MOTs in Bolton",
-    subtitle: "Make sure your vehicle passes its MOT.",
+    slug: "fleet-servicing-compliance",
+    category: "fleet",
+    title: "Fleet Servicing & Compliance",
+    subtitle: "Keep your fleet legal, maintained and road-ready.",
     description:
-      "We are a DVSA approved Class 1, 2 & 4 MOT Testing Station in Bolton. We provide professional MOT testing for all makes and models, with a free re-test guarantee and same-day slots.",
-    shortDescription: "DVSA approved Class 1, 2 & 4 MOT testing with free re-test guarantee.",
+      "DVSA-approved MOT testing, statutory safety inspections and manufacturer-schedule servicing for your entire fleet. Block bookings, out-of-hours testing and a single invoice — we make compliance simple.",
+    shortDescription: "MOT testing, statutory safety inspections and full servicing to keep your fleet compliant.",
     hero: motImg,
     cards: [
-      { title: "Vehicle Inspection", image: motImg, items: ["Vehicle Structure", "Fuel System", "Emissions", "Exhaust", "Doors", "Mirrors", "Seat Belts", "Lights"] },
-      { title: "Safety Checks", image: brakesImg, items: ["Brakes", "Steering", "Suspension", "Tyres", "Horn", "Number Plates", "Bonnet", "Tailgate"] },
-      { title: "Final Certification", image: certImg, items: ["VIN Check", "Windscreen", "Wipers", "Washers", "Final Inspection", "Certificate", "Professional Advice", "Booking Support"] },
+      {
+        title: "MOT & Safety Inspections",
+        image: motImg,
+        items: ["Class 4 & 7 approved", "Block bookings", "Out-of-hours testing", "Free pre-MOT check", "Statutory safety inspections", "Single invoice"],
+      },
+      {
+        title: "Fleet Servicing",
+        image: repairsImg,
+        items: ["Routine servicing", "Oils, fluids & filters", "Manufacturer schedules", "Genuine OEM parts", "Brake & tyre programmes"],
+      },
+      {
+        title: "Compliance Records",
+        image: certImg,
+        items: ["Digital compliance records", "6-week & 12-week checks", "DVSA compliance", "Driver defect integration", "Priority scheduling"],
+      },
     ],
-    benefits: ["Free re-test within 10 days", "DVSA approved testers", "While-you-wait slots", "Honest, transparent pricing"],
+    benefits: [
+      "Block MOT bookings with single invoice",
+      "Out-of-hours and weekend testing available",
+      "Digital compliance records for every vehicle",
+      "Free pre-MOT check with every booking",
+    ],
     faqs: [
-      { q: "How long does an MOT take?", a: "A standard car MOT takes around 45–60 minutes. We offer while-you-wait appointments with complimentary refreshments." },
-      { q: "Do you offer a free retest?", a: "Yes — if your car fails and is repaired within 10 working days, the partial retest is free." },
-      { q: "Which vehicle classes do you test?", a: "We are approved for Class 1 (motorcycles up to 200cc), Class 2 (over 200cc), and Class 4 (cars and light vans)." },
+      { q: "Can you handle our entire fleet in one visit?", a: "Yes — we offer block bookings with dedicated bays and a single invoice for the whole fleet." },
+      { q: "Do you provide statutory safety inspection certificates?", a: "Absolutely — all certificates are issued digitally and stored in your fleet portal." },
     ],
   },
   {
-    slug: "repairs",
-    title: "Car Repairs & Servicing",
-    subtitle: "Professional servicing and repairs for every make and model.",
+    slug: "fleet-breakdown-priority",
+    category: "fleet",
+    title: "24/7 Breakdown Priority",
+    subtitle: "Round-the-clock support to keep your fleet moving.",
     description:
-      "From minor adjustments to full engine rebuilds, our master technicians use manufacturer-grade parts and the latest equipment to keep your vehicle running like new.",
-    shortDescription: "Full service, mechanical repairs and warranty work for every make and model.",
+      "Dedicated 24/7 priority breakdown support for fleet customers. Mobile technician call-outs, rapid roadside repairs and fast workshop turnaround — minimising downtime across your operation.",
+    shortDescription: "24/7 priority breakdown support and mobile technician call-out for commercial fleets.",
     hero: repairsImg,
     cards: [
-      { title: "Mechanical Repairs", image: repairsImg, items: ["Brakes", "Clutches", "Gearboxes", "Cambelts", "Engine Repairs"] },
-      { title: "Diagnostics", image: diagImg, items: ["Diagnostics", "Battery", "Electrical Faults", "Warning Lights", "ECU"] },
-      { title: "Warranty", image: certImg, items: ["National Guarantee", "12 Month Warranty", "Professional Parts", "Expert Mechanics", "Reliable Service"] },
+      {
+        title: "Mobile Call-Out",
+        image: repairsImg,
+        items: ["24/7 priority response", "On-site technician", "Roadside repairs", "Greater Manchester coverage", "Rapid turnaround"],
+      },
+      {
+        title: "Engine & Transmission",
+        image: diagImg,
+        items: ["Engine rebuilds", "Gearbox repairs", "Timing belt replacement", "Cooling system repair", "Exhaust & DPF"],
+      },
+      {
+        title: "Advanced Diagnostics",
+        image: diagImg,
+        items: ["Multi-brand OBD scanning", "ECU fault clearance", "Live data analysis", "Electrical faults", "Emissions testing"],
+      },
     ],
-    benefits: ["12-month parts & labour warranty", "Manufacturer-grade parts", "Courtesy cars available", "Detailed digital reports"],
+    benefits: [
+      "24/7 priority breakdown support",
+      "Mobile technician call-out services",
+      "Same-day diagnostics and repair where possible",
+      "Real-time job updates via fleet portal",
+    ],
     faqs: [
-      { q: "Will servicing affect my warranty?", a: "No — we use OE-grade parts and our work is recognised under all UK manufacturer warranties." },
-      { q: "Do you offer courtesy vehicles?", a: "Yes, free courtesy cars are available with most major services, subject to availability." },
+      { q: "How quickly can a mobile technician reach us?", a: "We aim to reach you within 2 hours for fleet customers within Greater Manchester." },
+      { q: "Do you carry common parts on mobile units?", a: "Yes — our mobile units carry the most common wear parts for light commercial vehicles." },
     ],
   },
   {
-    slug: "tyres",
-    title: "Premium Tyres",
-    subtitle: "Trusted brands. Expert fitting. Honest pricing.",
+    slug: "fleet-digital-maintenance",
+    category: "fleet",
+    title: "Digital Fleet Maintenance",
+    subtitle: "Full visibility of every vehicle in your fleet.",
     description:
-      "Choose from a full range of premium, mid-range and budget tyres — all expertly fitted and balanced using state-of-the-art equipment.",
-    shortDescription: "Premium tyre fitting, balancing and replacement from the brands you trust.",
-    hero: tyresImg,
-    cards: [
-      { title: "Premium Tyres", image: tyresImg, items: ["Michelin", "Continental", "Pirelli", "Bridgestone", "Dunlop"] },
-      { title: "Wheel Balancing", image: alignImg, items: ["Computerised balancing", "Smooth ride", "Reduced wear", "Better economy"] },
-      { title: "Tyre Replacement", image: tyresImg, items: ["Same-day fitting", "Old tyre disposal", "Valves & weights included", "Pressure check"] },
-    ],
-    benefits: ["Free tyre health check", "Price-match guarantee", "Fully fitted prices", "All sizes in stock"],
-    faqs: [
-      { q: "How do I know if I need new tyres?", a: "The legal minimum is 1.6mm of tread. We recommend replacing at 3mm for safety. Pop in for a free check." },
-    ],
-  },
-  {
-    slug: "diagnostics",
-    title: "Vehicle Diagnostics",
-    subtitle: "Pinpoint accuracy from dashboard warning to repair.",
-    description:
-      "Our advanced multi-brand diagnostic equipment communicates with every system in your vehicle — from ECU mapping to ABS, airbags and engine management.",
-    shortDescription: "Multi-brand ECU diagnostics for engine, electrical and performance issues.",
-    hero: diagImg,
-    cards: [
-      { title: "Engine Diagnostics", image: diagImg, items: ["ECU scan", "Fault code clearance", "Live data analysis", "Sensor testing"] },
-      { title: "Electrical Diagnostics", image: repairsImg, items: ["Wiring faults", "Battery & charging", "Lighting", "Comfort systems"] },
-      { title: "Performance Analysis", image: alignImg, items: ["Power output", "Emissions", "Fuel mapping", "Drive cycle tests"] },
-    ],
-    benefits: ["£45 diagnostic — refundable against repairs", "Latest OEM-level software", "All makes covered", "Clear plain-English reports"],
-    faqs: [
-      { q: "My warning light is on — is it serious?", a: "It depends on the colour and code. Bring it in — we'll scan it and explain exactly what's needed." },
-    ],
-  },
-  {
-    slug: "motorcycles",
-    title: "Motorcycle Workshop",
-    subtitle: "MOTs, servicing and repairs for two wheels.",
-    description:
-      "Our dedicated motorcycle bay handles everything from a routine service to full restoration. Class 1 & 2 MOT testing approved.",
-    shortDescription: "Motorcycle MOTs, servicing and repairs in a dedicated workshop bay.",
-    hero: motoImg,
-    cards: [
-      { title: "Motorcycle MOT", image: motoImg, items: ["Class 1 & 2 approved", "While you wait", "Free re-test", "Honest advice"] },
-      { title: "Motorcycle Repairs", image: repairsImg, items: ["Engine work", "Suspension", "Brakes", "Electrical"] },
-      { title: "Motorcycle Servicing", image: motoImg, items: ["Manufacturer schedules", "Genuine parts", "Track prep", "Winter storage prep"] },
-    ],
-    benefits: ["Dedicated motorcycle bay", "Tyre fitting in-house", "Race-prep available", "Collection available"],
-    faqs: [{ q: "Do you service all bike brands?", a: "Yes — Japanese, European and American — including modern ABS-equipped models." }],
-  },
-  {
-    slug: "fleet",
-    title: "Fleet Management",
-    subtitle: "Keep your fleet on the road and on budget.",
-    description:
-      "Tailored maintenance, MOT and service programmes for vans, taxis and commercial fleets. Single point of contact, monthly reporting and priority slots.",
-    shortDescription: "Maintenance, MOT and servicing programmes for commercial fleets.",
+      "Preventive maintenance programmes with digital health reporting, per-vehicle dashboards and spend tracking. We schedule everything around your operational hours so your fleet stays on the road.",
+    shortDescription: "Digital fleet health reporting, preventive scheduling and per-vehicle maintenance dashboards.",
     hero: fleetImg,
     cards: [
-      { title: "Fleet Maintenance", image: fleetImg, items: ["Scheduled servicing", "Brake & tyre programmes", "DVS compliance", "Priority response"] },
-      { title: "Fleet MOT", image: motImg, items: ["Class 4 & 7", "Block bookings", "Out-of-hours testing", "Single invoice"] },
-      { title: "Fleet Servicing", image: repairsImg, items: ["Manufacturer schedules", "Genuine parts", "Digital records", "Fleet pricing"] },
+      {
+        title: "Preventive Scheduling",
+        image: fleetImg,
+        items: ["Scheduled servicing", "Brake & tyre programmes", "Replacement scheduling", "Service alerts", "Downtime reduction"],
+      },
+      {
+        title: "Digital Health Reports",
+        image: diagImg,
+        items: ["Per-vehicle dashboards", "Spend tracking", "Upcoming service alerts", "Compliance summary", "Monthly reports"],
+      },
+      {
+        title: "Van Conversions",
+        image: repairsImg,
+        items: ["Shelving & racking", "Bulkhead fitting", "Partition walls", "Floor lining", "Minor bodywork"],
+      },
     ],
-    benefits: ["Dedicated account manager", "Volume pricing", "Out-of-hours work", "Real-time job updates"],
-    faqs: [{ q: "What size fleets do you work with?", a: "Anything from 3 vehicles to 100+. We tailor a programme to your operating hours." }],
+    benefits: [
+      "Digital fleet health reporting dashboard",
+      "Preventive scheduling to reduce breakdowns",
+      "Volume pricing across all maintenance work",
+      "Van fit-out and conversion services",
+    ],
+    faqs: [
+      { q: "How does the digital health reporting work?", a: "Each vehicle gets a digital record updated after every visit. You receive a monthly summary report with upcoming actions." },
+      { q: "Can you work around our operating hours?", a: "Yes — early morning, evening and weekend slots are available for operational fleets." },
+    ],
   },
   {
-    slug: "aircon",
-    title: "Air Conditioning Recharge",
-    subtitle: "Cold air, fast — for both R134a and R1234yf systems.",
+    slug: "fleet-account-management",
+    category: "fleet",
+    title: "Account Management",
+    subtitle: "One point of contact for your entire fleet.",
     description:
-      "A modern AC system loses up to 10% of its refrigerant every year. We service, recharge and leak-test all car AC systems including the latest R1234yf gas.",
-    shortDescription: "AC regas, leak detection and full cooling system service.",
-    hero: airconImg,
+      "Dedicated account manager, volume pricing, consolidated invoicing and real-time job updates. We work as an extension of your team — handling everything so you can focus on running your business.",
+    shortDescription: "Dedicated account manager, volume pricing, consolidated invoicing and real-time updates.",
+    hero: certImg,
     cards: [
-      { title: "Gas Recharge", image: airconImg, items: ["R134a & R1234yf", "Full evacuation", "UV dye check", "Performance test"] },
-      { title: "Leak Detection", image: diagImg, items: ["Pressure testing", "UV dye trace", "Component check", "Written report"] },
-      { title: "Cooling Performance", image: airconImg, items: ["Condenser clean", "Pollen filter", "Odour treatment", "Vent temperature check"] },
+      {
+        title: "Dedicated Support",
+        image: certImg,
+        items: ["Named account manager", "Direct phone line", "Priority booking", "Custom SLAs", "Flexible schedules"],
+      },
+      {
+        title: "Pricing & Invoicing",
+        image: fleetImg,
+        items: ["Volume pricing", "Consolidated invoicing", "Monthly statements", "Cost reporting", "Budget tracking"],
+      },
+      {
+        title: "Reporting",
+        image: diagImg,
+        items: ["Real-time job updates", "Fleet spend analysis", "Compliance overview", "Service history", "Upcoming actions"],
+      },
     ],
-    benefits: ["From £69 regas", "Free system health check", "Both gas types in stock", "While-you-wait service"],
-    faqs: [{ q: "How often should I regas?", a: "Every 2 years is recommended even if cooling feels fine — it prolongs the life of the compressor." }],
-  },
-  {
-    slug: "alignment",
-    title: "Laser Wheel Alignment",
-    subtitle: "Protect your tyres. Sharpen your handling.",
-    description:
-      "Our Hunter laser alignment rig delivers precise four-wheel geometry adjustment — improving tyre life, fuel economy and steering feel.",
-    shortDescription: "Hunter laser four-wheel alignment for sharper handling and longer tyre life.",
-    hero: alignImg,
-    cards: [
-      { title: "Alignment Check", image: alignImg, items: ["Free 30-point check", "Camber & toe report", "Manufacturer spec", "Before & after"] },
-      { title: "Tyre Protection", image: tyresImg, items: ["Even wear", "Extended tyre life", "Reduced rolling resistance"] },
-      { title: "Improved Handling", image: alignImg, items: ["Straighter steering", "Better cornering", "Reduced vibration", "Safer braking"] },
+    benefits: [
+      "Single point of contact for all fleet needs",
+      "Volume discounts on all services",
+      "Consolidated monthly invoicing",
+      "Real-time job tracking and reporting",
     ],
-    benefits: ["Free alignment check with any tyre", "Hunter Hawkeye equipment", "Four-wheel geometry", "Suspension inspection"],
-    faqs: [{ q: "How often should wheels be aligned?", a: "Every 12 months, or whenever you fit new tyres or hit a pothole / kerb." }],
+    faqs: [
+      { q: "What size fleets do you work with?", a: "Anything from 3 vehicles to 100+. We tailor a programme to your operational hours and budget." },
+      { q: "Can we get consolidated monthly invoicing?", a: "Yes — all work across your fleet is summarised on a single monthly invoice with full job breakdown." },
+    ],
   },
 ];
 
+// ─── PUBLIC / RETAIL SERVICES ──────────────────────────────────────────────────
+export const PUBLIC_SERVICES: Service[] = [
+  {
+    slug: "mot-service",
+    category: "public",
+    title: "MOT & Servicing",
+    subtitle: "Keep your car legal, safe and running at its best.",
+    description:
+      "DVSA-approved Class 1, 2 & 4 MOT testing with a free re-test guarantee, plus full, interim and major services carried out to manufacturer schedules using genuine parts.",
+    shortDescription: "MOT testing and full manufacturer-schedule servicing with free re-test guarantee.",
+    hero: motImg,
+    cards: [
+      {
+        title: "MOT Testing",
+        image: motImg,
+        items: ["Pre-MOT inspection", "Class 1, 2 & 4 approved", "Free re-test within 10 days", "While-you-wait slots", "Digital certificate"],
+      },
+      {
+        title: "Vehicle Servicing",
+        image: repairsImg,
+        items: ["Full service", "Interim service", "Major service", "Manufacturer-schedule service", "Oil, fluids & filters"],
+      },
+      {
+        title: "Winter Health Check",
+        image: brakesImg,
+        items: ["Battery test", "Tyre tread & pressure", "Lights & wiper check", "Antifreeze level", "Brake inspection"],
+      },
+    ],
+    benefits: [
+      "Free pre-MOT check with every booking",
+      "DVSA approved — all classes",
+      "Manufacturer-schedule servicing without voiding warranty",
+      "12-month parts & labour warranty",
+    ],
+    faqs: [
+      { q: "Will servicing here affect my manufacturer warranty?", a: "No — under Block Exemption Regulation we can service your car to manufacturer schedules without voiding your warranty." },
+      { q: "How long does an MOT take?", a: "Around 45–60 minutes. We offer while-you-wait with complimentary refreshments." },
+      { q: "Do you offer a free retest?", a: "Yes — if your car fails and is repaired with us within 10 working days, the partial retest is free." },
+    ],
+  },
+  {
+    slug: "repairs-diagnostics",
+    category: "public",
+    title: "Repairs & Diagnostics",
+    subtitle: "Expert repairs for every make and model.",
+    description:
+      "From clutch and timing belt replacement to engine diagnostics and exhaust repair — our master technicians diagnose accurately and repair right first time.",
+    shortDescription: "Clutch, timing belt, engine diagnostics, DPF cleaning and full mechanical repairs.",
+    hero: repairsImg,
+    cards: [
+      {
+        title: "Mechanical Repairs",
+        image: repairsImg,
+        items: ["Clutch replacement", "Timing belt/chain", "Engine repairs", "Gearbox work", "Cooling system repair", "Exhaust repair"],
+      },
+      {
+        title: "Engine Diagnostics",
+        image: diagImg,
+        items: ["Warning light diagnosis", "ECU fault code scan", "DPF cleaning", "Emissions testing", "Live data analysis"],
+      },
+      {
+        title: "Steering & Suspension",
+        image: alignImg,
+        items: ["Shock absorber replacement", "Suspension repair", "Steering component repair", "Pre-purchase inspection", "Minor bodywork"],
+      },
+    ],
+    benefits: [
+      "12-month parts & labour warranty on all repairs",
+      "Manufacturer-grade OEM parts only",
+      "Plain-English explanation before any work begins",
+      "Courtesy cars available on request",
+    ],
+    faqs: [
+      { q: "Do I need to book for a diagnostic check?", a: "We recommend booking, but same-day diagnostics are often available — just call us." },
+      { q: "What does DPF cleaning involve?", a: "We use a forced regeneration process to burn off accumulated soot. If the DPF is beyond recovery, we'll advise on replacement options." },
+    ],
+  },
+  {
+    slug: "tyres-brakes",
+    category: "public",
+    title: "Tyres & Brakes",
+    subtitle: "Safety-critical — done right.",
+    description:
+      "Trusted tyre brands expertly fitted and balanced, plus full brake pad and disc replacement with a free brake health check on every visit.",
+    shortDescription: "Tyre fitting, wheel alignment, brake pads and disc replacement.",
+    hero: tyresImg,
+    cards: [
+      {
+        title: "Tyre Fitting",
+        image: tyresImg,
+        items: ["Michelin, Continental, Pirelli", "Budget & mid-range options", "Same-day fitting", "Free tyre health check", "All sizes in stock"],
+      },
+      {
+        title: "Wheel Alignment",
+        image: alignImg,
+        items: ["Hunter laser alignment", "4-wheel geometry", "Camber & toe adjustment", "Improved handling", "Extended tyre life"],
+      },
+      {
+        title: "Brake Service",
+        image: brakesImg,
+        items: ["Brake pad replacement", "Disc replacement", "Brake fluid change", "Caliper inspection", "Free brake check"],
+      },
+    ],
+    benefits: [
+      "Free tyre health check on every visit",
+      "Price-match guarantee on tyres",
+      "Hunter Hawkeye laser alignment",
+      "Free brake inspection with any tyre purchase",
+    ],
+    faqs: [
+      { q: "How do I know if I need new tyres?", a: "Legal minimum is 1.6mm tread — we recommend 3mm for safety. Pop in for a free check anytime." },
+      { q: "How often should I get wheel alignment?", a: "Every 12 months, or after fitting new tyres, hitting a kerb or pothole." },
+    ],
+  },
+  {
+    slug: "aircon-battery",
+    category: "public",
+    title: "Air Con & Electrical",
+    subtitle: "Keep your car comfortable and reliable.",
+    description:
+      "Air conditioning re-gas, battery testing and replacement, plus full electrical fault diagnosis — all while you wait.",
+    shortDescription: "AC re-gas, battery testing & replacement and electrical fault diagnosis.",
+    hero: airconImg,
+    cards: [
+      {
+        title: "Air Conditioning",
+        image: airconImg,
+        items: ["R134a & R1234yf re-gas", "Leak detection", "Pollen filter replacement", "Odour treatment", "Performance test"],
+      },
+      {
+        title: "Battery Service",
+        image: diagImg,
+        items: ["Battery health test", "Battery replacement", "Start-stop compatible", "All vehicle types", "Warranty included"],
+      },
+      {
+        title: "Electrical Faults",
+        image: repairsImg,
+        items: ["Warning light diagnosis", "Wiring faults", "Lighting repair", "Central locking", "Comfort systems"],
+      },
+    ],
+    benefits: [
+      "From £69 AC re-gas while you wait",
+      "Free battery health test",
+      "Both AC gas types in stock",
+      "Same-day electrical diagnosis",
+    ],
+    faqs: [
+      { q: "How often should I re-gas my air conditioning?", a: "Every 2 years is recommended — it prolongs the life of the compressor even if cooling feels fine." },
+      { q: "How long does a battery replacement take?", a: "Usually 30 minutes or less. We carry a wide range of batteries to suit most vehicles." },
+    ],
+  },
+];
+
+// ─── Combined exports ──────────────────────────────────────────────────────────
+export const SERVICES: Service[] = [...PUBLIC_SERVICES, ...FLEET_SERVICES];
+
 export function getService(slug: string) {
   return SERVICES.find((s) => s.slug === slug);
+}
+
+export function getFleetServices() {
+  return FLEET_SERVICES;
+}
+
+export function getPublicServices() {
+  return PUBLIC_SERVICES;
 }

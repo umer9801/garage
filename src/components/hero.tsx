@@ -14,7 +14,7 @@ const SLOGANS = [
   { line1: "Car care", line2: "you can trust." },
   { line1: "Your vehicle,", line2: "our expertise." },
   { line1: "Honest repairs,", line2: "every time." },
-  { line1: "Trusted by Bolton", line2: "since 2003." },
+  { line1: "Trusted by drivers", line2: "since 2003." },
   { line1: "Fleet & automotive", line2: "specialists." },
 ];
 
@@ -105,7 +105,7 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.25 }}
               className="mt-6 max-w-xl text-lg leading-relaxed text-white/75"
             >
-              Professional MOT testing, repairs, diagnostics &amp; vehicle servicing in Bolton — delivered by master technicians who treat every vehicle like their own.
+              Professional MOT testing, repairs, diagnostics &amp; vehicle servicing — delivered by master technicians who treat every vehicle like their own.
             </motion.p>
 
             {/* CTAs */}
@@ -137,7 +137,7 @@ export function Hero() {
                 <span>4.9 · 1,200+ reviews</span>
               </div>
               <div className="hidden h-1 w-1 rounded-full bg-white/30 sm:block" />
-              <div>20+ years serving Bolton</div>
+              <div>20+ years of trusted service</div>
             </motion.div>
 
             {/* Slogan dots indicator */}
@@ -170,7 +170,7 @@ export function Hero() {
               </div>
               <div className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">Quick Quote</div>
               <h3 className="mt-2 text-2xl font-extrabold">MOT + Full Service</h3>
-              <p className="mt-1 text-sm text-white/70">From £149 — collection &amp; delivery available across Bolton.</p>
+              <p className="mt-1 text-sm text-white/70">From £149 — collection &amp; delivery available.</p>
               <ul className="mt-5 space-y-3 text-sm text-white/80">
                 {["Free re-test guarantee", "30-point safety inspection", "12-month parts warranty"].map((t) => (
                   <li key={t} className="flex items-center gap-3">

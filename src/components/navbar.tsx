@@ -1,29 +1,40 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "motion/react";
 import { useState } from "react";
-import { Menu, X, Phone, Wrench, CalendarCheck } from "lucide-react";
+import { Menu, X, Phone, Wrench, CalendarCheck, ChevronDown, Car, Truck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const NAV = [
+const NAV_BASE = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
-  { to: "/services", label: "Services" },
+] as const;
+
+const NAV_END = [
   { to: "/contact", label: "Contact" },
 ] as const;
 
-// Pages that start with a full-bleed dark hero image
 const DARK_HERO_ROUTES = ["/", "/about"];
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 24));
 
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isDarkHero = DARK_HERO_ROUTES.includes(pathname);
-  // Use white-on-dark style only when at top of a dark-hero page
   const light = !scrolled && isDarkHero;
+  const isServicesActive = pathname.startsWith("/services");
+
+  const linkCls = cn(
+    "rounded-full px-4 py-2 text-sm font-medium transition-colors duration-300",
+    light
+      ? "text-white/85 hover:text-white data-[status=active]:bg-white/15 data-[status=active]:text-white"
+      : "text-ink-soft hover:text-primary data-[status=active]:bg-primary/10 data-[status=active]:text-primary",
+  );
 
   return (
     <>
@@ -37,6 +48,7 @@ export function Navbar() {
         )}
       >
         <div className="container-px mx-auto flex max-w-7xl items-center justify-between gap-4">
+          {/* Logo */}
           <Link to="/" className="flex shrink-0 items-center gap-2">
             <div className={cn(
               "grid h-10 w-10 place-items-center rounded-xl shadow-card-soft transition-colors duration-500",
@@ -45,35 +57,101 @@ export function Navbar() {
               <Wrench className="h-5 w-5" />
             </div>
             <div className="flex flex-col leading-none">
-              <span className={cn(
-                "text-sm font-extrabold tracking-tight transition-colors duration-500",
-                light ? "text-white" : "text-primary",
-              )}>SLEEK AUTOMOTIVE</span>
-              <span className={cn(
-                "text-[10px] font-medium uppercase tracking-[0.18em] transition-colors duration-500",
-                light ? "text-white/70" : "text-ink-soft",
-              )}>Fleet Specialists · Bolton</span>
+              <span className={cn("text-sm font-extrabold tracking-tight transition-colors duration-500", light ? "text-white" : "text-primary")}>
+                SLEEK AUTOMOTIVE
+              </span>
+              <span className={cn("text-[10px] font-medium uppercase tracking-[0.18em] transition-colors duration-500", light ? "text-white/70" : "text-ink-soft")}>
+                Fleet Specialists
+              </span>
             </div>
           </Link>
 
+          {/* Desktop nav */}
           <nav className="hidden items-center gap-1 lg:flex">
-            {NAV.map((n) => (
+            {NAV_BASE.map((n) => (
+              <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} className={linkCls}>
+                {n.label}
+              </Link>
+            ))}
+
+            {/* Services dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setServicesOpen(true)}
+              onMouseLeave={() => setServicesOpen(false)}
+            >
               <Link
-                key={n.to}
-                to={n.to}
-                activeOptions={{ exact: n.to === "/" }}
+                to="/services"
                 className={cn(
-                  "rounded-full px-4 py-2 text-sm font-medium transition-colors duration-300",
-                  light
-                    ? "text-white/85 hover:text-white data-[status=active]:bg-white/15 data-[status=active]:text-white"
-                    : "text-ink-soft hover:text-primary data-[status=active]:bg-primary/10 data-[status=active]:text-primary",
+                  linkCls,
+                  "inline-flex items-center gap-1",
+                  isServicesActive && (light
+                    ? "bg-white/15 text-white"
+                    : "bg-primary/10 text-primary"),
                 )}
               >
+                Services
+                <ChevronDown className={cn(
+                  "h-3.5 w-3.5 transition-transform duration-200",
+                  servicesOpen && "rotate-180",
+                )} />
+              </Link>
+
+              <AnimatePresence>
+                {servicesOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                    transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute left-0 top-full mt-2 w-64 overflow-hidden rounded-2xl border border-border bg-white shadow-elegant"
+                  >
+                    {/* For You */}
+                    <Link
+                      to="/services"
+                      search={{ tab: "public" }}
+                      onClick={() => setServicesOpen(false)}
+                      className="flex items-start gap-3 px-4 py-4 transition-colors hover:bg-surface group"
+                    >
+                      <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+                        <Car className="h-4 w-4" />
+                      </span>
+                      <span>
+                        <span className="block text-sm font-extrabold text-ink">Public</span>
+                        <span className="block text-xs text-ink-soft">MOT, servicing, repairs & more</span>
+                      </span>
+                    </Link>
+
+                    <div className="mx-4 h-px bg-border" />
+
+                    {/* Manage My Fleet */}
+                    <Link
+                      to="/services"
+                      search={{ tab: "fleet" }}
+                      onClick={() => setServicesOpen(false)}
+                      className="flex items-start gap-3 px-4 py-4 transition-colors hover:bg-surface group"
+                    >
+                      <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-[oklch(0.78_0.17_60)]/10 text-[oklch(0.68_0.19_45)] transition-colors group-hover:bg-[oklch(0.78_0.17_60)] group-hover:text-white">
+                        <Truck className="h-4 w-4" />
+                      </span>
+                      <span>
+                        <span className="block text-sm font-extrabold text-ink">Fleet</span>
+                        <span className="block text-xs text-ink-soft">Maintenance, MOTs & call-out</span>
+                      </span>
+                    </Link>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {NAV_END.map((n) => (
+              <Link key={n.to} to={n.to} className={linkCls}>
                 {n.label}
               </Link>
             ))}
           </nav>
 
+          {/* CTA buttons */}
           <div className="hidden items-center gap-2 md:flex">
             <a
               href="tel:+441204000000"
@@ -96,14 +174,13 @@ export function Navbar() {
             </Link>
           </div>
 
+          {/* Mobile hamburger */}
           <button
             onClick={() => setOpen(true)}
             aria-label="Open menu"
             className={cn(
               "grid h-11 w-11 place-items-center rounded-xl border transition-colors lg:hidden",
-              light
-                ? "border-white/30 bg-white/10 text-white"
-                : "border-border bg-white/70 text-primary",
+              light ? "border-white/30 bg-white/10 text-white" : "border-border bg-white/70 text-primary",
             )}
           >
             <Menu className="h-5 w-5" />
@@ -111,6 +188,7 @@ export function Navbar() {
         </div>
       </motion.header>
 
+      {/* Mobile drawer */}
       <AnimatePresence>
         {open && (
           <>
@@ -126,7 +204,7 @@ export function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 28, stiffness: 220 }}
-              className="fixed inset-y-0 right-0 z-[70] flex w-[88%] max-w-sm flex-col gap-6 rounded-l-3xl bg-white p-6 shadow-elegant"
+              className="fixed inset-y-0 right-0 z-[70] flex w-[88%] max-w-sm flex-col gap-4 rounded-l-3xl bg-white p-6 shadow-elegant overflow-y-auto"
             >
               <div className="flex items-center justify-between">
                 <span className="text-sm font-extrabold tracking-tight text-primary">SLEEK AUTOMOTIVE</span>
@@ -138,25 +216,74 @@ export function Navbar() {
                   <X className="h-5 w-5" />
                 </button>
               </div>
+
               <nav className="flex flex-col gap-1">
-                {NAV.map((n, i) => (
-                  <motion.div
-                    key={n.to}
-                    initial={{ x: 30, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.05 * i }}
+                {/* Home */}
+                <motion.div initial={{ x: 30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.05 }}>
+                  <Link to="/" onClick={() => setOpen(false)} activeOptions={{ exact: true }}
+                    className="block rounded-2xl px-4 py-4 text-lg font-semibold text-ink transition-colors hover:bg-surface-2 data-[status=active]:bg-primary/10 data-[status=active]:text-primary">
+                    Home
+                  </Link>
+                </motion.div>
+
+                {/* About */}
+                <motion.div initial={{ x: 30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.1 }}>
+                  <Link to="/about" onClick={() => setOpen(false)}
+                    className="block rounded-2xl px-4 py-4 text-lg font-semibold text-ink transition-colors hover:bg-surface-2 data-[status=active]:bg-primary/10 data-[status=active]:text-primary">
+                    About
+                  </Link>
+                </motion.div>
+
+                {/* Services accordion */}
+                <motion.div initial={{ x: 30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.15 }}>
+                  <button
+                    onClick={() => setMobileServicesOpen((v) => !v)}
+                    className="flex w-full items-center justify-between rounded-2xl px-4 py-4 text-lg font-semibold text-ink transition-colors hover:bg-surface-2"
                   >
-                    <Link
-                      to={n.to}
-                      onClick={() => setOpen(false)}
-                      activeOptions={{ exact: n.to === "/" }}
-                      className="block rounded-2xl px-4 py-4 text-lg font-semibold text-ink transition-colors hover:bg-surface-2 data-[status=active]:bg-primary/10 data-[status=active]:text-primary"
-                    >
-                      {n.label}
-                    </Link>
-                  </motion.div>
-                ))}
+                    Services
+                    <ChevronDown className={cn("h-5 w-5 text-ink-soft transition-transform", mobileServicesOpen && "rotate-180")} />
+                  </button>
+                  <AnimatePresence>
+                    {mobileServicesOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="ml-4 flex flex-col gap-1 pb-2">
+                          <Link
+                            to="/services"
+                            search={{ tab: "public" }}
+                            onClick={() => setOpen(false)}
+                            className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-ink hover:bg-surface-2"
+                          >
+                            <Car className="h-4 w-4 text-primary" /> Public
+                          </Link>
+                          <Link
+                            to="/services"
+                            search={{ tab: "fleet" }}
+                            onClick={() => setOpen(false)}
+                            className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-ink hover:bg-surface-2"
+                          >
+                            <Truck className="h-4 w-4 text-[oklch(0.68_0.19_45)]" /> Fleet
+                          </Link>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+
+                {/* Contact */}
+                <motion.div initial={{ x: 30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.2 }}>
+                  <Link to="/contact" onClick={() => setOpen(false)}
+                    className="block rounded-2xl px-4 py-4 text-lg font-semibold text-ink transition-colors hover:bg-surface-2 data-[status=active]:bg-primary/10 data-[status=active]:text-primary">
+                    Contact
+                  </Link>
+                </motion.div>
               </nav>
+
               <div className="mt-auto flex flex-col gap-3">
                 <a
                   href="tel:+441204000000"

@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Hero } from "@/components/hero";
 import { Reveal, SectionHeading, PrimaryButton, GhostButton } from "@/components/ui-bits";
-import { SERVICES } from "@/data/services";
+import { getPublicServices, getFleetServices } from "@/data/services";
 import { motion } from "motion/react";
-import { Award, Clock, ShieldCheck, ThumbsUp, Wrench, Star, ChevronRight, ChevronDown } from "lucide-react";
+import { Award, Clock, ShieldCheck, ThumbsUp, Wrench, Star, ChevronRight, ChevronDown, Car, Truck } from "lucide-react";
 import aboutImg from "@/assets/about-workshop.jpg";
 import teamImg from "@/assets/team.jpg";
 import certImg from "@/assets/certificate.jpg";
@@ -11,15 +11,16 @@ import alignImg from "@/assets/alignment.jpg";
 import tyresImg from "@/assets/tyres.jpg";
 import diagImg from "@/assets/diagnostics.jpg";
 import repairsImg from "@/assets/repairs.jpg";
+import fleetImg from "@/assets/fleet.jpg";
 import { useState } from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sleek Automotive And Fleet Specialists — Bolton" },
-      { name: "description", content: "DVSA approved MOT testing, repairs, diagnostics, tyres & servicing in Bolton. Honest pricing, expert care." },
-      { property: "og:title", content: "Sleek Automotive And Fleet Specialists — Bolton" },
-      { property: "og:description", content: "DVSA approved MOT testing, repairs, diagnostics, tyres & servicing in Bolton." },
+      { title: "Sleek Automotive And Fleet Specialists" },
+      { name: "description", content: "DVSA approved MOT testing, repairs, diagnostics, tyres & servicing. Honest pricing, expert care." },
+      { property: "og:title", content: "Sleek Automotive And Fleet Specialists" },
+      { property: "og:description", content: "DVSA approved MOT testing, repairs, diagnostics, tyres & servicing." },
     ],
   }),
   component: HomePage,
@@ -28,7 +29,7 @@ export const Route = createFileRoute("/")({
 const WHY = [
   { icon: ShieldCheck, title: "DVSA Approved", desc: "Class 1, 2 & 4 MOT testing — fully accredited, fully transparent." },
   { icon: Award, title: "Master Technicians", desc: "20+ years of combined main-dealer experience for every make and model." },
-  { icon: Clock, title: "Same-Day Service", desc: "Most repairs completed the same day, with collection across Bolton." },
+  { icon: Clock, title: "Same-Day Service", desc: "Most repairs completed the same day, with collection available." },
   { icon: ThumbsUp, title: "12-Month Warranty", desc: "Every repair backed by a national 12-month parts & labour guarantee." },
 ];
 
@@ -78,7 +79,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Services preview */}
+      {/* Services preview — two categories */}
       <section className="bg-surface-3 py-24">
         <div className="container-px mx-auto max-w-7xl px-6">
           <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
@@ -87,24 +88,64 @@ function HomePage() {
               <GhostButton to="/services">View all services <ChevronRight className="h-4 w-4" /></GhostButton>
             </Reveal>
           </div>
-          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICES.slice(0, 6).map((s, i) => (
-              <Reveal key={s.slug} delay={i * 0.05}>
-                <Link to="/services/$slug" params={{ slug: s.slug }} className="group block overflow-hidden rounded-3xl bg-white shadow-card-soft ring-1 ring-border/60 transition-shadow hover:shadow-elegant">
-                  <div className="relative h-56 overflow-hidden">
-                    <img src={s.hero} alt={s.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-primary/10 to-transparent" />
+          <div className="mt-14 grid gap-6 md:grid-cols-2">
+            {/* Public card */}
+            <Reveal delay={0.05}>
+              <Link
+                to="/services"
+                search={{ tab: "public" } as any}
+                className="group relative flex h-full min-h-[340px] flex-col overflow-hidden rounded-3xl bg-white shadow-card-soft ring-1 ring-border/60 transition-shadow hover:shadow-elegant"
+              >
+                <div className="relative h-52 overflow-hidden">
+                  <img src={repairsImg} alt="Car services" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-primary/10 to-transparent" />
+                  <div className="absolute bottom-4 left-5 flex items-center gap-2 text-white">
+                    <Car className="h-5 w-5" />
+                    <span className="text-xl font-extrabold">For You</span>
                   </div>
-                  <div className="p-7">
-                    <h3 className="text-xl font-extrabold text-ink">{s.title}</h3>
-                    <p className="mt-2 text-sm text-ink-soft">{s.shortDescription}</p>
-                    <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary">
-                      Learn more <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </div>
+                </div>
+                <div className="flex flex-1 flex-col gap-3 p-7">
+                  <p className="text-sm leading-relaxed text-ink-soft">MOT testing, servicing, repairs, tyres, air con and more — for private motorists.</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {["MOT & Servicing","Repairs & Diagnostics","Tyres & Brakes","Air Con & Electrical"].map((t) => (
+                      <span key={t} className="rounded-full bg-surface px-2.5 py-0.5 text-xs font-medium text-ink-soft ring-1 ring-border">{t}</span>
+                    ))}
                   </div>
-                </Link>
-              </Reveal>
-            ))}
+                  <div className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-primary">
+                    Explore services <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </div>
+                </div>
+              </Link>
+            </Reveal>
+
+            {/* Fleet card */}
+            <Reveal delay={0.1}>
+              <Link
+                to="/services"
+                search={{ tab: "fleet" } as any}
+                className="group relative flex h-full min-h-[340px] flex-col overflow-hidden rounded-3xl bg-white shadow-card-soft ring-1 ring-border/60 transition-shadow hover:shadow-elegant"
+              >
+                <div className="relative h-52 overflow-hidden">
+                  <img src={fleetImg} alt="Fleet management" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-primary/10 to-transparent" />
+                  <div className="absolute bottom-4 left-5 flex items-center gap-2 text-white">
+                    <Truck className="h-5 w-5" />
+                    <span className="text-xl font-extrabold">Manage My Fleet</span>
+                  </div>
+                </div>
+                <div className="flex flex-1 flex-col gap-3 p-7">
+                  <p className="text-sm leading-relaxed text-ink-soft">Fleet MOTs, servicing, 24/7 breakdown, digital maintenance and account management.</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {["Fleet Servicing & Compliance","24/7 Breakdown Priority","Digital Fleet Maintenance","Account Management"].map((t) => (
+                      <span key={t} className="rounded-full bg-surface px-2.5 py-0.5 text-xs font-medium text-ink-soft ring-1 ring-border">{t}</span>
+                    ))}
+                  </div>
+                  <div className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-primary">
+                    Manage my fleet <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </div>
+                </div>
+              </Link>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -127,7 +168,7 @@ function HomePage() {
             </div>
           </Reveal>
           <div>
-            <SectionHeading eyebrow="About Us" title="20 years of trusted care in Bolton." subtitle="Sleek Automotive And Fleet Specialists was founded with one mission: deliver main-dealer quality with the warmth of a local family garage. Today we look after thousands of drivers across Greater Manchester." />
+            <SectionHeading eyebrow="About Us" title="20 years of trusted care." subtitle="Sleek Automotive And Fleet Specialists was founded with one mission: deliver main-dealer quality with the warmth of a local family garage. Today we look after thousands of drivers across Greater Manchester." />
             <ul className="mt-8 space-y-4">
               {["DVSA approved Class 1, 2 & 4 station", "Latest Hunter & Bosch equipment", "Genuine OEM parts only"].map((t) => (
                 <li key={t} className="flex items-center gap-3 text-ink">
@@ -234,7 +275,7 @@ function HomePage() {
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] backdrop-blur"><Wrench className="h-3.5 w-3.5 text-[oklch(0.85_0.16_70)]" /> Book in seconds</div>
               <h3 className="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl">Bring your car to people who care.</h3>
-              <p className="mt-4 max-w-xl text-white/70">Same-day MOT slots, expert repairs, honest pricing. Powered by 20 years of Bolton expertise.</p>
+              <p className="mt-4 max-w-xl text-white/70">Same-day MOT slots, expert repairs, honest pricing. Powered by 20 years of expertise.</p>
             </div>
             <div className="flex flex-wrap gap-3 lg:justify-end">
               <PrimaryButton to="/contact">Book Appointment</PrimaryButton>

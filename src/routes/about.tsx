@@ -9,16 +9,16 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About — Sleek Automotive And Fleet Specialists" },
-      { name: "description", content: "Two decades of trusted automotive care in Bolton. Meet the team behind Sleek Automotive And Fleet Specialists." },
+      { name: "description", content: "Two decades of trusted automotive care. Meet the team behind Sleek Automotive And Fleet Specialists." },
       { property: "og:title", content: "About — Sleek Automotive And Fleet Specialists" },
-      { property: "og:description", content: "Two decades of trusted automotive care in Bolton." },
+      { property: "og:description", content: "Two decades of trusted automotive care." },
     ],
   }),
   component: AboutPage,
 });
 
 const TIMELINE = [
-  { year: "2003", title: "Founded in Bolton", desc: "Started as a two-bay workshop with a simple promise: honest work, fair prices." },
+  { year: "2003", title: "Founded in Greater Manchester", desc: "Started as a two-bay workshop with a simple promise: honest work, fair prices." },
   { year: "2009", title: "DVSA Approved", desc: "Officially accredited as a Class 4 MOT testing station." },
   { year: "2015", title: "Workshop Expansion", desc: "Moved to a 10-bay premium facility with state-of-the-art equipment." },
   { year: "2020", title: "Class 1, 2 & 4", desc: "Added motorcycle MOT capability and a dedicated two-wheel bay." },
@@ -37,7 +37,7 @@ function AboutPage() {
           <Reveal>
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] backdrop-blur"><Heart className="h-3.5 w-3.5 text-[oklch(0.85_0.16_70)]" /> Our Story</div>
             <h1 className="mt-6 max-w-3xl text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">Two decades of care, craftsmanship and trust.</h1>
-            <p className="mt-5 max-w-2xl text-lg text-white/80">From a two-bay garage to Bolton's most trusted independent service centre — built one happy customer at a time.</p>
+            <p className="mt-5 max-w-2xl text-lg text-white/80">From a two-bay garage to Greater Manchester's most trusted independent service centre — built one happy customer at a time.</p>
           </Reveal>
         </div>
       </section>
