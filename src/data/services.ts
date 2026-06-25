@@ -8,6 +8,14 @@ import airconImg from "@/assets/aircon.jpg";
 import alignImg from "@/assets/alignment.jpg";
 import brakesImg from "@/assets/brakes.jpg";
 import certImg from "@/assets/certificate.jpg";
+import img1 from "@/assets/1.jpg";
+import img2 from "@/assets/2.jpg";
+import img3 from "@/assets/3.jpg";
+import img4 from "@/assets/4.jpg";
+import img5 from "@/assets/5.jpg";
+import img6 from "@/assets/6.jpg";
+import img7 from "@/assets/7.jpg";
+import img8 from "@/assets/8.jpg";
 
 export type ServiceCard = {
   title: string;
@@ -38,21 +46,21 @@ export const FLEET_SERVICES: Service[] = [
     description:
       "DVSA-approved MOT testing, statutory safety inspections and manufacturer-schedule servicing for your entire fleet. Block bookings, out-of-hours testing and a single invoice — we make compliance simple.",
     shortDescription: "MOT testing, statutory safety inspections and full servicing to keep your fleet compliant.",
-    hero: motImg,
+    hero: img1,
     cards: [
       {
         title: "MOT & Safety Inspections",
-        image: motImg,
+        image: img2,
         items: ["Class 4 & 7 approved", "Block bookings", "Out-of-hours testing", "Free pre-MOT check", "Statutory safety inspections", "Single invoice"],
       },
       {
         title: "Fleet Servicing",
-        image: repairsImg,
+        image: img3,
         items: ["Routine servicing", "Oils, fluids & filters", "Manufacturer schedules", "Genuine OEM parts", "Brake & tyre programmes"],
       },
       {
         title: "Compliance Records",
-        image: certImg,
+        image: img4,
         items: ["Digital compliance records", "6-week & 12-week checks", "DVSA compliance", "Driver defect integration", "Priority scheduling"],
       },
     ],
@@ -75,21 +83,21 @@ export const FLEET_SERVICES: Service[] = [
     description:
       "Dedicated 24/7 priority breakdown support for fleet customers. Mobile technician call-outs, rapid roadside repairs and fast workshop turnaround — minimising downtime across your operation.",
     shortDescription: "24/7 priority breakdown support and mobile technician call-out for commercial fleets.",
-    hero: repairsImg,
+    hero: img2,
     cards: [
       {
         title: "Mobile Call-Out",
-        image: repairsImg,
+        image: img5,
         items: ["24/7 priority response", "On-site technician", "Roadside repairs", "Greater Manchester coverage", "Rapid turnaround"],
       },
       {
         title: "Engine & Transmission",
-        image: diagImg,
+        image: img6,
         items: ["Engine rebuilds", "Gearbox repairs", "Timing belt replacement", "Cooling system repair", "Exhaust & DPF"],
       },
       {
         title: "Advanced Diagnostics",
-        image: diagImg,
+        image: img8,
         items: ["Multi-brand OBD scanning", "ECU fault clearance", "Live data analysis", "Electrical faults", "Emissions testing"],
       },
     ],
@@ -112,21 +120,21 @@ export const FLEET_SERVICES: Service[] = [
     description:
       "Preventive maintenance programmes with digital health reporting, per-vehicle dashboards and spend tracking. We schedule everything around your operational hours so your fleet stays on the road.",
     shortDescription: "Digital fleet health reporting, preventive scheduling and per-vehicle maintenance dashboards.",
-    hero: fleetImg,
+    hero: img7,
     cards: [
       {
         title: "Preventive Scheduling",
-        image: fleetImg,
+        image: img3,
         items: ["Scheduled servicing", "Brake & tyre programmes", "Replacement scheduling", "Service alerts", "Downtime reduction"],
       },
       {
         title: "Digital Health Reports",
-        image: diagImg,
+        image: img4,
         items: ["Per-vehicle dashboards", "Spend tracking", "Upcoming service alerts", "Compliance summary", "Monthly reports"],
       },
       {
         title: "Van Conversions",
-        image: repairsImg,
+        image: img5,
         items: ["Shelving & racking", "Bulkhead fitting", "Partition walls", "Floor lining", "Minor bodywork"],
       },
     ],
@@ -158,12 +166,12 @@ export const FLEET_SERVICES: Service[] = [
       },
       {
         title: "Pricing & Invoicing",
-        image: fleetImg,
+        image: certImg,
         items: ["Volume pricing", "Consolidated invoicing", "Monthly statements", "Cost reporting", "Budget tracking"],
       },
       {
         title: "Reporting",
-        image: diagImg,
+        image: certImg,
         items: ["Real-time job updates", "Fleet spend analysis", "Compliance overview", "Service history", "Upcoming actions"],
       },
     ],
@@ -185,17 +193,17 @@ export const PUBLIC_SERVICES: Service[] = [
   {
     slug: "mot-service",
     category: "public",
-    title: "MOT & Servicing",
-    subtitle: "Keep your car legal, safe and running at its best.",
+    title: "Pre-Mot Checks & Servicing",
+    subtitle: "Keep your car road-legal and running at its best.",
     description:
-      "DVSA-approved Class 1, 2 & 4 MOT testing with a free re-test guarantee, plus full, interim and major services carried out to manufacturer schedules using genuine parts.",
-    shortDescription: "MOT testing and full manufacturer-schedule servicing with free re-test guarantee.",
+      "Thorough pre-MOT checks to identify and fix issues before your test, plus full, interim and major services carried out to manufacturer schedules using genuine parts.",
+    shortDescription: "Pre-MOT checks and full manufacturer-schedule servicing with free re-test guarantee.",
     hero: motImg,
     cards: [
       {
-        title: "MOT Testing",
+        title: "Pre-MOT Inspection",
         image: motImg,
-        items: ["Pre-MOT inspection", "Class 1, 2 & 4 approved", "Free re-test within 10 days", "While-you-wait slots", "Digital certificate"],
+        items: ["Full pre-MOT check", "Identify issues early", "Free re-test within 10 days", "While-you-wait slots", "Digital certificate"],
       },
       {
         title: "Vehicle Servicing",
@@ -264,7 +272,7 @@ export const PUBLIC_SERVICES: Service[] = [
     subtitle: "Safety-critical — done right.",
     description:
       "Trusted tyre brands expertly fitted and balanced, plus full brake pad and disc replacement with a free brake health check on every visit.",
-    shortDescription: "Tyre fitting, wheel alignment, brake pads and disc replacement.",
+    shortDescription: "Tyre fitting, brake pads and disc replacement, plus free tyre health checks.",
     hero: tyresImg,
     cards: [
       {
@@ -273,14 +281,14 @@ export const PUBLIC_SERVICES: Service[] = [
         items: ["Michelin, Continental, Pirelli", "Budget & mid-range options", "Same-day fitting", "Free tyre health check", "All sizes in stock"],
       },
       {
-        title: "Wheel Alignment",
-        image: alignImg,
-        items: ["Hunter laser alignment", "4-wheel geometry", "Camber & toe adjustment", "Improved handling", "Extended tyre life"],
-      },
-      {
         title: "Brake Service",
         image: brakesImg,
         items: ["Brake pad replacement", "Disc replacement", "Brake fluid change", "Caliper inspection", "Free brake check"],
+      },
+      {
+        title: "Tyre Health & Advice",
+        image: tyresImg,
+        items: ["Free tyre check", "Legal minimum advice", "Pressure check", "Tread depth check", "Valve replacement"],
       },
     ],
     benefits: [

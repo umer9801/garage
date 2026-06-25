@@ -46,7 +46,7 @@ function ServicesIndex() {
         <SectionHeading
           eyebrow="Services"
           title={<>Expert care for<br />every kind of vehicle.</>}
-          subtitle="Choose your category — tailored services for private motorists and commercial fleets."
+          subtitle="Expert services for private motorists and commercial fleet operators — choose your category."
         />
 
         {/* Tab switcher */}

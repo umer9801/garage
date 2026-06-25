@@ -20,7 +20,7 @@ export function ServicePage({ service }: { service: Service }) {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] backdrop-blur">
               <Sparkles className="h-3.5 w-3.5 text-[oklch(0.85_0.16_70)]" />
-              Premium Service
+              Specialist Service
             </div>
             <h1 className="mt-6 max-w-3xl text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">{service.title}</h1>
             <p className="mt-5 max-w-2xl text-lg text-white/80">{service.subtitle}</p>

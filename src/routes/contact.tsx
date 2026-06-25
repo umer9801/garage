@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { submitContact } from "@/lib/server-fns";
 
 const PUBLIC_SERVICES = [
-  "MOT Testing",
+  "Pre-Mot Checks",
   "Full Service",
   "Interim Service",
   "Major Service",

@@ -21,7 +21,7 @@ export function Footer() {
               </div>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/70">
-              DVSA approved Class 1, 2 &amp; 4 MOT testing station. Trusted by thousands of drivers across Greater Manchester for expert repairs, diagnostics and servicing.
+              Expert automotive care and fleet management across Greater Manchester. Transparent pricing, quality parts, guaranteed workmanship.
             </p>
             <div className="mt-5 flex gap-3">
               {[Facebook, Instagram, Twitter].map((Icon, i) => (
@@ -60,7 +60,7 @@ export function Footer() {
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">Public Services</div>
             <ul className="mt-4 space-y-2.5 text-sm">
               {[
-                { slug: "mot-service", label: "MOT & Servicing" },
+                { slug: "mot-service", label: "Pre-Mot Checks & Servicing" },
                 { slug: "repairs-diagnostics", label: "Repairs & Diagnostics" },
                 { slug: "tyres-brakes", label: "Tyres & Brakes" },
                 { slug: "aircon-battery", label: "Air Con & Electrical" },

@@ -11,7 +11,7 @@ import alignImg from "@/assets/alignment.jpg";
 import tyresImg from "@/assets/tyres.jpg";
 import diagImg from "@/assets/diagnostics.jpg";
 import repairsImg from "@/assets/repairs.jpg";
-import fleetImg from "@/assets/fleet.jpg";
+import img7 from "@/assets/7.jpg";
 import { useState, useEffect } from "react";
 import { ReviewForm } from "@/components/review-form";
 import { getApprovedReviews } from "@/lib/server-fns";
@@ -29,8 +29,7 @@ export const Route = createFileRoute("/")({
 });
 
 const WHY = [
-  { icon: ShieldCheck, title: "DVSA Approved", desc: "Class 1, 2 & 4 MOT testing — fully accredited, fully transparent." },
-  { icon: Award, title: "Master Technicians", desc: "20+ years of combined main-dealer experience for every make and model." },
+  { icon: Award, title: "Master Technicians", desc: "Combined main-dealer experience for every make and model." },
   { icon: Clock, title: "Same-Day Service", desc: "Most repairs completed the same day, with collection available." },
   { icon: ThumbsUp, title: "12-Month Warranty", desc: "Every repair backed by a national 12-month parts & labour guarantee." },
 ];
@@ -58,7 +57,7 @@ function HomePage() {
 
       {/* Why choose us */}
       <section className="container-px mx-auto max-w-7xl px-6 py-24">
-        <SectionHeading eyebrow="Why Choose Us" title="A garage that earns the keys to your car." subtitle="Every job, big or small, is treated with main-dealer care — without main-dealer prices." />
+        <SectionHeading eyebrow="Why Choose Us" title="Why drivers choose us." subtitle="Every job, big or small, is treated with main-dealer care — without main-dealer prices." />
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {WHY.map((w, i) => (
             <Reveal key={w.title} delay={i * 0.08}>
@@ -78,7 +77,7 @@ function HomePage() {
       <section className="bg-surface-3 py-24">
         <div className="container-px mx-auto max-w-7xl px-6">
           <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
-            <SectionHeading eyebrow="What We Do" title={<>Expert services,<br />engineered for every drive.</>} />
+            <SectionHeading eyebrow="What We Do" title={<>Specialist services,<br />built around you.</>} />
             <Reveal delay={0.1}>
               <GhostButton to="/services">View all services <ChevronRight className="h-4 w-4" /></GhostButton>
             </Reveal>
@@ -102,7 +101,7 @@ function HomePage() {
                 <div className="flex flex-1 flex-col gap-3 p-7">
                   <p className="text-sm leading-relaxed text-ink-soft">MOT testing, servicing, repairs, tyres, air con and more — for private motorists.</p>
                   <div className="flex flex-wrap gap-1.5">
-                    {["MOT & Servicing","Repairs & Diagnostics","Tyres & Brakes","Air Con & Electrical"].map((t) => (
+                    {["Pre-Mot Checks","Repairs & Diagnostics","Tyres & Brakes","Air Con & Electrical"].map((t) => (
                       <span key={t} className="rounded-full bg-surface px-2.5 py-0.5 text-xs font-medium text-ink-soft ring-1 ring-border">{t}</span>
                     ))}
                   </div>
@@ -121,7 +120,7 @@ function HomePage() {
                 className="group relative flex h-full min-h-[340px] flex-col overflow-hidden rounded-3xl bg-white shadow-card-soft ring-1 ring-border/60 transition-shadow hover:shadow-elegant"
               >
                 <div className="relative h-52 overflow-hidden">
-                  <img src={fleetImg} alt="Fleet management" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <img src={img7} alt="Fleet management" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-primary/10 to-transparent" />
                   <div className="absolute bottom-4 left-5 flex items-center gap-2 text-white">
                     <Truck className="h-5 w-5" />
@@ -155,17 +154,17 @@ function HomePage() {
                 <div className="flex items-center gap-3">
                   <div className="grid h-12 w-12 place-items-center rounded-xl bg-[oklch(0.78_0.17_60)] text-white"><Award className="h-6 w-6" /></div>
                   <div>
-                    <div className="text-xs uppercase tracking-[0.18em] text-ink-soft">Since</div>
-                    <div className="text-2xl font-extrabold text-ink">2003</div>
+                    <div className="text-xs uppercase tracking-[0.18em] text-ink-soft">Trusted</div>
+                    <div className="text-lg font-extrabold text-ink">By Thousands</div>
                   </div>
                 </div>
               </motion.div>
             </div>
           </Reveal>
           <div>
-            <SectionHeading eyebrow="About Us" title="20 years of trusted care." subtitle="Sleek Automotive And Fleet Specialists was founded with one mission: deliver main-dealer quality with the warmth of a local family garage. Today we look after thousands of drivers across Greater Manchester." />
+            <SectionHeading eyebrow="About Us" title="Trusted care, every time." subtitle="Sleek Automotive And Fleet Specialists was founded with one mission: deliver main-dealer quality with the warmth of a local family garage. Today we look after thousands of drivers across Greater Manchester." />
             <ul className="mt-8 space-y-4">
-              {["DVSA approved Class 1, 2 & 4 station", "Latest Hunter & Bosch equipment", "Genuine OEM parts only"].map((t) => (
+              {["Latest Hunter & Bosch equipment", "Genuine OEM parts only"].map((t) => (
                 <li key={t} className="flex items-center gap-3 text-ink">
                   <span className="grid h-7 w-7 place-items-center rounded-full bg-primary/10 text-primary"><ShieldCheck className="h-4 w-4" /></span>
                   {t}
@@ -233,8 +232,8 @@ function HomePage() {
           <div className="relative grid items-center gap-10 lg:grid-cols-2">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] backdrop-blur"><Wrench className="h-3.5 w-3.5 text-[oklch(0.85_0.16_70)]" /> Book in seconds</div>
-              <h3 className="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl">Bring your car to people who care.</h3>
-              <p className="mt-4 max-w-xl text-white/70">Same-day MOT slots, expert repairs, honest pricing. Powered by 20 years of expertise.</p>
+              <h3 className="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl">Ready when you are.</h3>
+              <p className="mt-4 max-w-xl text-white/70">Expert repairs, honest pricing, same-day availability.</p>
             </div>
             <div className="flex flex-wrap gap-3 lg:justify-end">
               <PrimaryButton to="/contact">Book Appointment</PrimaryButton>

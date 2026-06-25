@@ -1,14 +1,17 @@
 import { motion, AnimatePresence } from "motion/react";
 import { ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
+import img1 from "@/assets/1.jpg";
+import img2 from "@/assets/2.jpg";
+import img3 from "@/assets/3.jpg";
+import img4 from "@/assets/4.jpg";
+import img5 from "@/assets/5.jpg";
+import img6 from "@/assets/6.jpg";
+import img8 from "@/assets/8.jpg";
 import heroImg from "@/assets/hero-garage.jpg";
-import aboutImg from "@/assets/about-workshop.jpg";
-import repairsImg from "@/assets/repairs.jpg";
-import motImg from "@/assets/mot-inspection.jpg";
-import tyresImg from "@/assets/tyres.jpg";
 import { PrimaryButton, GhostButton } from "./ui-bits";
 
-const HERO_IMAGES = [heroImg, aboutImg, repairsImg, motImg, tyresImg];
+const HERO_IMAGES = [heroImg, img1, img2, img3, img4, img5, img6, img8];
 
 const SLOGANS = [
   { line1: "Car care", line2: "you can trust." },
@@ -50,12 +53,8 @@ export function Hero() {
             transition={{ duration: 1.2, ease: "easeInOut" }}
           />
         </AnimatePresence>
-        <div className="absolute inset-0 gradient-hero-bg opacity-50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/20 to-black/10" />
       </div>
-
-      {/* Ambient blobs */}
-      <div className="pointer-events-none absolute -left-32 top-20 -z-10 h-80 w-80 rounded-full bg-[oklch(0.78_0.17_60)] opacity-15 blur-3xl" />
 
       <div className="container-px mx-auto max-w-4xl px-6 pt-8 pb-4 text-center">
         {/* Badge */}
@@ -66,7 +65,7 @@ export function Hero() {
           className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-white/80 backdrop-blur"
         >
           <ShieldCheck className="h-3.5 w-3.5 text-[oklch(0.82_0.16_75)]" />
-          DVSA Approved · Class 1, 2 &amp; 4
+          Expert Automotive &amp; Fleet Care
         </motion.div>
 
         {/* Rotating headline */}

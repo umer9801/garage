@@ -170,7 +170,7 @@ export function Navbar() {
               className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[oklch(0.78_0.17_60)] to-[oklch(0.68_0.19_45)] px-5 py-2.5 text-sm font-semibold text-white shadow-glow-orange transition-transform hover:scale-[1.03]"
             >
               <CalendarCheck className="h-4 w-4" />
-              Book MOT
+              Book Appointment
             </Link>
           </div>
 
