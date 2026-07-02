@@ -110,8 +110,15 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-white/10 pt-6 text-xs text-white/50 md:flex-row md:items-center">
-          <span>© {new Date().getFullYear()} Sleek Automotive And Fleet Specialists Ltd. All rights reserved.</span>
-          <span>DVSA Approved · VAT GB 000 0000 00</span>
+          <span>© {new Date().getFullYear()} Sleek Logistics. All rights reserved.</span>
+          <a
+            href="https://www.solvixcore.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/40 transition-colors hover:text-white/70"
+          >
+            Designed &amp; Built by Solvix Core
+          </a>
         </div>
       </div>
     </footer>

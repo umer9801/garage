@@ -44,14 +44,14 @@ export const FLEET_SERVICES: Service[] = [
     title: "Fleet Servicing & Compliance",
     subtitle: "Keep your fleet legal, maintained and road-ready.",
     description:
-      "DVSA-approved MOT testing, statutory safety inspections and manufacturer-schedule servicing for your entire fleet. Block bookings, out-of-hours testing and a single invoice — we make compliance simple.",
+      "MOT testing, statutory safety inspections and manufacturer-schedule servicing for your entire fleet. Block bookings, out-of-hours testing and a single invoice — we make compliance simple.",
     shortDescription: "MOT testing, statutory safety inspections and full servicing to keep your fleet compliant.",
     hero: img1,
     cards: [
       {
         title: "MOT & Safety Inspections",
         image: img2,
-        items: ["Class 4 & 7 approved", "Block bookings", "Out-of-hours testing", "Free pre-MOT check", "Statutory safety inspections", "Single invoice"],
+        items: ["Block bookings", "Out-of-hours testing", "Free pre-MOT check", "Statutory safety inspections", "Single invoice"],
       },
       {
         title: "Fleet Servicing",
@@ -61,7 +61,7 @@ export const FLEET_SERVICES: Service[] = [
       {
         title: "Compliance Records",
         image: img4,
-        items: ["Digital compliance records", "6-week & 12-week checks", "DVSA compliance", "Driver defect integration", "Priority scheduling"],
+        items: ["Digital compliance records", "6-week & 12-week checks", "Compliance management", "Driver defect integration", "Priority scheduling"],
       },
     ],
     benefits: [
@@ -196,8 +196,7 @@ export const PUBLIC_SERVICES: Service[] = [
     title: "Pre-Mot Checks & Servicing",
     subtitle: "Keep your car road-legal and running at its best.",
     description:
-      "Thorough pre-MOT checks to identify and fix issues before your test, plus full, interim and major services carried out to manufacturer schedules using genuine parts.",
-    shortDescription: "Pre-MOT checks and full manufacturer-schedule servicing with free re-test guarantee.",
+      "Thorough pre-MOT checks to identify and fix issues before your test, plus full, interim and major services carried out to manufacturer schedules using genuine parts.",    shortDescription: "Pre-MOT checks and full manufacturer-schedule servicing with free re-test guarantee.",
     hero: motImg,
     cards: [
       {
@@ -218,7 +217,7 @@ export const PUBLIC_SERVICES: Service[] = [
     ],
     benefits: [
       "Free pre-MOT check with every booking",
-      "DVSA approved — all classes",
+      "All vehicle classes covered",
       "Manufacturer-schedule servicing without voiding warranty",
       "12-month parts & labour warranty",
     ],

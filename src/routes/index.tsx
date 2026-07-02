@@ -20,9 +20,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Sleek Automotive And Fleet Specialists" },
-      { name: "description", content: "DVSA approved MOT testing, repairs, diagnostics, tyres & servicing. Honest pricing, expert care." },
+      { name: "description", content: "Expert automotive care and fleet management across Greater Manchester. Honest pricing, expert care." },
       { property: "og:title", content: "Sleek Automotive And Fleet Specialists" },
-      { property: "og:description", content: "DVSA approved MOT testing, repairs, diagnostics, tyres & servicing." },
+      { property: "og:description", content: "Expert automotive care and fleet management across Greater Manchester." },
     ],
   }),
   component: HomePage,
