@@ -50,13 +50,13 @@ export function Navbar() {
       >
         <div className="container-px mx-auto flex max-w-7xl items-center justify-between gap-4">
           {/* Logo */}
-          <Link to="/" className="flex shrink-0 items-center gap-2">
+          <Link to="/" className="flex shrink-0 items-center gap-3">
             <img
               src={logoImg}
               alt="Sleek Automotive logo"
               className={cn(
-                "h-10 w-10 rounded-xl object-cover shadow-card-soft transition-all duration-500",
-                light ? "bg-white/15 p-1 backdrop-blur" : "bg-white p-1",
+                "h-14 w-14 rounded-2xl object-cover shadow-card-soft transition-all duration-500",
+                light ? "bg-white/15 p-2 backdrop-blur" : "bg-white p-2",
               )}
             />
             <div className="flex flex-col leading-none">
@@ -210,8 +210,8 @@ export function Navbar() {
               className="fixed inset-y-0 right-0 z-[70] flex w-[88%] max-w-sm flex-col gap-4 rounded-l-3xl bg-white p-6 shadow-elegant overflow-y-auto"
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <img src={logoImg} alt="Sleek Automotive logo" className="h-9 w-9 rounded-xl object-cover" />
+                <div className="flex items-center gap-3">
+                  <img src={logoImg} alt="Sleek Automotive logo" className="h-11 w-11 rounded-2xl object-cover" />
                   <span className="text-sm font-extrabold tracking-tight text-primary">SLEEK AUTOMOTIVE</span>
                 </div>
                 <button
