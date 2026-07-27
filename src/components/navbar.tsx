@@ -1,8 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "motion/react";
 import { useState } from "react";
-import { Menu, X, Phone, Wrench, CalendarCheck, ChevronDown, Car, Truck } from "lucide-react";
+import { Menu, X, Phone, CalendarCheck, ChevronDown, Car, Truck } from "lucide-react";
 import { cn } from "@/lib/utils";
+import logoImg from "../assets/logo.png";
 
 const NAV_BASE = [
   { to: "/", label: "Home" },
@@ -50,12 +51,14 @@ export function Navbar() {
         <div className="container-px mx-auto flex max-w-7xl items-center justify-between gap-4">
           {/* Logo */}
           <Link to="/" className="flex shrink-0 items-center gap-2">
-            <div className={cn(
-              "grid h-10 w-10 place-items-center rounded-xl shadow-card-soft transition-colors duration-500",
-              light ? "bg-white/15 text-white backdrop-blur" : "bg-primary text-primary-foreground",
-            )}>
-              <Wrench className="h-5 w-5" />
-            </div>
+            <img
+              src={logoImg}
+              alt="Sleek Automotive logo"
+              className={cn(
+                "h-10 w-10 rounded-xl object-cover shadow-card-soft transition-all duration-500",
+                light ? "bg-white/15 p-1 backdrop-blur" : "bg-white p-1",
+              )}
+            />
             <div className="flex flex-col leading-none">
               <span className={cn("text-sm font-extrabold tracking-tight transition-colors duration-500", light ? "text-white" : "text-primary")}>
                 SLEEK AUTOMOTIVE
@@ -207,7 +210,10 @@ export function Navbar() {
               className="fixed inset-y-0 right-0 z-[70] flex w-[88%] max-w-sm flex-col gap-4 rounded-l-3xl bg-white p-6 shadow-elegant overflow-y-auto"
             >
               <div className="flex items-center justify-between">
-                <span className="text-sm font-extrabold tracking-tight text-primary">SLEEK AUTOMOTIVE</span>
+                <div className="flex items-center gap-2">
+                  <img src={logoImg} alt="Sleek Automotive logo" className="h-9 w-9 rounded-xl object-cover" />
+                  <span className="text-sm font-extrabold tracking-tight text-primary">SLEEK AUTOMOTIVE</span>
+                </div>
                 <button
                   onClick={() => setOpen(false)}
                   aria-label="Close menu"

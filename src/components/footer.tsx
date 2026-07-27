@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Wrench, MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter } from "lucide-react";
+import logoImg from "../assets/logo.png";
 
 export function Footer() {
   return (
@@ -12,9 +13,7 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-4">
             <div className="flex items-center gap-3">
-              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-white/10">
-                <Wrench className="h-6 w-6" />
-              </div>
+              <img src={logoImg} alt="Sleek Automotive logo" className="h-12 w-12 rounded-2xl object-cover bg-white/10 p-1" />
               <div>
                 <div className="text-base font-extrabold leading-tight">Sleek Automotive</div>
                 <div className="text-xs font-medium text-white/60">And Fleet Specialists</div>
