@@ -3,7 +3,7 @@ import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "motion/
 import { useState } from "react";
 import { Menu, X, Phone, CalendarCheck, ChevronDown, Car, Truck } from "lucide-react";
 import { cn } from "@/lib/utils";
-import logoImg from "../assets/logo.png";
+import logoImgUrl from "../assets/logo.png?url";
 
 const NAV_BASE = [
   { to: "/", label: "Home" },
@@ -52,7 +52,7 @@ export function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex shrink-0 items-center gap-3">
             <img
-              src={logoImg}
+              src={logoImgUrl}
               alt="Sleek Automotive logo"
               className={cn(
                 "h-14 w-14 rounded-2xl object-cover shadow-card-soft transition-all duration-500",
@@ -211,7 +211,7 @@ export function Navbar() {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <img src={logoImg} alt="Sleek Automotive logo" className="h-11 w-11 rounded-2xl object-cover" />
+                  <img src={logoImgUrl} alt="Sleek Automotive logo" className="h-11 w-11 rounded-2xl object-cover" />
                   <span className="text-sm font-extrabold tracking-tight text-primary">SLEEK AUTOMOTIVE</span>
                 </div>
                 <button
