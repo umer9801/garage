@@ -64,11 +64,14 @@ function ContactPage() {
   const [loading, setLoading] = useState(false);
   const [submittedName, setSubmittedName] = useState("");
   const [category, setCategory] = useState<"public" | "fleet">("public");
+  const [error, setError] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
+    setError(null);
+
     const form = e.currentTarget;
     const name = (form.elements.namedItem("name") as HTMLInputElement).value;
     const payload = {
@@ -78,16 +81,19 @@ function ContactPage() {
       reg: (form.elements.namedItem("reg") as HTMLInputElement).value,
       service: (form.elements.namedItem("service") as HTMLSelectElement).value,
       message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+      category,
     };
 
-    // Show success instantly — don't wait for DB
-    setSubmittedName(name);
-    setLoading(false);
-    setSent(true);
-    formRef.current?.reset();
-
-    // Save to DB in background (fire and forget)
-    submitContact({ data: payload }).catch(() => {});
+    try {
+      await submitContact({ data: payload });
+      setSubmittedName(name);
+      setSent(true);
+      formRef.current?.reset();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Submission failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -220,6 +226,11 @@ function ContactPage() {
           <div className="rounded-3xl bg-white p-8 shadow-card-soft ring-1 ring-border/60 sm:p-10">
             <h3 className="text-2xl font-extrabold text-ink">Send us a message</h3>
             <p className="mt-2 text-sm text-ink-soft">We typically respond within an hour during opening hours.</p>
+            {error ? (
+              <div className="mt-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+                {error}
+              </div>
+            ) : null}
             <form ref={formRef} onSubmit={handleSubmit} className="mt-7 grid gap-4 sm:grid-cols-2">
               <Field label="Full name" name="name" required />
               <Field label="Phone" name="phone" type="tel" />
@@ -272,6 +283,7 @@ function ContactPage() {
                   ))}
                 </select>
               </div>
+              <input type="hidden" name="category" value={category} />
               <div className="sm:col-span-2">
                 <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-ink-soft">How can we help?</label>
                 <textarea name="message" rows={4} className="w-full rounded-2xl border border-border bg-surface px-4 py-3.5 text-sm text-ink outline-none transition focus:border-primary focus:bg-white" />
