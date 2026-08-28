@@ -198,7 +198,7 @@ function ContactPage() {
             <ul className="mt-2 space-y-4 text-sm">
               <li className="flex gap-3">
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-[oklch(0.85_0.16_70)]" />
-                <span>Unit 4, Bolton Industrial Estate,<br />Bolton, BL1 2AB, United Kingdom</span>
+                <span>Unit 7, Walkden Business Park, Mount Skip Lane<br />Walkden, M38 9WR, United Kingdom</span>
               </li>
               <li className="flex gap-3">
                 <Phone className="mt-0.5 h-5 w-5 shrink-0 text-[oklch(0.85_0.16_70)]" />
