@@ -100,7 +100,7 @@ export function Footer() {
             </ul>
 
             <div className="mt-6 space-y-2.5 text-sm text-white/80">
-              <div className="flex gap-2.5 items-start"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[oklch(0.78_0.17_60)]" /><span>Unit 4, Bolton Industrial Estate, BL1 2AB</span></div>
+              <div className="flex gap-2.5 items-start"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[oklch(0.78_0.17_60)]" /><span>Unit 7, Walkden Business Park, Mount Skip Lane, Walkden, M38 9WR, United Kingdom</span></div>
               <div className="flex gap-2.5 items-center"><Phone className="h-4 w-4 shrink-0 text-[oklch(0.78_0.17_60)]" /><a href="tel:+441204000000" className="hover:text-white">01204 000 000</a></div>
               <div className="flex gap-2.5 items-center"><Mail className="h-4 w-4 shrink-0 text-[oklch(0.78_0.17_60)]" /><a href="mailto:info@sleekautomotive.uk" className="hover:text-white">info@sleekautomotive.uk</a></div>
               <div className="flex gap-2.5 items-center"><Clock className="h-4 w-4 shrink-0 text-[oklch(0.78_0.17_60)]" /><span>Mon–Fri 8:00–18:00 · Sat 9:00–14:00</span></div>
