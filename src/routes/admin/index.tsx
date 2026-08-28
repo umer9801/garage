@@ -410,8 +410,9 @@ function ContentPanel() {
     { label: "Phone", value: "01204 000 000" },
     { label: "Email", value: "info@sleekautomotive.uk" },
     { label: "Address", value: "Unit 4, Bolton Industrial Estate, Bolton, BL1 2AB" },
-    { label: "Hours (Weekdays)", value: "Mon–Fri 8:00–18:00" },
-    { label: "Hours (Saturday)", value: "Sat 9:00–14:00" },
+    { label: "Hours (Weekdays)", value: "Mon–Fri 9am–6pm" },
+    { label: "Hours (Saturday)", value: "Sat 9am–4pm" },
+    { label: "Hours (Sunday)", value: "Sun off" },
   ];
   return (
     <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">

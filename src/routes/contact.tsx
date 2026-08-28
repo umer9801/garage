@@ -175,7 +175,7 @@ function ContactPage() {
 
               {/* Reference note */}
               <p className="mt-6 text-xs text-ink-soft/60">
-                Sleek Automotive And Fleet Specialists · Mon–Fri 8:00–18:00 · Sat 9:00–14:00
+                Sleek Automotive And Fleet Specialists · Mon–Fri 9am–6pm · Sat 9am–4pm · Sun off
               </p>
             </motion.div>
           </motion.div>
@@ -210,7 +210,7 @@ function ContactPage() {
               </li>
               <li className="flex gap-3">
                 <Clock className="mt-0.5 h-5 w-5 shrink-0 text-[oklch(0.85_0.16_70)]" />
-                <span>Mon–Fri 8:00–18:00<br />Sat 9:00–14:00 · Sun closed</span>
+                <span>Mon–Fri 9am–6pm<br />Sat 9am–4pm · Sun off</span>
               </li>
             </ul>
             <a
