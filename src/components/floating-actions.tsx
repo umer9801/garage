@@ -20,7 +20,8 @@ export function FloatingActions() {
         />
       </div>
 
-      <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3">
+      {/* Our buttons — shifted left so BMG chat button at right:0 doesn't overlap */}
+      <div className="fixed bottom-5 right-[120px] z-40 flex flex-col items-end gap-3">
 
         {/* Chat / Book Online */}
         <a

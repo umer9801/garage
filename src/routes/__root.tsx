@@ -127,6 +127,17 @@ function RootComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isAdmin = pathname.startsWith("/admin");
 
+  // Load BMG chatbot script — it injects its own iframe at bottom:0 right:0
+  useEffect(() => {
+    if (isAdmin) return;
+    if (document.querySelector('script[data-key="emb_7e316fcec9eb42dd80907068c226467f"]')) return;
+    const script = document.createElement('script');
+    script.src = 'https://bookmygarage.com/embed/chat.js';
+    script.setAttribute('data-key', 'emb_7e316fcec9eb42dd80907068c226467f');
+    script.async = true;
+    document.body.appendChild(script);
+  }, [isAdmin]);
+
   return (
     <QueryClientProvider client={queryClient}>
       {isAdmin ? <Outlet /> : (
