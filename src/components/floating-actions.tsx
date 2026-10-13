@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react";
-import { ArrowUp, MessageCircle, Phone } from "lucide-react";
+import { ArrowUp, MessageCircle, Phone, MessagesSquare } from "lucide-react";
 
 export function FloatingActions() {
   const [show, setShow] = useState(false);
@@ -21,6 +21,22 @@ export function FloatingActions() {
       </div>
 
       <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3">
+
+        {/* Chat / Book Online */}
+        <a
+          href="https://bookmygarage.com/widget/96241fc81af444c3ac393bb18a3acd48/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="relative grid h-14 w-14 place-items-center rounded-full text-white shadow-elegant transition-transform hover:scale-110"
+          style={{ background: "linear-gradient(135deg, #1a3a5c, #0f2a45)" }}
+          aria-label="Book online"
+        >
+          <MessagesSquare className="h-6 w-6" />
+          <span className="absolute -right-1 -top-1 flex h-4 w-4">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
+            <span className="relative inline-flex h-4 w-4 rounded-full bg-amber-400" />
+          </span>
+        </a>
 
         {/* WhatsApp */}
         <a
