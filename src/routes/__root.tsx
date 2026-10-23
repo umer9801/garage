@@ -144,11 +144,23 @@ function RootComponent() {
       return;
     }
     
-    console.log("Loading BMG chatbot script...");
+    console.log("Loading BMG chatbot script...", {
+      userAgent: navigator.userAgent,
+      isMobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent),
+      screenWidth: window.innerWidth,
+    });
+    
     const script = document.createElement("script");
     script.src = "https://bookmygarage.com/embed/chat.js";
     script.setAttribute("data-key", "emb_7e316fcec9eb42dd80907068c226467f");
     script.async = true;
+    
+    // Force reload on mobile
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      script.src = `https://bookmygarage.com/embed/chat.js?t=${Date.now()}`;
+      console.log("Mobile detected - forcing fresh script load");
+    }
     
     script.onload = () => {
       console.log("✅ BMG chatbot script loaded successfully");
@@ -195,12 +207,17 @@ function RootComponent() {
           const bmgElements = document.querySelectorAll('[id*="bmg"], [class*="bmg"], iframe[src*="bookmygarage"]');
           console.log(`Found ${bmgElements.length} BMG elements:`, bmgElements);
           
+          if (bmgElements.length === 0) {
+            console.warn("⚠️ No BMG elements found - widget may not have loaded");
+          }
+          
           bmgElements.forEach((el) => {
             const element = el as HTMLElement;
             element.style.display = 'block';
             element.style.visibility = 'visible';
             element.style.opacity = '1';
             element.style.zIndex = '999999';
+            console.log("Forced visibility on element:", element.tagName, element.id || element.className);
           });
         }, 2000);
       }, 1000);
