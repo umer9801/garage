@@ -218,8 +218,6 @@ export function generateInvoiceHTML(invoice: InvoiceData): string {
       <p>Unit 7, Walkden Business Park, Mount Skip Ln, Walkden, Little Hulton, Manchester M38 9AL</p>
       <p>Phone: 01617 063 645 • Email: info@sleekautomotive.uk</p>
       <p style="margin-top: 15px;">Thank you for choosing Sleek Automotive!</p>
-      <p>Payment due within 30 days. Please make checks payable to Sleek Automotive And Fleet Specialists.</p>
-      <p>VAT Registration No: GB123456789</p>
     </div>
   </div>
 </body>
