@@ -144,6 +144,18 @@ function RootComponent() {
       return;
     }
     
+    // Mobile debugging - show console on screen
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile && window.location.search.includes('debug=1')) {
+      const erudaScript = document.createElement('script');
+      erudaScript.src = 'https://cdn.jsdelivr.net/npm/eruda';
+      erudaScript.onload = () => {
+        // @ts-ignore
+        if (window.eruda) window.eruda.init();
+      };
+      document.body.appendChild(erudaScript);
+    }
+    
     console.log("Loading BMG chatbot script...", {
       userAgent: navigator.userAgent,
       isMobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent),
@@ -156,7 +168,6 @@ function RootComponent() {
     script.async = true;
     
     // Force reload on mobile
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
       script.src = `https://bookmygarage.com/embed/chat.js?t=${Date.now()}`;
       console.log("Mobile detected - forcing fresh script load");
