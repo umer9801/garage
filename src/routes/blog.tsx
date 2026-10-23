@@ -155,50 +155,40 @@ function BlogPage() {
 
       <div className="mx-auto max-w-5xl px-6 py-16">
         {/* Latest Posts Grid */}
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredPosts.map((post) => (
             <Link
               key={post.slug}
               to={`/blog/${post.slug}`}
-              className="group overflow-hidden rounded-3xl border border-border bg-white shadow-card-soft transition hover:shadow-elegant"
+              className="group overflow-hidden rounded-2xl border border-border bg-white p-6 shadow-card-soft transition hover:shadow-elegant"
             >
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
-                />
-                <div className="absolute left-4 top-4 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white">
-                  {post.category}
-                </div>
+              <div className="mb-3 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                {post.category}
               </div>
 
-              <div className="p-6">
-                <h2 className="text-xl font-extrabold text-ink transition group-hover:text-primary">
-                  {post.title}
-                </h2>
-                <p className="mt-3 text-sm text-ink-soft">{post.excerpt}</p>
+              <h2 className="text-lg font-extrabold text-ink transition group-hover:text-primary line-clamp-2">
+                {post.title}
+              </h2>
+              <p className="mt-3 text-sm text-ink-soft line-clamp-3">{post.excerpt}</p>
 
-                <div className="mt-4 flex items-center justify-between text-xs text-ink-soft">
-                  <div className="flex items-center gap-4">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
-                      {new Date(post.date).toLocaleDateString("en-GB", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="h-4 w-4" />
-                      {post.readTime}
-                    </span>
-                  </div>
-
-                  <span className="flex items-center gap-1 font-semibold text-primary">
-                    Read More <ArrowRight className="h-4 w-4" />
+              <div className="mt-4 flex items-center justify-between text-xs text-ink-soft">
+                <div className="flex items-center gap-3">
+                  <span className="flex items-center gap-1">
+                    <Calendar className="h-3.5 w-3.5" />
+                    {new Date(post.date).toLocaleDateString("en-GB", {
+                      day: "numeric",
+                      month: "short",
+                    })}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Clock className="h-3.5 w-3.5" />
+                    {post.readTime}
                   </span>
                 </div>
+
+                <span className="flex items-center gap-1 font-semibold text-primary">
+                  Read <ArrowRight className="h-3.5 w-3.5" />
+                </span>
               </div>
             </Link>
           ))}

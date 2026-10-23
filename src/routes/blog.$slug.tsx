@@ -804,25 +804,21 @@ function BlogPostPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero */}
-      <div
-        className="relative h-96 bg-cover bg-center"
-        style={{ backgroundImage: `url(${post.image})` }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/40" />
-        <div className="relative mx-auto flex h-full max-w-4xl flex-col justify-end px-6 pb-12 text-white">
+      {/* Simple Header - No hero image */}
+      <div className="bg-gradient-to-br from-primary to-[oklch(0.22_0.06_260)] py-12 text-white">
+        <div className="mx-auto max-w-4xl px-6">
           <Link
             to="/blog"
-            className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/20 px-4 py-2 text-sm font-semibold backdrop-blur transition hover:bg-white/30"
+            className="mb-4 inline-flex items-center gap-2 text-sm text-white/80 hover:text-white"
           >
             <ArrowLeft className="h-4 w-4" /> Back to Blog
           </Link>
 
-          <div className="mb-3 inline-block w-fit rounded-full bg-primary px-4 py-1 text-xs font-semibold">
+          <div className="mb-2 inline-block rounded-full bg-white/20 px-3 py-1 text-xs font-semibold">
             {post.category}
           </div>
 
-          <h1 className="text-4xl font-extrabold md:text-5xl">{post.title}</h1>
+          <h1 className="text-3xl font-extrabold md:text-4xl">{post.title}</h1>
 
           <div className="mt-4 flex items-center gap-6 text-sm">
             <span className="flex items-center gap-2">
