@@ -153,22 +153,56 @@ function RootComponent() {
     script.onload = () => {
       console.log("✅ BMG chatbot script loaded successfully");
       
-      // Ensure chatbot widget is visible with high z-index
+      // Ensure chatbot widget is visible with high z-index and mobile-friendly positioning
       setTimeout(() => {
         const style = document.createElement("style");
         style.textContent = `
-          /* BookMyGarage chatbot widget visibility */
+          /* BookMyGarage chatbot widget visibility - Desktop & Mobile */
           iframe[src*="bookmygarage.com"] {
             z-index: 999999 !important;
+            position: fixed !important;
+            bottom: 20px !important;
+            right: 20px !important;
           }
           div[id*="bmg-chat"],
           div[class*="bmg-chat"],
+          div[id*="bmg"],
+          div[class*="bmg"],
           .bmg-widget-container {
             z-index: 999999 !important;
+            position: fixed !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+          }
+          
+          /* Mobile specific - ensure widget button is visible and touchable */
+          @media (max-width: 768px) {
+            iframe[src*="bookmygarage.com"],
+            div[id*="bmg-chat"],
+            div[class*="bmg-chat"] {
+              bottom: 100px !important;
+              right: 10px !important;
+              pointer-events: all !important;
+            }
           }
         `;
         document.head.appendChild(style);
-        console.log("BMG chatbot visibility styles applied");
+        console.log("BMG chatbot visibility styles applied (desktop + mobile)");
+        
+        // Force widget visibility check after 2 seconds
+        setTimeout(() => {
+          const bmgElements = document.querySelectorAll('[id*="bmg"], [class*="bmg"], iframe[src*="bookmygarage"]');
+          console.log(`Found ${bmgElements.length} BMG elements:`, bmgElements);
+          
+          bmgElements.forEach((el) => {
+            const element = el as HTMLElement;
+            element.style.display = 'block';
+            element.style.visibility = 'visible';
+            element.style.opacity = '1';
+            element.style.zIndex = '999999';
+          });
+        }, 2000);
       }, 1000);
     };
     
