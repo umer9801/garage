@@ -644,30 +644,42 @@ function ViewInvoiceModal({
   function handleDownload() {
     if (!invoiceHTML) return;
 
-    // Use browser print to PDF functionality
-    const printWindow = window.open("", "_blank");
+    // Open invoice in new window for PDF saving
+    const printWindow = window.open("", "_blank", "width=800,height=600");
     if (printWindow) {
-      printWindow.document.write(invoiceHTML);
-      printWindow.document.close();
-      printWindow.focus();
-      
-      // Trigger print dialog which allows "Save as PDF"
-      setTimeout(() => {
-        printWindow.print();
-        
-        // Show instruction to user
-        setTimeout(() => {
-          if (!printWindow.closed) {
-            alert(
-              `💡 To save as PDF:\n\n` +
-              `1. In the print dialog, select "Save as PDF" or "Microsoft Print to PDF"\n` +
-              `2. Click Save/Print\n` +
-              `3. Choose location and save\n\n` +
-              `File will be saved as: ${invoiceNumber}.pdf`
-            );
+      // Add print-specific styles
+      const styledHTML = invoiceHTML.replace(
+        "</head>",
+        `<style>
+          @media print {
+            @page { margin: 20mm; }
+            body { margin: 0; }
           }
-        }, 500);
-      }, 250);
+        </style>
+        <script>
+          window.addEventListener('load', () => {
+            // Auto-trigger print dialog after 1 second
+            setTimeout(() => {
+              window.print();
+            }, 1000);
+          });
+        </script>
+        </head>`
+      );
+      
+      printWindow.document.write(styledHTML);
+      printWindow.document.close();
+      
+      // Show user-friendly message
+      alert(
+        `📄 PDF Download Steps:\n\n` +
+        `A new window will open with your invoice.\n\n` +
+        `In the print dialog:\n` +
+        `1. Select "Save as PDF" (or "Microsoft Print to PDF")\n` +
+        `2. Click "Save" button\n` +
+        `3. Choose location and name: ${invoiceNumber}.pdf\n\n` +
+        `✓ Your PDF will be saved!`
+      );
     }
   }
 
