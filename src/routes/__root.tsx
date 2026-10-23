@@ -135,60 +135,18 @@ function RootComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isAdmin = pathname.startsWith("/admin");
 
-  // Load BMG chatbot script — creates "Book with Sleek Automotive" button
-  // Opens chatbot for booking appointments
+  // Load BMG chatbot script — creates floating chat button bottom-right
   useEffect(() => {
     if (isAdmin) return;
     if (document.querySelector('script[data-key="emb_7e316fcec9eb42dd80907068c226467f"]')) {
-      console.log("BMG chatbot script already loaded");
       return;
     }
-    
-    // Mobile debugging - show console on screen
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile && window.location.search.includes('debug=1')) {
-      const erudaScript = document.createElement('script');
-      erudaScript.src = 'https://cdn.jsdelivr.net/npm/eruda';
-      erudaScript.onload = () => {
-        // @ts-ignore
-        if (window.eruda) window.eruda.init();
-      };
-      document.body.appendChild(erudaScript);
-    }
-    
-    console.log("Loading BMG chatbot script...", {
-      userAgent: navigator.userAgent,
-      isMobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent),
-      screenWidth: window.innerWidth,
-    });
     
     const script = document.createElement("script");
     script.src = "https://bookmygarage.com/embed/chat.js";
     script.setAttribute("data-key", "emb_7e316fcec9eb42dd80907068c226467f");
     script.async = true;
-    
-    // Force reload on mobile
-    if (isMobile) {
-      script.src = `https://bookmygarage.com/embed/chat.js?t=${Date.now()}`;
-      console.log("Mobile detected - forcing fresh script load");
-    }
-    
-    script.onload = () => {
-      console.log("✅ BMG chatbot script loaded successfully");
-      
-      // Let BookMyGarage widget use its default positioning
-      // Removed custom CSS to prevent conflicts with widget's built-in styles
-      setTimeout(() => {
-        console.log("BMG chatbot widget loaded - using default positioning");
-      }, 1000);
-    };
-    
-    script.onerror = (error) => {
-      console.error("❌ BMG chatbot script failed to load:", error);
-    };
-    
     document.body.appendChild(script);
-    console.log("BMG chatbot script tag added to body");
   }, [isAdmin]);
 
   return (

@@ -8,6 +8,7 @@ import logoImgUrl from "../assets/logo.png?url";
 const NAV_BASE = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
+  { to: "/blog", label: "Blog" },
 ] as const;
 
 const NAV_END = [{ to: "/contact", label: "Contact" }] as const;
@@ -278,6 +279,21 @@ export function Navbar() {
                     className="block rounded-2xl px-4 py-4 text-lg font-semibold text-ink transition-colors hover:bg-surface-2 data-[status=active]:bg-primary/10 data-[status=active]:text-primary"
                   >
                     About
+                  </Link>
+                </motion.div>
+
+                {/* Blog */}
+                <motion.div
+                  initial={{ x: 30, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.12 }}
+                >
+                  <Link
+                    to="/blog"
+                    onClick={() => setOpen(false)}
+                    className="block rounded-2xl px-4 py-4 text-lg font-semibold text-ink transition-colors hover:bg-surface-2 data-[status=active]:bg-primary/10 data-[status=active]:text-primary"
+                  >
+                    Blog
                   </Link>
                 </motion.div>
 
