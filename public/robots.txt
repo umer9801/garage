@@ -1,0 +1,13 @@
+# Sleek Automotive - robots.txt
+# https://www.sleekautomotive.uk/robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+# Sitemaps
+Sitemap: https://www.sleekautomotive.uk/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
