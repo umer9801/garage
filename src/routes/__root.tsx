@@ -139,12 +139,45 @@ function RootComponent() {
   // Opens chatbot for booking appointments
   useEffect(() => {
     if (isAdmin) return;
-    if (document.querySelector('script[data-key="emb_7e316fcec9eb42dd80907068c226467f"]')) return;
+    if (document.querySelector('script[data-key="emb_7e316fcec9eb42dd80907068c226467f"]')) {
+      console.log("BMG chatbot script already loaded");
+      return;
+    }
+    
+    console.log("Loading BMG chatbot script...");
     const script = document.createElement("script");
     script.src = "https://bookmygarage.com/embed/chat.js";
     script.setAttribute("data-key", "emb_7e316fcec9eb42dd80907068c226467f");
     script.async = true;
+    
+    script.onload = () => {
+      console.log("✅ BMG chatbot script loaded successfully");
+      
+      // Ensure chatbot widget is visible with high z-index
+      setTimeout(() => {
+        const style = document.createElement("style");
+        style.textContent = `
+          /* BookMyGarage chatbot widget visibility */
+          iframe[src*="bookmygarage.com"] {
+            z-index: 999999 !important;
+          }
+          div[id*="bmg-chat"],
+          div[class*="bmg-chat"],
+          .bmg-widget-container {
+            z-index: 999999 !important;
+          }
+        `;
+        document.head.appendChild(style);
+        console.log("BMG chatbot visibility styles applied");
+      }, 1000);
+    };
+    
+    script.onerror = (error) => {
+      console.error("❌ BMG chatbot script failed to load:", error);
+    };
+    
     document.body.appendChild(script);
+    console.log("BMG chatbot script tag added to body");
   }, [isAdmin]);
 
   return (

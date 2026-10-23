@@ -21,7 +21,7 @@ export function FloatingActions() {
       </div>
 
       {/* Our buttons — shifted left (bottom-5 right-20) so BMG chat button at right:0 doesn't overlap */}
-      <div className="fixed bottom-5 right-20 z-40 flex flex-col items-end gap-3">
+      <div className="fixed bottom-5 right-20 z-[45] flex flex-col items-end gap-3">
         {/* WhatsApp */}
         <a
           href="https://wa.me/441617063645"
