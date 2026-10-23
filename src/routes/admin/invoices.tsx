@@ -644,15 +644,31 @@ function ViewInvoiceModal({
   function handleDownload() {
     if (!invoiceHTML) return;
 
-    const blob = new Blob([invoiceHTML], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${invoiceNumber}.html`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    // Use browser print to PDF functionality
+    const printWindow = window.open("", "_blank");
+    if (printWindow) {
+      printWindow.document.write(invoiceHTML);
+      printWindow.document.close();
+      printWindow.focus();
+      
+      // Trigger print dialog which allows "Save as PDF"
+      setTimeout(() => {
+        printWindow.print();
+        
+        // Show instruction to user
+        setTimeout(() => {
+          if (!printWindow.closed) {
+            alert(
+              `💡 To save as PDF:\n\n` +
+              `1. In the print dialog, select "Save as PDF" or "Microsoft Print to PDF"\n` +
+              `2. Click Save/Print\n` +
+              `3. Choose location and save\n\n` +
+              `File will be saved as: ${invoiceNumber}.pdf`
+            );
+          }
+        }, 500);
+      }, 250);
+    }
   }
 
   if (loading) {
@@ -678,26 +694,26 @@ function ViewInvoiceModal({
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-2xl bg-white shadow-2xl flex flex-col"
       >
-        <div className="flex items-center justify-between border-b border-border p-6">
-          <h2 className="text-2xl font-extrabold text-ink">Invoice: {invoiceNumber}</h2>
-          <div className="flex gap-3">
+        <div className="flex items-center justify-between border-b border-border px-6 py-4">
+          <h2 className="text-xl font-extrabold text-ink">Invoice Preview</h2>
+          <div className="flex items-center gap-2">
             <button
               onClick={handlePrint}
-              className="flex items-center gap-2 rounded-xl border-2 border-primary bg-white px-4 py-2 text-sm font-semibold text-primary transition hover:bg-primary hover:text-white"
+              className="flex items-center gap-2 rounded-lg border border-primary bg-white px-3 py-2 text-xs font-semibold text-primary transition hover:bg-primary hover:text-white"
             >
               <Printer className="h-4 w-4" />
               Print
             </button>
             <button
               onClick={handleDownload}
-              className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+              className="flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-white transition hover:opacity-90"
             >
               <Download className="h-4 w-4" />
-              Download
+              Download PDF
             </button>
             <button
               onClick={onClose}
-              className="rounded-xl border border-border px-4 py-2 text-sm font-semibold transition hover:bg-gray-50"
+              className="rounded-lg border border-border px-3 py-2 text-xs font-semibold transition hover:bg-gray-50"
             >
               Close
             </button>

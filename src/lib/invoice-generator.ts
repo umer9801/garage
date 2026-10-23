@@ -54,9 +54,9 @@ export function generateInvoiceHTML(invoice: InvoiceData): string {
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: Arial, sans-serif; padding: 40px; color: #333; }
     .invoice-container { max-width: 800px; margin: 0 auto; }
-    .header { display: flex; justify-content: space-between; margin-bottom: 40px; border-bottom: 3px solid #1a56db; padding-bottom: 20px; }
-    .company-info h1 { color: #1a56db; font-size: 28px; margin-bottom: 5px; }
-    .company-info p { font-size: 14px; color: #666; }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; border-bottom: 3px solid #1a56db; padding-bottom: 20px; }
+    .company-info h1 { color: #1a56db; font-size: 24px; margin-bottom: 0; font-weight: bold; }
+    .company-info p { font-size: 14px; color: #666; margin: 2px 0; }
     .invoice-details { text-align: right; }
     .invoice-details h2 { font-size: 32px; color: #1a56db; margin-bottom: 10px; }
     .invoice-details p { font-size: 14px; margin: 5px 0; }
@@ -95,7 +95,13 @@ export function generateInvoiceHTML(invoice: InvoiceData): string {
     <!-- Header -->
     <div class="header">
       <div class="company-info">
-        <h1>Sleek Automotive And Fleet Specialists</h1>
+        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+          <img src="/logo.png" alt="Sleek Automotive Logo" style="height: 60px; width: auto;" />
+          <div>
+            <h1 style="margin: 0;">Sleek Automotive</h1>
+            <p style="margin: 0; font-size: 13px; color: #666;">And Fleet Specialists</p>
+          </div>
+        </div>
         <p>Professional Vehicle Services</p>
         <p>Unit 7, Walkden Business Park, Mount Skip Ln</p>
         <p>Walkden, Little Hulton, Manchester M38 9AL</p>
