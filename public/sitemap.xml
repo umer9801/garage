@@ -116,4 +116,61 @@
     <priority>0.8</priority>
   </url>
   
+  <!-- Blog Articles -->
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/mot-test-checklist-2026-manchester</loc>
+    <lastmod>2026-10-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/winter-car-maintenance-tips-2026</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/electric-vehicle-servicing-guide</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/brake-problems-warning-signs</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/how-often-service-car-2026</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/diagnostic-check-engine-light-guide</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/tyre-safety-guide-2026</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/clutch-replacement-cost-guide-uk</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
 </urlset>

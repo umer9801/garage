@@ -840,7 +840,7 @@ function BlogPostPage() {
       {/* Content */}
       <article className="mx-auto max-w-4xl px-6 py-16">
         <div
-          className="prose prose-lg prose-slate max-w-none prose-headings:font-extrabold prose-h2:text-3xl prose-h2:text-ink prose-h3:text-2xl prose-h3:text-ink prose-p:text-ink-soft prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-ink prose-ul:text-ink-soft prose-ol:text-ink-soft"
+          className="blog-content"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
