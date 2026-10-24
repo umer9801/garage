@@ -9,14 +9,19 @@ import { BookingWidget } from "@/components/booking-widget";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Sleek Automotive And Fleet Specialists" },
+      { title: "About Sleek Automotive Bolton | Expert Mechanics Manchester M38" },
       {
         name: "description",
-        content:
-          "Trusted automotive care across Greater Manchester. Meet the team behind Sleek Automotive And Fleet Specialists.",
+        content: "Meet the team at Sleek Automotive. 20+ years experience in MOT testing, car servicing & repairs. Serving Bolton, Manchester, Salford & Walkden M38 area.",
       },
-      { property: "og:title", content: "About — Sleek Automotive And Fleet Specialists" },
-      { property: "og:description", content: "Trusted automotive care across Greater Manchester." },
+      { name: "keywords", content: "about Sleek Automotive Bolton, garage team Manchester, qualified mechanics, IMI certified, car service experts Walkden" },
+      { name: "robots", content: "index, follow" },
+      { property: "og:title", content: "About Sleek Automotive Bolton | Expert Mechanics" },
+      { property: "og:description", content: "Meet our expert team. 20+ years experience in MOT, servicing & repairs in Bolton, Manchester." },
+      { property: "og:url", content: "https://www.sleekautomotive.uk/about" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://www.sleekautomotive.uk/about" },
     ],
   }),
   component: AboutPage,

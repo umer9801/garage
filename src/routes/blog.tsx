@@ -5,6 +5,23 @@ import { useState } from "react";
 
 export const Route = createFileRoute("/blog")({
   component: BlogPage,
+  head: () => ({
+    meta: [
+      { title: "Automotive Blog | Car Maintenance Tips & Advice | Sleek Automotive Bolton" },
+      {
+        name: "description",
+        content: "Expert car maintenance tips, MOT guides, repair advice and automotive news from Bolton mechanics. Stay informed with Sleek Automotive blog.",
+      },
+      { name: "keywords", content: "car maintenance tips Bolton, MOT preparation guide, winter car care, brake problems, tyre safety, check engine light, clutch replacement cost" },
+      { name: "robots", content: "index, follow" },
+      { property: "og:title", content: "Automotive Blog | Sleek Automotive Bolton" },
+      { property: "og:description", content: "Expert car maintenance tips, MOT guides & repair advice from Bolton mechanics." },
+      { property: "og:url", content: "https://www.sleekautomotive.uk/blog" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://www.sleekautomotive.uk/blog" },
+    ],
+  }),
 });
 
 // SEO-optimized blog posts with trending keywords (October 2026)

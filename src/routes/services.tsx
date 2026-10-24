@@ -14,14 +14,19 @@ export const Route = createFileRoute("/services")({
   validateSearch: searchSchema,
   head: () => ({
     meta: [
-      { title: "Services — Sleek Automotive And Fleet Specialists" },
+      { title: "Car Services Bolton | MOT, Servicing, Brakes, Tyres & Repairs Manchester" },
       {
         name: "description",
-        content:
-          "Fleet management and vehicle services — MOT, servicing, repairs, diagnostics and more.",
+        content: "Complete car services in Bolton: MOT £39.99, full service £159, diagnostics, brake repair, tyre fitting, clutch & engine repairs. Fleet services available. Book now.",
       },
-      { property: "og:title", content: "Services — Sleek Automotive And Fleet Specialists" },
-      { property: "og:description", content: "Fleet and automotive services." },
+      { name: "keywords", content: "car services Bolton, MOT test price, full service Manchester, brake repair, tyre fitting, clutch replacement, fleet servicing, diagnostics Walkden" },
+      { name: "robots", content: "index, follow" },
+      { property: "og:title", content: "Car Services Bolton | MOT, Servicing & Repairs" },
+      { property: "og:description", content: "Complete car services: MOT £39.99, full service, diagnostics, brakes, tyres & repairs in Bolton, Manchester." },
+      { property: "og:url", content: "https://www.sleekautomotive.uk/services" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://www.sleekautomotive.uk/services" },
     ],
   }),
   component: ServicesLayout,

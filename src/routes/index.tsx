@@ -28,17 +28,22 @@ import { BookingWidget } from "@/components/booking-widget";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sleek Automotive And Fleet Specialists" },
+      { title: "Sleek Automotive Bolton | MOT Testing, Car Servicing & Repairs Manchester M38" },
       {
         name: "description",
         content:
-          "Expert automotive care and fleet management across Greater Manchester. Honest pricing, expert care.",
+          "Trusted garage in Bolton & Manchester. MOT from £39.99, full servicing, diagnostics, brakes, tyres & repairs. Book online or call 01617 063 645. Walkden M38 9AL.",
       },
-      { property: "og:title", content: "Sleek Automotive And Fleet Specialists" },
-      {
-        property: "og:description",
-        content: "Expert automotive care and fleet management across Greater Manchester.",
-      },
+      { name: "keywords", content: "MOT Bolton, car service Manchester, garage Walkden, MOT test near me, car repairs Bolton, brake replacement, diagnostics, tyre fitting M38" },
+      { name: "robots", content: "index, follow" },
+      { property: "og:title", content: "Sleek Automotive Bolton | MOT, Servicing & Car Repairs" },
+      { property: "og:description", content: "Trusted garage in Bolton & Manchester. MOT from £39.99, servicing, diagnostics & repairs. Book online today." },
+      { property: "og:url", content: "https://www.sleekautomotive.uk/" },
+      { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://www.sleekautomotive.uk/logo.png" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://www.sleekautomotive.uk/" },
     ],
   }),
   component: HomePage,
