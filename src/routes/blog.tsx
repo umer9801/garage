@@ -1,16 +1,17 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { SiteShell } from "@/components/site-shell";
+import { createFileRoute, Link, Outlet, useMatchRoute } from "@tanstack/react-router";
+import { Reveal, SectionHeading } from "@/components/ui-bits";
 import { Calendar, Clock, ArrowRight, Search } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/blog")({
-  component: BlogPage,
+  component: BlogLayout,
   head: () => ({
     meta: [
       { title: "Automotive Blog | Car Maintenance Tips & Advice | Sleek Automotive Bolton" },
       {
         name: "description",
-        content: "Expert car maintenance tips, MOT guides, repair advice and automotive news from Bolton mechanics. Stay informed with Sleek Automotive blog.",
+        content:
+          "Expert car maintenance tips, MOT guides, repair advice and automotive news from Bolton mechanics. Stay informed with Sleek Automotive blog.",
       },
       { name: "keywords", content: "car maintenance tips Bolton, MOT preparation guide, winter car care, brake problems, tyre safety, check engine light, clutch replacement cost" },
       { name: "robots", content: "index, follow" },
@@ -24,27 +25,29 @@ export const Route = createFileRoute("/blog")({
   }),
 });
 
-// SEO-optimized blog posts with trending keywords (October 2026)
-const blogPosts = [
+function BlogLayout() {
+  const matchRoute = useMatchRoute();
+  const isIndex = matchRoute({ to: "/blog", fuzzy: false });
+  if (!isIndex) return <Outlet />;
+  return <BlogPage />;
+}
+
+export const blogPosts = [
   {
     slug: "mot-test-checklist-2026-manchester",
-    title: "Complete MOT Test Checklist 2026 - What Bolton & Manchester Drivers Need to Know",
+    title: "Complete MOT Test Checklist 2026 — What Bolton & Manchester Drivers Need to Know",
     excerpt: "Updated MOT testing guidelines for 2026. Everything you need to know before your MOT in Bolton, Walkden, or Manchester areas.",
     category: "MOT Testing",
     date: "2026-10-15",
     readTime: "5 min",
-    image: "/hero-garage.jpg",
-    keywords: ["MOT test Bolton", "MOT Manchester", "MOT checklist 2026"],
   },
   {
     slug: "winter-car-maintenance-tips-2026",
     title: "Winter Car Maintenance Tips 2026: Prepare Your Vehicle for Cold Weather",
-    excerpt: "Essential winter preparation guide for your car. Battery checks, antifreeze, tyres, and more - keep your vehicle running smoothly this winter.",
+    excerpt: "Essential winter preparation guide for your car. Battery checks, antifreeze, tyres, and more — keep your vehicle running smoothly this winter.",
     category: "Maintenance",
     date: "2026-10-18",
     readTime: "7 min",
-    image: "/repairs.jpg",
-    keywords: ["winter car maintenance", "car battery check", "winter tyres"],
   },
   {
     slug: "electric-vehicle-servicing-guide",
@@ -53,8 +56,6 @@ const blogPosts = [
     category: "Electric Vehicles",
     date: "2026-10-12",
     readTime: "6 min",
-    image: "/diagnostics.jpg",
-    keywords: ["EV servicing", "electric car maintenance", "EV battery check"],
   },
   {
     slug: "brake-problems-warning-signs",
@@ -62,9 +63,7 @@ const blogPosts = [
     excerpt: "Don't ignore these brake warning signs. Learn when squealing, grinding, or soft pedals mean it's time for professional brake inspection.",
     category: "Brakes & Safety",
     date: "2026-10-10",
-    readTime: "4 min",
-    image: "/brakes.jpg",
-    keywords: ["brake problems", "car squealing when braking", "brake warning signs"],
+    readTime: "10 min",
   },
   {
     slug: "how-often-service-car-2026",
@@ -73,8 +72,6 @@ const blogPosts = [
     category: "Car Servicing",
     date: "2026-10-08",
     readTime: "5 min",
-    image: "/mot-inspection.jpg",
-    keywords: ["car service interval", "full service Bolton", "interim service cost"],
   },
   {
     slug: "diagnostic-check-engine-light-guide",
@@ -83,8 +80,6 @@ const blogPosts = [
     category: "Diagnostics",
     date: "2026-10-05",
     readTime: "6 min",
-    image: "/diagnostics.jpg",
-    keywords: ["check engine light", "car diagnostics Manchester", "diagnostic test"],
   },
   {
     slug: "tyre-safety-guide-2026",
@@ -93,8 +88,6 @@ const blogPosts = [
     category: "Tyres",
     date: "2026-10-03",
     readTime: "5 min",
-    image: "/tyres.jpg",
-    keywords: ["tyre safety", "tread depth check", "when to replace tyres"],
   },
   {
     slug: "clutch-replacement-cost-guide-uk",
@@ -103,149 +96,152 @@ const blogPosts = [
     category: "Repairs",
     date: "2026-10-01",
     readTime: "7 min",
-    image: "/repairs.jpg",
-    keywords: ["clutch replacement cost", "clutch problems", "clutch repair UK"],
   },
 ];
 
+const categories = ["All", ...Array.from(new Set(blogPosts.map((p) => p.category)))];
+
 function BlogPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [search, setSearch] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
 
-  const categories = ["All", ...new Set(blogPosts.map((post) => post.category))];
-
-  const filteredPosts = blogPosts.filter((post) => {
-    const matchesSearch =
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.keywords.some((kw) => kw.toLowerCase().includes(searchQuery.toLowerCase()));
-
-    const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
-
-    return matchesSearch && matchesCategory;
+  const filtered = blogPosts.filter((p) => {
+    const matchSearch =
+      p.title.toLowerCase().includes(search.toLowerCase()) ||
+      p.excerpt.toLowerCase().includes(search.toLowerCase());
+    const matchCat = activeCategory === "All" || p.category === activeCategory;
+    return matchSearch && matchCat;
   });
 
   return (
     <>
-      {/* SEO Meta Tags - handled by head.tsx */}
-      <div className="bg-gradient-to-br from-primary to-[oklch(0.22_0.06_260)] py-16 text-white">
-        <div className="mx-auto max-w-5xl px-6">
-          <h1 className="text-4xl font-extrabold md:text-5xl">
-            Sleek Automotive Blog
-          </h1>
-          <p className="mt-4 text-lg text-white/90">
-            Expert advice, maintenance tips, and automotive insights from Bolton's trusted mechanics
-          </p>
+      {/* Hero */}
+      <section className="container-px mx-auto max-w-7xl px-6 pb-10 pt-36">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Expert Advice"
+            title={
+              <>
+                Automotive tips &<br />
+                guides from Bolton.
+              </>
+            }
+            subtitle="Honest advice from our mechanics — MOT guides, maintenance tips, repair costs and more."
+          />
+        </Reveal>
 
-          {/* Search */}
-          <div className="mt-8 flex items-center gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-soft" />
+        {/* Search */}
+        <Reveal delay={0.1}>
+          <div className="mt-10 flex flex-wrap items-center gap-4">
+            <div className="relative flex-1 min-w-64">
+              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft" />
               <input
                 type="text"
-                placeholder="Search articles, tips, guides..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-full border-0 bg-white py-3 pl-12 pr-4 text-ink shadow-lg outline-none focus:ring-2 focus:ring-white/50"
+                placeholder="Search articles…"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full rounded-2xl border border-border bg-white py-3 pl-11 pr-4 text-sm outline-none transition focus:border-primary"
               />
             </div>
+            <div className="flex flex-wrap gap-2">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                    activeCategory === cat
+                      ? "bg-primary text-white"
+                      : "border border-border bg-white text-ink-soft hover:border-primary hover:text-primary"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
+        </Reveal>
+      </section>
 
-          {/* Category Filters */}
-          <div className="mt-6 flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                  selectedCategory === cat
-                    ? "bg-white text-primary"
-                    : "bg-white/20 text-white hover:bg-white/30"
-                }`}
-              >
-                {cat}
-              </button>
+      {/* Articles Grid */}
+      <section className="container-px mx-auto max-w-7xl px-6 pb-24">
+        {filtered.length === 0 ? (
+          <div className="py-20 text-center text-ink-soft">No articles found.</div>
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((post, i) => (
+              <Reveal key={post.slug} delay={i * 0.05}>
+                <Link
+                  to="/blog/$slug"
+                  params={{ slug: post.slug }}
+                  className="group flex h-full flex-col rounded-3xl bg-white p-7 shadow-card-soft ring-1 ring-border/60 transition hover:shadow-elegant"
+                >
+                  <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                    {post.category}
+                  </span>
+
+                  <h2 className="mt-4 text-lg font-extrabold leading-snug text-ink transition group-hover:text-primary line-clamp-3">
+                    {post.title}
+                  </h2>
+
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-soft line-clamp-3">
+                    {post.excerpt}
+                  </p>
+
+                  <div className="mt-5 flex items-center justify-between text-xs text-ink-soft">
+                    <div className="flex items-center gap-3">
+                      <span className="flex items-center gap-1.5">
+                        <Calendar className="h-3.5 w-3.5" />
+                        {new Date(post.date).toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "short",
+                        })}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <Clock className="h-3.5 w-3.5" />
+                        {post.readTime}
+                      </span>
+                    </div>
+                    <span className="flex items-center gap-1 font-semibold text-primary">
+                      Read <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
+                    </span>
+                  </div>
+                </Link>
+              </Reveal>
             ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="mx-auto max-w-5xl px-6 py-16">
-        {/* Latest Posts Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredPosts.map((post) => (
-            <Link
-              key={post.slug}
-              to={`/blog/${post.slug}`}
-              className="group overflow-hidden rounded-2xl border border-border bg-white p-6 shadow-card-soft transition hover:shadow-elegant"
-            >
-              <div className="mb-3 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                {post.category}
-              </div>
-
-              <h2 className="text-lg font-extrabold text-ink transition group-hover:text-primary line-clamp-2">
-                {post.title}
-              </h2>
-              <p className="mt-3 text-sm text-ink-soft line-clamp-3">{post.excerpt}</p>
-
-              <div className="mt-4 flex items-center justify-between text-xs text-ink-soft">
-                <div className="flex items-center gap-3">
-                  <span className="flex items-center gap-1">
-                    <Calendar className="h-3.5 w-3.5" />
-                    {new Date(post.date).toLocaleDateString("en-GB", {
-                      day: "numeric",
-                      month: "short",
-                    })}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Clock className="h-3.5 w-3.5" />
-                    {post.readTime}
-                  </span>
-                </div>
-
-                <span className="flex items-center gap-1 font-semibold text-primary">
-                  Read <ArrowRight className="h-3.5 w-3.5" />
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {filteredPosts.length === 0 && (
-          <div className="py-16 text-center">
-            <p className="text-ink-soft">No articles found. Try a different search or category.</p>
           </div>
         )}
 
-        {/* SEO Footer - Internal Linking */}
-        <div className="mt-16 rounded-3xl border border-border bg-surface p-8">
-          <h3 className="text-xl font-extrabold text-ink">Need Professional Service?</h3>
-          <p className="mt-2 text-sm text-ink-soft">
-            From MOT testing to full servicing, our Bolton garage is here to help. Book online or call
-            01617 063 645.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              to="/services/mot-testing"
-              className="rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white transition hover:opacity-90"
-            >
-              Book MOT
-            </Link>
-            <Link
-              to="/services/full-service"
-              className="rounded-full border border-border bg-white px-5 py-2 text-sm font-semibold text-ink transition hover:border-primary"
-            >
-              Book Service
-            </Link>
-            <Link
-              to="/contact"
-              className="rounded-full border border-border bg-white px-5 py-2 text-sm font-semibold text-ink transition hover:border-primary"
-            >
-              Contact Us
-            </Link>
+        {/* CTA */}
+        <Reveal delay={0.1}>
+          <div className="mt-20 rounded-3xl bg-gradient-to-br from-primary to-[oklch(0.22_0.06_260)] p-10 text-white">
+            <div className="flex flex-wrap items-center justify-between gap-6">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-white/60">
+                  Ready to book?
+                </p>
+                <h3 className="mt-2 text-2xl font-extrabold">Need professional service?</h3>
+                <p className="mt-2 text-white/80">
+                  Call us on <strong>01617 063 645</strong> or book online — Mon–Fri 9am–6pm, Sat 9am–4pm.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  to="/contact"
+                  className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-primary transition hover:opacity-90"
+                >
+                  Book Appointment
+                </Link>
+                <a
+                  href="tel:+441617063645"
+                  className="rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/20"
+                >
+                  01617 063 645
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </Reveal>
+      </section>
     </>
   );
 }
