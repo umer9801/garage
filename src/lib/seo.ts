@@ -233,7 +233,7 @@ export function generateLocalBusinessSchema() {
       { "@type": "City", name: "Walkden" },
       { "@type": "City", name: "Little Hulton" },
       { "@type": "City", name: "Worsley" },
-      { "@type": "City", name": "Swinton" },
+      { "@type": "City", name: "Swinton" },
     ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
