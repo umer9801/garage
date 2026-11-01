@@ -24,6 +24,7 @@ import repairsImg from "@/assets/repairs.jpg";
 import img7 from "@/assets/7.jpg";
 import { useState } from "react";
 import { BookingWidget } from "@/components/booking-widget";
+import { generateFaqSchema, toJsonLdScript } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,6 +45,11 @@ export const Route = createFileRoute("/")({
     ],
     links: [
       { rel: "canonical", href: "https://www.sleekautomotive.uk/" },
+    ],
+    scripts: [
+      {
+        children: toJsonLdScript(generateFaqSchema(FAQS)),
+      },
     ],
   }),
   component: HomePage,

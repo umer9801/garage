@@ -1,6 +1,13 @@
 ﻿import { createFileRoute, notFound } from "@tanstack/react-router";
 import { getService, SERVICES } from "@/data/services";
 import { ServicePage } from "@/components/service-page";
+import {
+  generateServiceSchema,
+  generateFaqSchema,
+  generateBreadcrumbSchema,
+  absoluteUrl,
+  toJsonLdScript,
+} from "@/lib/seo";
 
 export const Route = createFileRoute("/services/$slug")({
   loader: ({ params }) => {
@@ -10,13 +17,33 @@ export const Route = createFileRoute("/services/$slug")({
   },
   head: ({ loaderData }) => {
     const s = loaderData?.service ?? SERVICES[0];
+    const pathname = `/services/${s.slug}`;
+    const url = absoluteUrl(pathname);
+    const title = `${s.title} in Bolton & Manchester | Sleek Automotive`;
+    const description = `${s.shortDescription} Trusted garage in Walkden, Manchester M38. Book online or call 01617 063 645.`;
     return {
       meta: [
-        { title: `${s.title} — Sleek Automotive And Fleet Specialists` },
-        { name: "description", content: s.shortDescription },
-        { property: "og:title", content: `${s.title} — Sleek Automotive And Fleet Specialists` },
-        { property: "og:description", content: s.shortDescription },
-        { property: "og:image", content: s.hero },
+        { title },
+        { name: "description", content: description },
+        { name: "robots", content: "index, follow" },
+        { property: "og:type", content: "website" },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: url },
+        { property: "og:image", content: absoluteUrl(s.hero) },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          children: toJsonLdScript([
+            generateServiceSchema(s, pathname),
+            generateFaqSchema(s.faqs),
+            generateBreadcrumbSchema(pathname),
+          ]),
+        },
       ],
     };
   },

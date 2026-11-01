@@ -1,13 +1,970 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Calendar, Clock, ArrowLeft, Phone, ArrowRight } from "lucide-react";
 import { blogPosts } from "./blog";
+import {
+  generateArticleSchema,
+  generateBreadcrumbSchema,
+  absoluteUrl,
+  toJsonLdScript,
+} from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/$slug")({
+  // Resolve the article + its listing excerpt for head() and the component.
+  // We deliberately do NOT throw notFound() so the component can render its own
+  // custom blog-styled 404 rather than the generic root 404.
+  loader: ({ params }) => {
+    const post = blogContent[params.slug];
+    const listing = blogPosts.find((p) => p.slug === params.slug);
+    return { post: post ?? null, excerpt: listing?.excerpt ?? "", slug: params.slug };
+  },
+  head: ({ loaderData }) => {
+    const { post, excerpt, slug } = loaderData;
+    if (!post) {
+      return {
+        meta: [
+          { title: "Article Not Found | Sleek Automotive Bolton" },
+          { name: "robots", content: "noindex, follow" },
+        ],
+      };
+    }
+    const url = absoluteUrl(`/blog/${slug}`);
+    const description = excerpt || post.title;
+    return {
+      meta: [
+        { title: `${post.title} | Sleek Automotive Bolton` },
+        { name: "description", content: description },
+        {
+          name: "keywords",
+          content: `${post.category}, car maintenance Bolton, automotive advice, MOT guide, Sleek Automotive`,
+        },
+        { name: "robots", content: "index, follow" },
+        { property: "og:type", content: "article" },
+        { property: "og:title", content: post.title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: url },
+        { property: "og:image", content: absoluteUrl("/logo.png") },
+        { property: "article:published_time", content: post.date },
+        { property: "article:section", content: post.category },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: post.title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: absoluteUrl("/logo.png") },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          children: toJsonLdScript([
+            generateArticleSchema({
+              title: post.title,
+              description: description,
+              publishedDate: post.date,
+              image: "/logo.png",
+              slug,
+            }),
+            generateBreadcrumbSchema(`/blog/${slug}`),
+          ]),
+        },
+      ],
+    };
+  },
   component: BlogPostPage,
 });
 
 // SEO-optimized blog content with trending automotive keywords 2026
 const blogContent: Record<string, any> = {
+  "christmas-car-care-guide-2026": {
+    title: "Christmas Car Care Guide 2026: Drive Safe This Festive Season",
+    category: "Seasonal",
+    date: "2026-11-25",
+    readTime: "6 min",
+    content: `
+<h2>Don't Let Car Trouble Ruin Your Christmas</h2>
+<p>The festive season means packed schedules, family visits across Manchester and beyond, shopping trips to Bolton town centre, and long motorway drives. The last thing you need is a breakdown on the M61 with presents in the boot and relatives waiting.</p>
+
+<h3>Pre-Christmas Essential Checks</h3>
+
+<h4>1. Battery Health — The #1 Winter Killer</h4>
+<p>Cold December mornings are brutal on car batteries. A battery that starts fine in October can fail completely by Christmas Day.</p>
+<p><strong>Warning signs:</strong></p>
+<ul>
+  <li>Slow engine cranking</li>
+  <li>Dim headlights when idling</li>
+  <li>Dashboard lights flickering</li>
+  <li>Battery over 5 years old</li>
+</ul>
+<p><strong>What we do:</strong> Free 5-minute battery health test. We'll tell you if it'll survive Christmas or needs replacing now.</p>
+<p><strong>Cost to replace:</strong> £80-150 fitted. Better than a £150 Christmas Day breakdown callout.</p>
+
+<h4>2. Lights Check — Essential for Dark Evenings</h4>
+<p>December means 4pm darkness. Broken lights aren't just illegal (£100 fine per bulb) — they're dangerous on busy Manchester roads.</p>
+<p><strong>Check all lights:</strong></p>
+<ul>
+  <li>Headlights (dipped & full beam)</li>
+  <li>Brake lights (get someone to check while you press the pedal)</li>
+  <li>Indicators (front, rear, side repeaters)</li>
+  <li>Fog lights (if fitted)</li>
+  <li>Number plate lights</li>
+</ul>
+<p><strong>Quick fix:</strong> Most bulbs take 5 minutes to replace and cost £5-15.</p>
+
+<h4>3. Antifreeze & Coolant Levels</h4>
+<p>Frozen coolant can crack your engine block — a £3,000+ repair that's 100% preventable.</p>
+<p><strong>Check:</strong> Coolant reservoir should be between MIN and MAX marks. Antifreeze should protect to at least -15°C (ideally -25°C for UK winters).</p>
+<p><strong>Don't know how to check?</strong> Pop in — we'll check and top up free of charge.</p>
+
+<h4>4. Tyre Tread & Pressure</h4>
+<p>Wet, icy roads demand good tyres. Legal minimum is 1.6mm but we recommend 3mm for winter safety.</p>
+<p><strong>Quick check:</strong> 20p coin test. Insert a 20p into the tread grooves. If you can see the outer band of the coin, your tread is below 1.6mm (illegal).</p>
+<p><strong>Pressure:</strong> Cold weather drops tyre pressure. Check when tyres are cold, before driving.</p>
+
+<h4>5. Windscreen Wipers & Washer Fluid</h4>
+<p>Useless wipers + frozen washer fluid = zero visibility.</p>
+<p><strong>Replace wipers if:</strong></p>
+<ul>
+  <li>They leave streaks</li>
+  <li>Rubber is perished or torn</li>
+  <li>They're over 12 months old</li>
+</ul>
+<p><strong>Washer fluid:</strong> Use winter-grade screenwash (rated to -10°C minimum). Regular summer screenwash freezes solid.</p>
+
+<h3>Christmas Driving Kit Essentials</h3>
+<p>Keep these in your boot throughout December and January:</p>
+<ul>
+  <li><strong>Ice scraper & de-icer:</strong> Never pour hot water on frozen glass (it cracks)</li>
+  <li><strong>Jump leads or jump starter:</strong> Battery failures spike in December</li>
+  <li><strong>Blanket & warm clothes:</strong> If you break down in rural areas</li>
+  <li><strong>Torch & phone charger:</strong> Days are short, breakdowns happen in the dark</li>
+  <li><strong>First aid kit:</strong> Hope you never need it</li>
+  <li><strong>High-vis jacket:</strong> Legal requirement in some European countries if you're driving abroad</li>
+</ul>
+
+<h3>Long Christmas Journeys? Book a Pre-Trip Check</h3>
+<p>Driving to Scotland, Wales, or down south for Christmas? A 30-minute pre-trip inspection could save your holiday:</p>
+<ul>
+  <li>Battery load test</li>
+  <li>Brake inspection</li>
+  <li>Tyre condition & pressure</li>
+  <li>All fluids (oil, coolant, brake, washer)</li>
+  <li>Lights & wipers</li>
+  <li>Warning lights diagnostic</li>
+</ul>
+<p><strong>Price:</strong> £29.99 — includes written report and photo evidence of any issues.</p>
+
+<h3>Common Christmas Car Problems in Bolton/Manchester</h3>
+
+<h4>Frozen Locks</h4>
+<p>De-icer spray in your pocket (not in the car!) or warm the key with a lighter before inserting.</p>
+
+<h4>Frozen Windscreen — Inside!</h4>
+<p>Moisture trapped inside freezes overnight. Leave a window cracked overnight or use moisture absorber sachets.</p>
+
+<h4>Dead Battery After Shopping</h4>
+<p>Leaving lights on while Christmas shopping kills batteries fast. Double-check before walking away.</p>
+
+<h4>Overloaded Car</h4>
+<p>Presents, suitcases, kids, relatives — don't exceed your car's weight limit. Check the manual. Overloading affects braking distance and handling.</p>
+
+<h3>Christmas Week Opening Hours</h3>
+<p><strong>Sleek Automotive — Walkden, Manchester M38 9AL</strong></p>
+<ul>
+  <li><strong>Mon 23rd Dec:</strong> 9am - 6pm</li>
+  <li><strong>Tue 24th Dec (Christmas Eve):</strong> 9am - 2pm</li>
+  <li><strong>Wed 25th Dec (Christmas Day):</strong> CLOSED</li>
+  <li><strong>Thu 26th Dec (Boxing Day):</strong> CLOSED</li>
+  <li><strong>Fri 27th Dec:</strong> 9am - 6pm</li>
+  <li><strong>Mon 30th Dec:</strong> 9am - 6pm</li>
+  <li><strong>Tue 31st Dec (New Year's Eve):</strong> 9am - 2pm</li>
+  <li><strong>Wed 1st Jan (New Year's Day):</strong> CLOSED</li>
+</ul>
+
+<h3>Emergency Breakdown Numbers</h3>
+<p>If the worst happens:</p>
+<ul>
+  <li><strong>AA:</strong> 0800 88 77 66</li>
+  <li><strong>RAC:</strong> 0333 2000 999</li>
+  <li><strong>Green Flag:</strong> 0345 246 2004</li>
+  <li><strong>Motorway Emergency:</strong> Use orange SOS phones every mile</li>
+</ul>
+
+<h3>Book Your Christmas Check Today</h3>
+<p>Don't risk it. A 30-minute check now beats a 3-hour breakdown on Christmas Eve.</p>
+<p><strong>Call 01617 063 645</strong> or book online. Same-day appointments available until December 20th.</p>
+<p>Merry Christmas and safe driving from everyone at Sleek Automotive! 🎄</p>
+    `,
+  },
+  "new-year-mot-deadline-2027": {
+    title: "New Year MOT Deadline: Don't Start 2027 With a Fine",
+    category: "MOT Testing",
+    date: "2026-11-20",
+    readTime: "5 min",
+    content: `
+<h2>January MOT Deadline Crunch — Are You Ready?</h2>
+<p>If your MOT expires in January 2027, you're not alone. January is the UK's busiest month for MOT tests — approximately 2.3 million vehicles have January expiry dates.</p>
+
+<p><strong>The problem?</strong> Garages are fully booked. Wait too long and you'll be driving illegally, risking fines, points, and insurance invalidation.</p>
+
+<h3>MOT Myths Busted</h3>
+
+<h4>Myth: "I can drive for a month after my MOT expires"</h4>
+<p><strong>FALSE.</strong> The moment your MOT expires, it's illegal to drive — even to a garage for a test (unless you have a pre-booked appointment).</p>
+
+<h4>Myth: "My insurance covers me without an MOT"</h4>
+<p><strong>FALSE.</strong> No MOT = invalid insurance. If you have an accident, your insurer will refuse to pay out. You'll be personally liable for all damages, injuries, legal costs.</p>
+
+<h4>Myth: "I won't get caught"</h4>
+<p><strong>WRONG.</strong> Police ANPR cameras flag expired MOTs instantly. You can be stopped and fined £1,000 on the spot.</p>
+
+<h3>The Real Penalties</h3>
+
+<h4>Driving Without Valid MOT</h4>
+<ul>
+  <li><strong>On-the-spot fine:</strong> Up to £1,000</li>
+  <li><strong>Court summons:</strong> If serious defects found, fine up to £2,500</li>
+  <li><strong>Points:</strong> None for MOT alone, but 3 points per dangerous defect</li>
+  <li><strong>Insurance void:</strong> You're personally liable for all accident costs</li>
+  <li><strong>Vehicle seizure:</strong> Police can impound your car</li>
+</ul>
+
+<h4>Real Case from 2025</h4>
+<p>A Bolton driver with an expired MOT caused a minor accident on the M61. Insurance refused to cover the £12,000 damage bill. The court added a £1,500 fine for no MOT. Total cost: <strong>£13,500</strong>. An MOT test costs <strong>£39.99</strong>.</p>
+
+<h3>When to Book Your January MOT</h3>
+
+<h4>If Your MOT Expires Between Jan 1-10</h4>
+<p><strong>Book NOW.</strong> Slots are filling fast. You can take your MOT up to a month early and it'll be added to your current expiry date (you don't lose time).</p>
+
+<h4>If Your MOT Expires Between Jan 11-20</h4>
+<p><strong>Book this week.</strong> By mid-December, garages are fully booked for early January.</p>
+
+<h4>If Your MOT Expires After Jan 20</h4>
+<p><strong>Book before Christmas.</strong> January post-holiday rush starts Jan 2nd.</p>
+
+<h3>Smart Booking Strategy</h3>
+<p><strong>Test early, drive legally:</strong> You can take your MOT up to 1 month before expiry. The new certificate starts from your old expiry date, not the test date. You lose no time.</p>
+
+<p><strong>Example:</strong></p>
+<ul>
+  <li>Current MOT expires: 15 January 2027</li>
+  <li>Test taken: 20 December 2026 (26 days early)</li>
+  <li>New certificate valid from: 15 January 2027</li>
+  <li>New expiry: 14 January 2028</li>
+</ul>
+
+<h3>What If I Fail?</h3>
+<p>At Sleek Automotive Bolton:</p>
+<ul>
+  <li><strong>Free retest</strong> if you return within 10 working days</li>
+  <li><strong>Same-day repairs</strong> for most failures</li>
+  <li><strong>Clear explanation</strong> with photos of issues</li>
+  <li><strong>No surprise costs</strong> — fixed price quote before work starts</li>
+</ul>
+
+<h3>Common January MOT Failures</h3>
+<p>Winter takes its toll. These are the top failures we see in January:</p>
+
+<h4>1. Lighting Faults (32%)</h4>
+<p>Bulbs fail in cold weather. Brake lights, indicators, headlights.</p>
+<p><strong>Quick fix:</strong> £5-15 per bulb, fitted in 5 minutes.</p>
+
+<h4>2. Tyre Issues (21%)</h4>
+<p>Tread worn below 1.6mm, cracks from cold, incorrect pressure.</p>
+<p><strong>Fix:</strong> Budget tyres from £45 fitted.</p>
+
+<h4>3. Brake Problems (18%)</h4>
+<p>Worn pads, corroded discs, contaminated fluid.</p>
+<p><strong>Fix:</strong> Pads from £80, discs from £120.</p>
+
+<h4>4. Suspension (12%)</h4>
+<p>Potholes and speed bumps damage shock absorbers and springs.</p>
+<p><strong>Fix:</strong> Depends on component, from £100.</p>
+
+<h4>5. Emissions (9%)</h4>
+<p>DPF issues, faulty lambda sensors, exhaust leaks.</p>
+<p><strong>Fix:</strong> Diagnostic £45, repairs vary.</p>
+
+<h3>Free Pre-MOT Check</h3>
+<p>Not sure if your car will pass? Bring it in for a free pre-MOT inspection:</p>
+<ul>
+  <li>All lights tested</li>
+  <li>Tyre tread measured</li>
+  <li>Brake condition checked</li>
+  <li>Exhaust smoke test</li>
+  <li>Fluid levels inspected</li>
+</ul>
+<p>We'll tell you exactly what needs fixing <em>before</em> your official MOT. No surprises, no wasted test fees.</p>
+
+<h3>MOT + Service Deals</h3>
+<p>Start 2027 right with our January packages:</p>
+
+<h4>MOT + Interim Service: £119</h4>
+<p>(Save £20 vs separate bookings)</p>
+<ul>
+  <li>MOT test</li>
+  <li>Oil & filter change</li>
+  <li>Fluid top-ups</li>
+  <li>Brake inspection</li>
+  <li>Tyre check</li>
+</ul>
+
+<h4>MOT + Full Service: £179</h4>
+<p>(Save £30)</p>
+<ul>
+  <li>MOT test</li>
+  <li>50-point service</li>
+  <li>Air filter replacement</li>
+  <li>Spark plugs (if due)</li>
+  <li>Full diagnostic scan</li>
+</ul>
+
+<h3>Book Your January MOT Today</h3>
+<p>Don't risk fines, insurance issues, or last-minute panic.</p>
+
+<p><strong>Online booking:</strong> www.sleekautomotive.uk/contact</p>
+<p><strong>Call direct:</strong> 01617 063 645</p>
+<p><strong>Walk-in:</strong> Unit 7, Walkden Business Park, Manchester M38 9AL</p>
+
+<p><strong>Opening hours:</strong></p>
+<ul>
+  <li>Mon-Fri: 9am - 6pm</li>
+  <li>Saturday: 9am - 4pm</li>
+  <li>Sunday: Closed</li>
+</ul>
+
+<p>We're DVSA approved, fully insured, and we've tested over 15,000 vehicles since 2018.</p>
+
+<h3>Already Expired? Here's What to Do</h3>
+<p><strong>DO NOT drive your car.</strong> Even to a garage is illegal without a pre-booked test appointment.</p>
+
+<p><strong>Step 1:</strong> Call us on 01617 063 645</p>
+<p><strong>Step 2:</strong> We'll book an emergency MOT slot (often same-day)</p>
+<p><strong>Step 3:</strong> Drive <em>directly</em> to us for the test (this is the only legal journey)</p>
+<p><strong>Step 4:</strong> We'll test and repair (if needed) same day</p>
+
+<p>Don't leave it until New Year's Day. Book now. Drive legally. Start 2027 right.</p>
+    `,
+  },
+  "fleet-mot-compliance-2027": {
+    title: "Fleet MOT Compliance 2027: Avoid £2,500 Per-Vehicle Fines",
+    category: "Fleet Management",
+    date: "2026-11-15",
+    readTime: "8 min",
+    content: `
+<h2>DVSA Enforcement Is Ramping Up — Is Your Fleet Compliant?</h2>
+<p>In 2026, DVSA issued over £47 million in fleet operator fines. New 2027 enforcement targets mean more roadside checks, stricter penalties, and harsher court action for non-compliance.</p>
+
+<p>If you operate 3+ commercial vehicles in Greater Manchester, this affects you.</p>
+
+<h3>The New 2027 Rules</h3>
+
+<h4>1. Digital MOT Tracking (Mandatory from 1 Jan 2027)</h4>
+<p>All fleet operators must maintain digital records of:</p>
+<ul>
+  <li>MOT expiry dates for every vehicle</li>
+  <li>Pre-MOT safety inspection records</li>
+  <li>Repair and maintenance logs</li>
+  <li>Driver defect reports</li>
+</ul>
+<p><strong>Penalty for non-compliance:</strong> £1,000 per vehicle + possible Operator Licence suspension.</p>
+
+<h4>2. 6-Week Safety Inspections (Vehicles Over 3.5 Tonnes)</h4>
+<p>Statutory requirement. Must be conducted by qualified technician and recorded digitally.</p>
+<p><strong>What's checked:</strong> Brakes, tyres, lights, steering, suspension, body condition.</p>
+<p><strong>Penalty:</strong> £2,500 per vehicle + 5 prohibition notices on Operator Licence.</p>
+
+<h4>3. Immediate Prohibition Powers</h4>
+<p>DVSA examiners can now issue immediate roadside prohibitions if:</p>
+<ul>
+  <li>MOT expired</li>
+  <li>Dangerous defects found</li>
+  <li>No inspection records available</li>
+</ul>
+<p><strong>Result:</strong> Vehicle impounded on the spot. You pay recovery + storage + fines before release.</p>
+
+<h3>Real Case Studies from 2026</h3>
+
+<h4>Case 1: Manchester Delivery Company</h4>
+<p><strong>Offence:</strong> 7 vans with expired MOTs, no maintenance records</p>
+<p><strong>Penalty:</strong></p>
+<ul>
+  <li>£17,500 in fines (£2,500 × 7)</li>
+  <li>6-month Operator Licence suspension</li>
+  <li>Director disqualified from holding O-Licence for 2 years</li>
+  <li>Business lost major contracts</li>
+</ul>
+<p><strong>Total cost:</strong> Over £200,000 in lost revenue.</p>
+
+<h4>Case 2: Bolton Construction Firm</h4>
+<p><strong>Offence:</strong> Roadside check found vehicle with failed MOT still in use</p>
+<p><strong>Penalty:</strong></p>
+<ul>
+  <li>£2,500 fine</li>
+  <li>£600 impound fee</li>
+  <li>£35/day storage (7 days = £245)</li>
+  <li>£1,200 emergency repairs before release</li>
+  <li>2 prohibition notices on O-Licence</li>
+</ul>
+<p><strong>One vehicle, one mistake: £4,545</strong></p>
+
+<h3>Your Fleet Compliance Checklist</h3>
+
+<h4>Monthly</h4>
+<ul>
+  <li>Review MOT expiry dates (book tests 4 weeks ahead)</li>
+  <li>Check driver defect reports</li>
+  <li>Update maintenance logs</li>
+  <li>Review prohibition/advisory notices</li>
+</ul>
+
+<h4>Every 6 Weeks (Vehicles Over 3.5t)</h4>
+<ul>
+  <li>Statutory safety inspection by qualified technician</li>
+  <li>Digital record with photos</li>
+  <li>Rectify any defects within 7 days</li>
+</ul>
+
+<h4>Annually</h4>
+<ul>
+  <li>MOT test (book 1 month early to avoid gaps)</li>
+  <li>Operator Licence compliance audit</li>
+  <li>Driver training records updated</li>
+</ul>
+
+<h3>Sleek Automotive Fleet Services</h3>
+
+<h4>Digital Fleet Management Portal</h4>
+<p>We provide FREE access to your fleet dashboard:</p>
+<ul>
+  <li>MOT expiry alerts (30, 14, 7 days before)</li>
+  <li>Inspection schedule tracker</li>
+  <li>Digital inspection reports with photos</li>
+  <li>Maintenance history per vehicle</li>
+  <li>DVSA-compliant record keeping</li>
+  <li>Downloadable audit reports</li>
+</ul>
+
+<h4>Block MOT Booking</h4>
+<p>Test multiple vehicles in one visit:</p>
+<ul>
+  <li>Out-of-hours slots (6am-8am, 6pm-8pm)</li>
+  <li>Weekend availability</li>
+  <li>Same-day repair turnaround</li>
+  <li>Fleet discount pricing</li>
+  <li>Single consolidated invoice</li>
+</ul>
+
+<h4>6-Week Inspection Service</h4>
+<p>Qualified IMI Level 3 technicians conduct statutory checks:</p>
+<ul>
+  <li>Fixed £45 per vehicle</li>
+  <li>Full photo documentation</li>
+  <li>Digital certificate</li>
+  <li>Defect rectification same-day (if needed)</li>
+  <li>DVSA-compliant reporting</li>
+</ul>
+
+<h4>Mobile Fleet Inspections</h4>
+<p>We come to your depot (5+ vehicles):</p>
+<ul>
+  <li>On-site MOT pre-checks</li>
+  <li>6-week inspections conducted at your premises</li>
+  <li>Minor repairs done on-site</li>
+  <li>Major repairs — we take vehicle to our workshop and return same-day</li>
+</ul>
+
+<h3>Fleet Pricing (2027 Rates)</h3>
+
+<h4>3-10 Vehicles</h4>
+<ul>
+  <li>MOT: £37 per vehicle (save £2.99 each)</li>
+  <li>Full Service: £149 (save £10)</li>
+  <li>6-Week Inspection: £45</li>
+</ul>
+
+<h4>11-25 Vehicles</h4>
+<ul>
+  <li>MOT: £35 per vehicle</li>
+  <li>Full Service: £139</li>
+  <li>6-Week Inspection: £42</li>
+  <li>Priority booking guaranteed</li>
+  <li>Dedicated account manager</li>
+</ul>
+
+<h4>26+ Vehicles</h4>
+<ul>
+  <li>Custom pricing package</li>
+  <li>Out-of-hours workshop access</li>
+  <li>Quarterly compliance reviews</li>
+  <li>Driver training sessions</li>
+  <li>24/7 breakdown priority</li>
+</ul>
+
+<h3>Operator Licence Risk Assessment</h3>
+<p>We offer free O-Licence compliance audits:</p>
+<ul>
+  <li>Review your current maintenance systems</li>
+  <li>Identify gaps in record-keeping</li>
+  <li>Recommend digital solutions</li>
+  <li>Provide DVSA-compliant templates</li>
+  <li>Train your transport manager</li>
+</ul>
+
+<h3>What Happens During a Roadside Check?</h3>
+<p>DVSA can stop any commercial vehicle and demand:</p>
+<ul>
+  <li>Valid MOT certificate (digital is fine)</li>
+  <li>Last 6-week inspection report</li>
+  <li>Maintenance records (last 15 months)</li>
+  <li>Driver defect reports (last 6 weeks)</li>
+  <li>Operator Licence details</li>
+</ul>
+
+<p><strong>Can't produce records?</strong> Immediate prohibition. Vehicle impounded. You pay all costs.</p>
+
+<h3>Driver Responsibilities</h3>
+<p>Your drivers must:</p>
+<ul>
+  <li>Complete daily walk-around checks</li>
+  <li>Report defects immediately</li>
+  <li>Check MOT expiry before driving</li>
+  <li>Refuse to drive illegal vehicles</li>
+</ul>
+
+<p><strong>Driver driving without valid MOT knowingly:</strong> Personal fine up to £1,000 + penalty points.</p>
+
+<h3>January 2027 Fleet Deadlines</h3>
+<p>If any vehicles have January MOT expiries, book NOW:</p>
+<ul>
+  <li>Early January (1-10): Book by Dec 1st</li>
+  <li>Mid January (11-20): Book by Dec 10th</li>
+  <li>Late January (21-31): Book by Dec 20th</li>
+</ul>
+
+<p><strong>We offer block bookings:</strong> Test 5 vans in one morning, all done by lunch.</p>
+
+<h3>Emergency Fleet Support</h3>
+<p>MOT expired on a vehicle still in use?</p>
+
+<p><strong>DO NOT drive it.</strong> Call us immediately:</p>
+<ul>
+  <li>Emergency MOT slots (often same-day)</li>
+  <li>Collection service available</li>
+  <li>Fast-track repairs</li>
+  <li>Certificate issued digitally same-day</li>
+</ul>
+
+<h3>Get Your Fleet Compliant for 2027</h3>
+<p><strong>Call our fleet team:</strong> 01617 063 645 (ask for Mark)</p>
+<p><strong>Email:</strong> fleet@sleekautomotive.uk</p>
+<p><strong>Visit:</strong> Unit 7, Walkden Business Park, Manchester M38 9AL</p>
+
+<p>We manage fleets from 3 to 300 vehicles across Greater Manchester, Lancashire, and Cheshire.</p>
+
+<p>Don't risk your Operator Licence. Don't risk £2,500 fines. Let us handle your compliance.</p>
+    `,
+  },
+  "january-car-service-deals-bolton": {
+    title: "January Car Service Deals Bolton: Start 2027 Right",
+    category: "Special Offers",
+    date: "2026-11-10",
+    readTime: "4 min",
+    content: `
+<h2>New Year, New Service Deals at Sleek Automotive</h2>
+<p>January is the perfect time to get your car serviced. Christmas is over, the roads are quiet, and we've got exclusive deals to kick off 2027.</p>
+
+<h3>January 2027 Special Offers</h3>
+
+<h4>Full Service — £149 (Save £20)</h4>
+<p><strong>Usually £169, now £149 throughout January</strong></p>
+
+<p><strong>What's included:</strong></p>
+<ul>
+  <li>Engine oil change (up to 5 litres, quality 5W-30 or 10W-40)</li>
+  <li>Oil filter replacement</li>
+  <li>Air filter replacement</li>
+  <li>Cabin pollen filter (if fitted)</li>
+  <li>50-point inspection covering:</li>
+  <ul>
+    <li>All fluid levels (brake, coolant, washer, power steering)</li>
+    <li>Brake pad thickness & disc condition</li>
+    <li>Tyre tread depth & pressure (all 4 wheels inc. spare)</li>
+    <li>Suspension & shock absorbers</li>
+    <li>Exhaust system integrity</li>
+    <li>All lights & indicators</li>
+    <li>Battery health test</li>
+    <li>Wiper blade condition</li>
+    <li>Steering play & alignment check</li>
+  </ul>
+  <li>Full diagnostic scan (check for hidden fault codes)</li>
+  <li>Digital inspection report emailed with photos</li>
+  <li>12-month parts warranty</li>
+  <li>Service history stamp (maintains resale value)</li>
+</ul>
+
+<h4>MOT + Full Service — £179 (Save £30)</h4>
+<p><strong>Our most popular January package</strong></p>
+
+<p>Get your MOT and full service done in one visit. If your MOT expires in Q1 2027 (Jan/Feb/Mar), this is the deal for you.</p>
+
+<p><strong>Everything in Full Service PLUS:</strong></p>
+<ul>
+  <li>Full DVSA-approved MOT test</li>
+  <li>Free retest if needed (return within 10 days)</li>
+  <li>MOT advisory items checked during service</li>
+  <li>Priority repairs if MOT failures found</li>
+</ul>
+
+<h4>Winter Health Check — £29 (Usually £45)</h4>
+<p>Perfect if you've already had your service but want peace of mind for winter driving.</p>
+
+<p><strong>Includes:</strong></p>
+<ul>
+  <li>Battery load test (tells you if it'll survive winter)</li>
+  <li>Antifreeze concentration check (protection to what temp?)</li>
+  <li>Tyre tread depth measurement (all 4 wheels)</li>
+  <li>Tyre pressure adjustment</li>
+  <li>All lights tested</li>
+  <li>Wiper blade inspection</li>
+  <li>Brake pad thickness check</li>
+  <li>Free winter screenwash top-up</li>
+  <li>Written report with recommendations</li>
+</ul>
+
+<h4>New Year Oil Change — £69</h4>
+<p>Quick service for cars not due a full service yet.</p>
+<ul>
+  <li>Oil change (up to 5L quality oil)</li>
+  <li>Oil filter replacement</li>
+  <li>Fluid level checks</li>
+  <li>Tyre pressure check</li>
+  <li>Visual brake inspection</li>
+  <li>Takes 30-45 minutes</li>
+</ul>
+
+<h3>Why Service in January?</h3>
+
+<h4>1. Quieter Roads = Faster Turnaround</h4>
+<p>December is chaos. February fills up fast. January is the sweet spot — quieter workshops mean we can often complete same-day.</p>
+
+<h4>2. Post-Christmas MOT Rush</h4>
+<p>Combine your service with an early MOT (if expiring in Jan/Feb/Mar) and beat the rush.</p>
+
+<h4>3. Winter Wear & Tear Check</h4>
+<p>December's cold snaps, icy roads, and Christmas driving take their toll. A January service catches problems before they become expensive.</p>
+
+<h4>4. Protect Resale Value</h4>
+<p>Full service history adds £1,000-2,000 to resale value. January service = fresh stamp in your book = higher price when you sell.</p>
+
+<h3>What Customers Say</h3>
+<p><em>"Booked the MOT + Service deal. Car passed MOT first time and drives smoother than it has in months. Great value." — Sarah M., Bolton</em></p>
+
+<p><em>"Winter health check found my battery was on its way out. They replaced it same day. Saved me from a breakdown during the cold snap." — James R., Manchester</em></p>
+
+<h3>How to Book Your January Deal</h3>
+
+<h4>Option 1: Book Online (Fastest)</h4>
+<p>Visit <strong>www.sleekautomotive.uk/contact</strong></p>
+<ul>
+  <li>Choose your service type</li>
+  <li>Pick your date & time</li>
+  <li>Enter code <strong>JAN2027</strong> for discount</li>
+  <li>Confirm booking</li>
+</ul>
+
+<h4>Option 2: Call Us</h4>
+<p><strong>01617 063 645</strong></p>
+<ul>
+  <li>Monday-Friday: 9am - 6pm</li>
+  <li>Saturday: 9am - 4pm</li>
+  <li>Mention "January deal" when booking</li>
+</ul>
+
+<h4>Option 3: Walk-In</h4>
+<p><strong>Sleek Automotive</strong><br>
+Unit 7, Walkden Business Park<br>
+Mount Skip Lane<br>
+Walkden, Little Hulton<br>
+Manchester M38 9AL</p>
+
+<h3>Add-On Services (January Discounts)</h3>
+
+<h4>Air Conditioning Service — £49 (Save £10)</h4>
+<p>Re-gas, leak test, and performance check. Normally £59, January price £49.</p>
+
+<h4>Brake Fluid Change — £49 (Save £10)</h4>
+<p>Recommended every 2 years. Fresh fluid improves braking performance.</p>
+
+<h4>Four Wheel Alignment — £39 (Save £6)</h4>
+<p>Prevents uneven tyre wear. Improves handling. Increases MPG.</p>
+
+<h3>Free Services with Every Booking</h3>
+<p>Regardless of which package you choose:</p>
+<ul>
+  <li>Free vehicle collection within 5 miles (if you can't drop off)</li>
+  <li>Free courtesy car (subject to availability, book ahead)</li>
+  <li>Free wifi & refreshments in waiting area</li>
+  <li>Free digital inspection report with photos</li>
+  <li>12-month warranty on all parts</li>
+</ul>
+
+<h3>Terms & Conditions</h3>
+<ul>
+  <li>Offers valid 1st - 31st January 2027</li>
+  <li>Not valid with any other offers</li>
+  <li>Discounts applied at time of booking</li>
+  <li>Standard T&Cs apply</li>
+  <li>Oil upgrade to fully synthetic +£20</li>
+  <li>Diesel vehicles may incur surcharge (we'll confirm at booking)</li>
+</ul>
+
+<h3>Don't Miss Out</h3>
+<p>January slots fill up fast (especially weekends). Book early to secure your preferred date.</p>
+
+<p><strong>Call 01617 063 645 or book online today.</strong></p>
+
+<p>Start 2027 with a healthy car and money in your pocket. Happy New Year from Sleek Automotive! 🎉</p>
+    `,
+  },
+  "black-ice-driving-safety-tips": {
+    title: "Black Ice Driving Safety: Essential Winter Tips for Manchester Roads",
+    category: "Safety",
+    date: "2026-11-05",
+    readTime: "7 min",
+    content: `
+<h2>Black Ice: The Invisible Winter Killer on UK Roads</h2>
+<p>Black ice causes over 3,000 accidents every winter in the UK. It's called "black ice" not because it's black, but because it's transparent — you can't see it until it's too late.</p>
+
+<p>Manchester, Bolton, and Greater Manchester roads are particularly vulnerable between November and March. Here's how to stay safe.</p>
+
+<h3>What Is Black Ice?</h3>
+<p>Black ice is a thin, transparent layer of ice that forms on road surfaces. It looks like wet pavement but it's actually solid ice.</p>
+
+<p><strong>How it forms:</strong></p>
+<ul>
+  <li>Light rain or drizzle lands on frozen roads</li>
+  <li>Temperatures drop below freezing (0°C)</li>
+  <li>Water instantly freezes into a glass-smooth ice layer</li>
+  <li>Road looks wet, not icy</li>
+</ul>
+
+<p><strong>Most dangerous times:</strong></p>
+<ul>
+  <li><strong>Early morning:</strong> 5am - 8am (overnight freeze)</li>
+  <li><strong>Late evening:</strong> 10pm onwards (temperature drops)</li>
+  <li><strong>After rain:</strong> When temps drop below zero after wet weather</li>
+</ul>
+
+<h3>Where Black Ice Forms (Manchester Area)</h3>
+
+<h4>High-Risk Locations</h4>
+<ul>
+  <li><strong>Bridges & overpasses:</strong> M60, M61, M62 bridges freeze first (cold air above AND below)</li>
+  <li><strong>Shaded areas:</strong> Tree-lined roads in Bolton, Walkden, Worsley (sun never reaches tarmac)</li>
+  <li><strong>Under bridges:</strong> A580 East Lancs Road, A6 near Salford</li>
+  <li><strong>Near water:</strong> Roads near canals, rivers (higher humidity)</li>
+  <li><strong>Country lanes:</strong> Rural areas around Bolton, Horwich (no gritting)</li>
+</ul>
+
+<h4>Roads That Freeze First</h4>
+<ul>
+  <li>M61 junction 5-6 (elevated sections)</li>
+  <li>M60 junctions 12-15 (exposed sections)</li>
+  <li>A580 East Lancashire Road (tree cover + elevation changes)</li>
+  <li>A666 Bolton Road (shaded morning sections)</li>
+  <li>Back roads between Walkden - Worsley - Swinton</li>
+</ul>
+
+<h3>How to Spot Black Ice</h3>
+
+<h4>Visual Clues</h4>
+<ul>
+  <li><strong>Shiny road surface:</strong> Looks wet but with a glossy sheen</li>
+  <li><strong>No spray from other cars:</strong> If it's wet, you'd see spray. No spray = ice.</li>
+  <li><strong>Dark patches:</strong> Ironically, black ice appears darker than surrounding dry road</li>
+  <li><strong>Other cars sliding:</strong> If the car ahead wobbles, swerves, or brakes oddly, assume ice</li>
+</ul>
+
+<h4>Temperature Clue</h4>
+<p>Check your car's external temp display:</p>
+<ul>
+  <li><strong>Below 2°C:</strong> High risk of black ice</li>
+  <li><strong>0°C or below:</strong> Assume any wet-looking road is ice</li>
+  <li><strong>Minus figures:</strong> Extreme caution required</li>
+</ul>
+
+<h3>How to Drive Safely on Black Ice</h3>
+
+<h4>Before You Set Off</h4>
+<ul>
+  <li><strong>Check weather:</strong> BBC Weather or Met Office — look for "ice warnings"</li>
+  <li><strong>Check tyres:</strong> Minimum 3mm tread (legal is 1.6mm but that's not enough for ice)</li>
+  <li><strong>Clear ALL windows:</strong> Not just a peephole — full 360° visibility</li>
+  <li><strong>Plan route:</strong> Stick to main roads (gritted) and avoid rural shortcuts</li>
+</ul>
+
+<h4>Driving Technique on Ice</h4>
+<p><strong>1. Slow Down (Seriously)</strong></p>
+<p>On black ice, your stopping distance increases by <strong>10x</strong>. At 30mph, you need 230 metres to stop (2.5 football pitches).</p>
+<ul>
+  <li>Reduce speed by at least 50%</li>
+  <li>If speed limit is 60mph, drive at 30mph</li>
+  <li>If limit is 30mph, drive at 20mph</li>
+</ul>
+
+<p><strong>2. Gentle Inputs</strong></p>
+<ul>
+  <li><strong>Steering:</strong> Smooth, gradual movements. No sudden turns.</li>
+  <li><strong>Acceleration:</strong> Gentle pressure. No hard throttle.</li>
+  <li><strong>Braking:</strong> Feather the brakes. Pump gently if no ABS.</li>
+</ul>
+
+<p><strong>3. Increase Following Distance</strong></p>
+<ul>
+  <li>Normal conditions: 2-second gap</li>
+  <li>Black ice conditions: 10-second gap minimum</li>
+  <li>Count seconds between the car ahead passing a landmark and you reaching it</li>
+</ul>
+
+<p><strong>4. Use Highest Gear Possible</strong></p>
+<ul>
+  <li>Start in 2nd gear (reduces wheel spin)</li>
+  <li>Change up early to reduce torque at wheels</li>
+  <li>Less engine power = less chance of skidding</li>
+</ul>
+
+<p><strong>5. No Cruise Control</strong></p>
+<p>Cruise control can accelerate when it detects speed drop (from a skid). You need full manual control.</p>
+
+<h3>What to Do If You Hit Black Ice</h3>
+
+<h4>If Car Starts to Skid</h4>
+<p><strong>DO:</strong></p>
+<ul>
+  <li>Ease off accelerator (don't brake!)</li>
+  <li>Steer gently in direction you want to go</li>
+  <li>Look where you want to go (not at the obstacle)</li>
+  <li>Wait for grip to return</li>
+  <li>Gently straighten steering as car regains traction</li>
+</ul>
+
+<p><strong>DON'T:</strong></p>
+<ul>
+  <li>Slam on brakes (locks wheels, makes skid worse)</li>
+  <li>Over-steer (causes fishtailing)</li>
+  <li>Panic (tense muscles make inputs too aggressive)</li>
+</ul>
+
+<h4>If You Can't Stop</h4>
+<ul>
+  <li>Pump brakes rapidly (if no ABS)</li>
+  <li>Aim for soft objects (hedges) not hard (walls, trees)</li>
+  <li>Sound horn to warn others</li>
+  <li>Brace yourself (hands on wheel, back against seat)</li>
+</ul>
+
+<h3>Vehicle Preparation</h3>
+
+<h4>Tyres</h4>
+<p><strong>All-season or winter tyres:</strong> If you regularly drive in winter, consider all-season tyres. They work below 7°C.</p>
+<p><strong>Brands we recommend:</strong> Michelin CrossClimate, Goodyear Vector 4Seasons, Continental AllSeasonContact.</p>
+<p><strong>Cost:</strong> £60-100 per tyre fitted.</p>
+
+<h4>Winter Emergency Kit</h4>
+<p>Keep these in your boot November-March:</p>
+<ul>
+  <li>Ice scraper & de-icer</li>
+  <li>Blanket & warm coat</li>
+  <li>Torch (charged)</li>
+  <li>Phone charger (car adapter)</li>
+  <li>Bottled water & snacks</li>
+  <li>High-vis jacket</li>
+  <li>Jump leads or battery pack</li>
+  <li>Shovel (if going rural)</li>
+</ul>
+
+<h3>Common Black Ice Myths</h3>
+
+<h4>Myth 1: "4WD/AWD protects you"</h4>
+<p><strong>FALSE.</strong> 4WD helps you accelerate on ice, but it does NOT help you stop or steer. Every car has 4-wheel brakes. Physics applies equally.</p>
+
+<h4>Myth 2: "ABS lets me brake hard on ice"</h4>
+<p><strong>FALSE.</strong> ABS prevents wheel lock-up but doesn't create grip. On ice, ABS still takes 10x longer to stop.</p>
+
+<h4>Myth 3: "Salt on roads prevents black ice"</h4>
+<p><strong>PARTLY FALSE.</strong> Councils grit main roads but:</p>
+<ul>
+  <li>Rural roads often not gritted</li>
+  <li>Ice forms BETWEEN gritting runs</li>
+  <li>Rain washes salt away</li>
+  <li>Below -10°C, salt stops working</li>
+</ul>
+
+<h3>Manchester Council Gritting Routes</h3>
+<p>Check if your route is gritted: <strong>www.manchester.gov.uk/wintergritting</strong></p>
+
+<p><strong>Priority 1 routes (gritted first):</strong></p>
+<ul>
+  <li>Main A-roads (A580, A666, A6)</li>
+  <li>Bus routes</li>
+  <li>Hospital access</li>
+</ul>
+
+<p><strong>Not usually gritted:</strong></p>
+<ul>
+  <li>Residential streets</li>
+  <li>Back roads</li>
+  <li>Country lanes</li>
+  <li>Car parks</li>
+</ul>
+
+<h3>Real Manchester Black Ice Accidents (2025-26)</h3>
+
+<h4>Case 1: M61 J6, 7am, December 2025</h4>
+<p>12-car pile-up. Black ice on bridge. One fatal, seven seriously injured. Road closed 9 hours.</p>
+
+<h4>Case 2: A580 near Worsley, February 2026</h4>
+<p>Van lost control on black ice, hit oncoming car. Both drivers hospitalized.</p>
+
+<h4>Case 3: Bolton residential street, January 2026</h4>
+<p>Car slid 40 metres on black ice, hit parked cars. £18,000 damage. Driver uninjured but insurance claimed driver "not adapting to conditions" — full liability.</p>
+
+<h3>Insurance and Black Ice</h3>
+<p>If you crash due to ice, insurers assess if you were "driving appropriately for conditions."</p>
+
+<p><strong>They ask:</strong></p>
+<ul>
+  <li>Were you speeding (even if under the limit)?</li>
+  <li>Did you have adequate tyre tread?</li>
+  <li>Were you too close to the car ahead?</li>
+  <li>Were conditions obviously hazardous?</li>
+</ul>
+
+<p><strong>If NO to any:</strong> You may be deemed "at fault" even if ice caused the crash.</p>
+
+<h3>Emergency Numbers</h3>
+<ul>
+  <li><strong>Emergency services:</strong> 999</li>
+  <li><strong>Highways England (motorway issues):</strong> 0300 123 5000</li>
+  <li><strong>Non-emergency police:</strong> 101</li>
+  <li><strong>AA Breakdown:</strong> 0800 88 77 66</li>
+  <li><strong>RAC Breakdown:</strong> 0333 2000 999</li>
+</ul>
+
+<h3>Pre-Winter Car Check at Sleek Automotive</h3>
+<p>Don't risk it. Get your car winter-ready:</p>
+<ul>
+  <li>Tyre tread depth check (free)</li>
+  <li>Battery health test (free)</li>
+  <li>Antifreeze concentration (free)</li>
+  <li>Brake performance check (£FREE with any service)</li>
+  <li>Full winter health check (£29)</li>
+</ul>
+
+<p><strong>Book now:</strong> 01617 063 645</p>
+<p><strong>Walk-in:</strong> Unit 7, Walkden Business Park, Manchester M38 9AL</p>
+
+<p>Stay safe out there. Black ice doesn't forgive mistakes. Drive carefully this winter.</p>
+    `,
+  },
   "mot-test-checklist-2026-manchester": {
     title: "Complete MOT Test Checklist 2026 - What Bolton & Manchester Drivers Need to Know",
     category: "MOT Testing",
@@ -989,8 +1946,7 @@ const blogContent: Record<string, any> = {
 };
 
 function BlogPostPage() {
-  const { slug } = Route.useParams();
-  const post = blogContent[slug];
+  const { post, excerpt, slug } = Route.useLoaderData();
 
   if (!post) {
     return (

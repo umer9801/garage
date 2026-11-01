@@ -1,6 +1,17 @@
 // SEO Configuration for Sleek Automotive
 // Optimized for Local Search + Automotive Keywords (October 2026)
 
+import type { Service } from "@/data/services";
+
+/** Canonical site origin — used for all absolute URLs in meta + structured data. */
+export const SITE_URL = "https://www.sleekautomotive.uk";
+
+/** Join a path with the site origin, avoiding double slashes. */
+export function absoluteUrl(path: string): string {
+  if (path.startsWith("http")) return path;
+  return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
 export interface SEOData {
   title: string;
   description: string;
@@ -220,12 +231,14 @@ export function generateLocalBusinessSchema() {
       latitude: businessInfo.location.lat,
       longitude: businessInfo.location.lng,
     },
-    openingHoursSpecification: Object.entries(businessInfo.hours).map(([day, hours]) => ({
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: day.charAt(0).toUpperCase() + day.slice(1),
-      opens: hours.split("-")[0],
-      closes: hours.split("-")[1],
-    })),
+    openingHoursSpecification: Object.entries(businessInfo.hours)
+      .filter(([, hours]) => hours !== "Closed")
+      .map(([day, hours]) => ({
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: day.charAt(0).toUpperCase() + day.slice(1),
+        opens: hours.split("-")[0],
+        closes: hours.split("-")[1],
+      })),
     areaServed: [
       { "@type": "City", name: "Bolton" },
       { "@type": "City", name: "Manchester" },
@@ -329,4 +342,100 @@ export function generateArticleSchema(article: {
       "@id": `https://www.sleekautomotive.uk/blog/${article.slug}`,
     },
   };
+}
+
+
+// Generate Service schema for an individual service page.
+// References the LocalBusiness via @id so the provider graph stays connected.
+export function generateServiceSchema(service: Service, pathname: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    description: service.shortDescription,
+    url: absoluteUrl(pathname),
+    image: absoluteUrl(service.hero),
+    provider: {
+      "@type": "AutoRepair",
+      "@id": `${SITE_URL}/#business`,
+      name: businessInfo.name,
+      telephone: businessInfo.phone,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: businessInfo.address.street,
+        addressLocality: businessInfo.address.city,
+        addressRegion: businessInfo.address.region,
+        postalCode: businessInfo.address.postcode,
+        addressCountry: businessInfo.address.country,
+      },
+    },
+    areaServed: [
+      { "@type": "City", name: "Bolton" },
+      { "@type": "City", name: "Manchester" },
+      { "@type": "City", name: "Salford" },
+      { "@type": "City", name: "Walkden" },
+    ],
+    offers: {
+      "@type": "Offer",
+      availability: "https://schema.org/InStock",
+      url: absoluteUrl(pathname),
+    },
+  };
+}
+
+// Generate FAQPage schema from an array of { q, a } pairs.
+// Used on the homepage and on every service page (each service has faqs).
+export function generateFaqSchema(faqs: { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: f.a,
+      },
+    })),
+  };
+}
+
+// Generate an ItemList schema for hub pages (services hub, blog hub).
+export function generateItemListSchema(items: { name: string; url: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      url: item.url,
+    })),
+  };
+}
+
+// Generate a CollectionPage schema for the blog hub.
+export function generateBlogSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "Sleek Automotive Blog",
+    description:
+      "Expert automotive advice, car maintenance tips, MOT guides and repair cost advice from Bolton mechanics.",
+    url: absoluteUrl("/blog"),
+    publisher: {
+      "@type": "Organization",
+      name: businessInfo.name,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/logo.png`,
+      },
+    },
+  };
+}
+
+// Helper: wrap a JSON-LD object as a script tag string for head() injection.
+// Escapes closing-tag sequences to prevent XSS from user-influenced strings.
+export function toJsonLdScript(data: Record<string, unknown> | Record<string, unknown>[]): string {
+  return `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`;
 }

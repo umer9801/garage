@@ -341,7 +341,7 @@ export const submitContact = createServerFn({ method: "POST" })
     // Validate and sanitize input with Zod
     const result = ContactPayloadSchema.safeParse(data);
     if (!result.success) {
-      throw new Error(`Validation failed: ${result.error.errors.map((e) => e.message).join(", ")}`);
+      throw new Error(`Validation failed: ${result.error.issues.map((e) => e.message).join(", ")}`);
     }
     return result.data;
   })
@@ -470,7 +470,7 @@ export const lookupVehicle = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
     const result = VehicleLookupSchema.safeParse(data);
     if (!result.success) {
-      throw new Error(`Validation failed: ${result.error.errors.map((e) => e.message).join(", ")}`);
+      throw new Error(`Validation failed: ${result.error.issues.map((e) => e.message).join(", ")}`);
     }
     return result.data;
   })
@@ -562,7 +562,7 @@ export const createJob = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
     const result = JobCreateSchema.safeParse(data);
     if (!result.success) {
-      throw new Error(`Validation failed: ${result.error.errors.map((e) => e.message).join(", ")}`);
+      throw new Error(`Validation failed: ${result.error.issues.map((e) => e.message).join(", ")}`);
     }
     return result.data;
   })
@@ -670,7 +670,7 @@ export const updateJob = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
     const result = JobUpdateSchema.safeParse(data);
     if (!result.success) {
-      throw new Error(`Validation failed: ${result.error.errors.map((e) => e.message).join(", ")}`);
+      throw new Error(`Validation failed: ${result.error.issues.map((e) => e.message).join(", ")}`);
     }
     return result.data;
   })
@@ -731,7 +731,7 @@ export const generateInvoice = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
     const result = InvoiceSchema.safeParse(data);
     if (!result.success) {
-      throw new Error(`Validation failed: ${result.error.errors.map((e) => e.message).join(", ")}`);
+      throw new Error(`Validation failed: ${result.error.issues.map((e) => e.message).join(", ")}`);
     }
     return result.data;
   })

@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteShell } from "../components/site-shell";
+import { generateLocalBusinessSchema, toJsonLdScript } from "../lib/seo";
 
 function NotFoundComponent() {
   return (
@@ -108,6 +109,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap",
       },
       { rel: "stylesheet", href: appCss },
+    ],
+    scripts: [
+      {
+        children: toJsonLdScript(generateLocalBusinessSchema()),
+      },
     ],
   }),
   shellComponent: RootShell,

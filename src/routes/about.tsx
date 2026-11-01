@@ -5,6 +5,7 @@ import aboutImg from "@/assets/about-workshop.jpg";
 import teamImg from "@/assets/team.jpg";
 import certImg from "@/assets/certificate.jpg";
 import { BookingWidget } from "@/components/booking-widget";
+import { generateBreadcrumbSchema, toJsonLdScript } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -22,6 +23,11 @@ export const Route = createFileRoute("/about")({
     ],
     links: [
       { rel: "canonical", href: "https://www.sleekautomotive.uk/about" },
+    ],
+    scripts: [
+      {
+        children: toJsonLdScript(generateBreadcrumbSchema("/about")),
+      },
     ],
   }),
   component: AboutPage,

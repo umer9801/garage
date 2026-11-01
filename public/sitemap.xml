@@ -4,118 +4,105 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-  
+
   <!-- Homepage -->
   <url>
     <loc>https://www.sleekautomotive.uk/</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-11-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  
+
   <!-- About Page -->
   <url>
     <loc>https://www.sleekautomotive.uk/about</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-11-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  
+
   <!-- Contact Page -->
   <url>
     <loc>https://www.sleekautomotive.uk/contact</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-11-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
+
   <!-- Services Hub -->
   <url>
     <loc>https://www.sleekautomotive.uk/services</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-11-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  
-  <!-- Individual Service Pages -->
+
+  <!-- Public Service Pages -->
   <url>
-    <loc>https://www.sleekautomotive.uk/services/mot-testing</loc>
-    <lastmod>2026-10-21</lastmod>
+    <loc>https://www.sleekautomotive.uk/services/mot-service</loc>
+    <lastmod>2026-11-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  
+
   <url>
-    <loc>https://www.sleekautomotive.uk/services/full-service</loc>
-    <lastmod>2026-10-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.sleekautomotive.uk/services/diagnostics</loc>
-    <lastmod>2026-10-21</lastmod>
+    <loc>https://www.sleekautomotive.uk/services/repairs-diagnostics</loc>
+    <lastmod>2026-11-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  
+
   <url>
-    <loc>https://www.sleekautomotive.uk/services/brakes</loc>
-    <lastmod>2026-10-21</lastmod>
+    <loc>https://www.sleekautomotive.uk/services/tyres-brakes</loc>
+    <lastmod>2026-11-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  
+
   <url>
-    <loc>https://www.sleekautomotive.uk/services/tyres</loc>
-    <lastmod>2026-10-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.sleekautomotive.uk/services/aircon</loc>
-    <lastmod>2026-10-21</lastmod>
+    <loc>https://www.sleekautomotive.uk/services/aircon-battery</loc>
+    <lastmod>2026-11-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
+
+  <!-- Fleet Service Pages -->
   <url>
-    <loc>https://www.sleekautomotive.uk/services/alignment</loc>
-    <lastmod>2026-10-21</lastmod>
+    <loc>https://www.sleekautomotive.uk/services/fleet-servicing-compliance</loc>
+    <lastmod>2026-11-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
+
   <url>
-    <loc>https://www.sleekautomotive.uk/services/repairs</loc>
-    <lastmod>2026-10-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.sleekautomotive.uk/services/fleet</loc>
-    <lastmod>2026-10-21</lastmod>
+    <loc>https://www.sleekautomotive.uk/services/fleet-breakdown-priority</loc>
+    <lastmod>2026-11-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
+
   <url>
-    <loc>https://www.sleekautomotive.uk/services/motorcycles</loc>
-    <lastmod>2026-10-21</lastmod>
+    <loc>https://www.sleekautomotive.uk/services/fleet-digital-maintenance</loc>
+    <lastmod>2026-11-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
-  
+
+  <url>
+    <loc>https://www.sleekautomotive.uk/services/fleet-account-management</loc>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Blog Hub -->
   <url>
     <loc>https://www.sleekautomotive.uk/blog</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-11-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
-  
+
   <!-- Blog Articles -->
   <url>
     <loc>https://www.sleekautomotive.uk/blog/mot-test-checklist-2026-manchester</loc>
@@ -123,54 +110,90 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
+
   <url>
     <loc>https://www.sleekautomotive.uk/blog/winter-car-maintenance-tips-2026</loc>
     <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
+
   <url>
     <loc>https://www.sleekautomotive.uk/blog/electric-vehicle-servicing-guide</loc>
     <lastmod>2026-10-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
+
   <url>
     <loc>https://www.sleekautomotive.uk/blog/brake-problems-warning-signs</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
+
   <url>
     <loc>https://www.sleekautomotive.uk/blog/how-often-service-car-2026</loc>
     <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
+
   <url>
     <loc>https://www.sleekautomotive.uk/blog/diagnostic-check-engine-light-guide</loc>
     <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
+
   <url>
     <loc>https://www.sleekautomotive.uk/blog/tyre-safety-guide-2026</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
+
   <url>
     <loc>https://www.sleekautomotive.uk/blog/clutch-replacement-cost-guide-uk</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
+
+  <!-- Seasonal Blog Articles 2026/27 -->
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/christmas-car-care-guide-2026</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/new-year-mot-deadline-2027</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/fleet-mot-compliance-2027</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/january-car-service-deals-bolton</loc>
+    <lastmod>2026-11-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/black-ice-driving-safety-tips</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>

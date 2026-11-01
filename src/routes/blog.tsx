@@ -2,6 +2,7 @@ import { createFileRoute, Link, Outlet, useMatchRoute } from "@tanstack/react-ro
 import { Reveal, SectionHeading } from "@/components/ui-bits";
 import { Calendar, Clock, ArrowRight, Search } from "lucide-react";
 import { useState } from "react";
+import { generateBreadcrumbSchema, generateBlogSchema, generateItemListSchema, absoluteUrl, toJsonLdScript } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog")({
   component: BlogLayout,
@@ -22,6 +23,20 @@ export const Route = createFileRoute("/blog")({
     links: [
       { rel: "canonical", href: "https://www.sleekautomotive.uk/blog" },
     ],
+    scripts: [
+      {
+        children: toJsonLdScript([
+          generateBreadcrumbSchema("/blog"),
+          generateBlogSchema(),
+          generateItemListSchema(
+            blogPosts.map((p) => ({
+              name: p.title,
+              url: absoluteUrl(`/blog/${p.slug}`),
+            }))
+          ),
+        ]),
+      },
+    ],
   }),
 });
 
@@ -33,6 +48,46 @@ function BlogLayout() {
 }
 
 export const blogPosts = [
+  {
+    slug: "christmas-car-care-guide-2026",
+    title: "Christmas Car Care Guide 2026: Drive Safe This Festive Season",
+    excerpt: "Essential pre-Christmas car checks for safe winter travel. Battery, tyres, lights & breakdown kit preparation for Bolton, Manchester motorists.",
+    category: "Seasonal",
+    date: "2026-11-25",
+    readTime: "6 min",
+  },
+  {
+    slug: "new-year-mot-deadline-2027",
+    title: "New Year MOT Deadline: Don't Start 2027 With a Fine",
+    excerpt: "Millions face January MOT deadlines. Book now to avoid fines, court summons & insurance issues. Same-day slots available in Bolton.",
+    category: "MOT Testing",
+    date: "2026-11-20",
+    readTime: "5 min",
+  },
+  {
+    slug: "fleet-mot-compliance-2027",
+    title: "Fleet MOT Compliance 2027: Avoid £2,500 Per-Vehicle Fines",
+    excerpt: "New DVSA enforcement targets fleet operators. Compliance deadlines, inspection schedules & how to protect your business from penalties.",
+    category: "Fleet Management",
+    date: "2026-11-15",
+    readTime: "8 min",
+  },
+  {
+    slug: "january-car-service-deals-bolton",
+    title: "January Car Service Deals Bolton: Start 2027 Right",
+    excerpt: "New year service offers at Sleek Automotive. Full service £149 (save £20), winter health checks, and fleet package discounts.",
+    category: "Special Offers",
+    date: "2026-11-10",
+    readTime: "4 min",
+  },
+  {
+    slug: "black-ice-driving-safety-tips",
+    title: "Black Ice Driving Safety: Essential Winter Tips for Manchester Roads",
+    excerpt: "How to spot, avoid & safely drive on black ice. Expert advice for Greater Manchester's winter conditions. Emergency response tips included.",
+    category: "Safety",
+    date: "2026-11-05",
+    readTime: "7 min",
+  },
   {
     slug: "mot-test-checklist-2026-manchester",
     title: "Complete MOT Test Checklist 2026 — What Bolton & Manchester Drivers Need to Know",

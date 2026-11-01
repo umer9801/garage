@@ -5,6 +5,7 @@ import { ChevronRight, Truck, Car } from "lucide-react";
 import { useState, useEffect } from "react";
 import { z } from "zod";
 import { BookingWidget } from "@/components/booking-widget";
+import { generateBreadcrumbSchema, generateItemListSchema, toJsonLdScript, absoluteUrl } from "@/lib/seo";
 
 const searchSchema = z.object({
   tab: z.enum(["public", "fleet"]).optional().default("public"),
@@ -27,6 +28,19 @@ export const Route = createFileRoute("/services")({
     ],
     links: [
       { rel: "canonical", href: "https://www.sleekautomotive.uk/services" },
+    ],
+    scripts: [
+      {
+        children: toJsonLdScript([
+          generateBreadcrumbSchema("/services"),
+          generateItemListSchema(
+            [...getPublicServices(), ...getFleetServices()].map((s) => ({
+              name: s.title,
+              url: absoluteUrl(`/services/${s.slug}`),
+            }))
+          ),
+        ]),
+      },
     ],
   }),
   component: ServicesLayout,

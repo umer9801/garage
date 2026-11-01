@@ -15,6 +15,7 @@ import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { submitContact } from "@/lib/server-fns";
 import { BookingWidget } from "@/components/booking-widget";
+import { generateBreadcrumbSchema, generateLocalBusinessSchema, toJsonLdScript } from "@/lib/seo";
 
 const PUBLIC_SERVICES = [
   "Pre-Mot Checks",
@@ -74,6 +75,14 @@ export const Route = createFileRoute("/contact")({
     ],
     links: [
       { rel: "canonical", href: "https://www.sleekautomotive.uk/contact" },
+    ],
+    scripts: [
+      {
+        children: toJsonLdScript([
+          generateBreadcrumbSchema("/contact"),
+          generateLocalBusinessSchema(),
+        ]),
+      },
     ],
   }),
   component: ContactPage,
