@@ -875,3 +875,4 @@ export const deleteInvoice = createServerFn({ method: "POST" })
 
     return { success: true };
   });
+
