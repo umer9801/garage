@@ -328,10 +328,6 @@ function InvoiceRow({
         </div>
       </div>
       <div className="text-right">
-        <div className="text-xs text-ink-soft mb-1">
-          Subtotal: {formatCurrency(invoice.subtotal)}
-        </div>
-        <div className="text-xs text-ink-soft mb-1">VAT: {formatCurrency(invoice.vat)}</div>
         <div className="text-lg font-bold text-primary">{formatCurrency(invoice.total)}</div>
       </div>
       <div className="flex gap-2">
@@ -373,6 +369,7 @@ function CreateInvoiceModal({
     Array<{ name: string; price: number; quantity: number }>
   >([]);
   const [notes, setNotes] = useState("");
+  const [taxRate, setTaxRate] = useState<number>(0);
   const [loading, setLoading] = useState(false);
 
   const selectedJob = jobs.find((j) => j._id === selectedJobId);
@@ -404,7 +401,7 @@ function CreateInvoiceModal({
   }
 
   const subtotal = services.reduce((sum, s) => sum + s.price * s.quantity, 0);
-  const vat = subtotal * 0.2;
+  const vat = subtotal * (taxRate / 100);
   const total = subtotal + vat;
 
   async function handleGenerate() {
@@ -430,6 +427,7 @@ function CreateInvoiceModal({
           token,
           jobId: selectedJobId,
           services,
+          taxRate,
           notes,
         },
       });
@@ -541,17 +539,33 @@ function CreateInvoiceModal({
                 </div>
               </div>
 
-              {/* Totals */}
+              {/* Tax Rate + Totals */}
               <div className="rounded-xl border border-border bg-gray-50 p-4">
+                <div className="mb-3 flex items-center gap-3">
+                  <label className="text-sm font-semibold text-ink whitespace-nowrap">Tax Rate (%):</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    value={taxRate}
+                    onChange={(e) => setTaxRate(parseFloat(e.target.value) || 0)}
+                    className="w-24 rounded-xl border border-border px-3 py-1.5 text-sm outline-none focus:border-primary"
+                    placeholder="0"
+                  />
+                  <span className="text-xs text-ink-soft">Leave 0 for no tax</span>
+                </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span>Subtotal:</span>
                     <span className="font-semibold">{formatCurrency(subtotal)}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span>VAT (20%):</span>
-                    <span className="font-semibold">{formatCurrency(vat)}</span>
-                  </div>
+                  {taxRate > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span>Tax ({taxRate}%):</span>
+                      <span className="font-semibold">{formatCurrency(vat)}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between border-t border-border pt-2 text-lg font-bold text-primary">
                     <span>Total:</span>
                     <span>{formatCurrency(total)}</span>

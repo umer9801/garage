@@ -10,7 +10,8 @@ export interface InvoiceData {
     quantity: number;
   }>;
   subtotal: number;
-  vat: number;
+  vat: number;       // tax amount (can be 0)
+  taxRate: number;   // tax % (0-100)
   total: number;
   notes?: string;
 }
@@ -18,15 +19,17 @@ export interface InvoiceData {
 // Note: Invoice numbering is handled by MongoDB counter in server-fns.ts
 // Sequential format: INV-001, INV-002, INV-003...
 
-export function calculateInvoiceTotal(services: Array<{ price: number; quantity: number }>): {
+export function calculateInvoiceTotal(
+  services: Array<{ price: number; quantity: number }>,
+  taxRate: number = 0,
+): {
   subtotal: number;
   vat: number;
   total: number;
 } {
   const subtotal = services.reduce((sum, service) => sum + service.price * service.quantity, 0);
-  const vat = subtotal * 0.2; // 20% VAT
+  const vat = subtotal * (taxRate / 100);
   const total = subtotal + vat;
-
   return { subtotal, vat, total };
 }
 
@@ -102,7 +105,6 @@ export function generateInvoiceHTML(invoice: InvoiceData): string {
             <p style="margin: 0; font-size: 13px; color: #666;">And Fleet Specialists</p>
           </div>
         </div>
-        <p>Professional Vehicle Services</p>
         <p>Unit 7, Walkden Business Park, Mount Skip Ln</p>
         <p>Walkden, Little Hulton, Manchester M38 9AL</p>
         <p>Phone: 01617 063 645</p>
@@ -180,10 +182,12 @@ export function generateInvoiceHTML(invoice: InvoiceData): string {
         <span>Subtotal:</span>
         <span>${formatCurrency(invoice.subtotal)}</span>
       </div>
+      ${invoice.vat > 0 ? `
       <div class="totals-row">
-        <span>VAT (20%):</span>
+        <span>Tax (${invoice.taxRate}%):</span>
         <span>${formatCurrency(invoice.vat)}</span>
       </div>
+      ` : ""}
       <div class="totals-row total">
         <span>TOTAL:</span>
         <span>${formatCurrency(invoice.total)}</span>

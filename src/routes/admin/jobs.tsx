@@ -64,6 +64,7 @@ function JobsPage() {
   const [loading, setLoading] = useState(false);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const [editingJob, setEditingJob] = useState<Job | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"list" | "calendar">("list");
@@ -263,6 +264,7 @@ function JobsPage() {
                     onStatusChange={handleStatusChange}
                     onDelete={handleDeleteJob}
                     onView={() => setSelectedJob(job)}
+                    onEdit={(j) => setEditingJob(j)}
                     onGenerateInvoice={handleGenerateInvoice}
                   />
                 ))}
@@ -333,6 +335,21 @@ function JobsPage() {
         )}
       </AnimatePresence>
 
+      {/* Edit Job Modal */}
+      <AnimatePresence>
+        {editingJob && token && (
+          <EditJobModal
+            job={editingJob}
+            token={token}
+            onClose={() => setEditingJob(null)}
+            onSuccess={() => {
+              setEditingJob(null);
+              void fetchJobs(token);
+            }}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Invoice Modal */}
       <AnimatePresence>
         {selectedJob && showInvoiceModal && token && (
@@ -365,12 +382,14 @@ function JobRow({
   onStatusChange,
   onDelete,
   onView,
+  onEdit,
   onGenerateInvoice,
 }: {
   job: Job;
   onStatusChange: (id: string, status: Job["status"]) => void;
   onDelete: (id: string) => void;
   onView: () => void;
+  onEdit: (job: Job) => void;
   onGenerateInvoice: (jobId: string) => void;
 }) {
   const statusColors = {
@@ -432,6 +451,14 @@ function JobRow({
           aria-label="View"
         >
           <Eye className="h-4 w-4" />
+        </button>
+        <button
+          onClick={() => onEdit(job)}
+          className="rounded-lg border border-blue-200 bg-blue-50 p-2 text-blue-600 transition hover:bg-blue-100"
+          aria-label="Edit"
+          title="Edit job"
+        >
+          <Edit className="h-4 w-4" />
         </button>
         {job.status === "completed" && (
           <button
@@ -1349,6 +1376,270 @@ function InvoiceModal({ job, token, onClose }: { job: Job; token: string; onClos
             className="flex-1 rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-50"
           >
             {loading ? "Generating..." : "Generate Invoice"}
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// ── Edit Job Modal ─────────────────────────────────────────────────────────────
+function EditJobModal({
+  job,
+  token,
+  onClose,
+  onSuccess,
+}: {
+  job: Job;
+  token: string;
+  onClose: () => void;
+  onSuccess: () => void;
+}) {
+  const [loading, setLoading] = useState(false);
+  const scheduledDt = new Date(job.scheduledDate);
+  const [formData, setFormData] = useState({
+    customerName: job.customerName,
+    customerPhone: job.customerPhone,
+    customerEmail: job.customerEmail || "",
+    vehicleMake: job.vehicleMake,
+    vehicleModel: job.vehicleModel,
+    vehicleYear: job.vehicleYear,
+    vehicleColor: job.vehicleColor || "",
+    fuelType: job.fuelType || "",
+    motExpiry: job.motExpiry
+      ? new Date(job.motExpiry).toISOString().split("T")[0]
+      : "",
+    services: [...job.services],
+    scheduledDate: scheduledDt.toISOString().split("T")[0],
+    scheduledTime: scheduledDt.toTimeString().slice(0, 5),
+    estimatedCost: job.estimatedCost || 0,
+    notes: job.notes || "",
+    status: job.status,
+  });
+
+  function toggleService(service: string) {
+    setFormData((prev) => ({
+      ...prev,
+      services: prev.services.includes(service)
+        ? prev.services.filter((s) => s !== service)
+        : [...prev.services, service],
+    }));
+  }
+
+  async function handleSave() {
+    if (!formData.customerName) return alert("Customer name is required");
+    if (!formData.customerPhone) return alert("Customer phone is required");
+    if (formData.services.length === 0) return alert("At least one service required");
+
+    setLoading(true);
+    try {
+      // Build scheduled datetime
+      const [hours, minutes] = formData.scheduledTime.split(":").map(Number);
+      const scheduledDateTime = new Date(formData.scheduledDate);
+      scheduledDateTime.setHours(hours, minutes, 0, 0);
+
+      await updateJob({
+        data: {
+          token,
+          id: job._id,
+          customerName: formData.customerName,
+          customerPhone: formData.customerPhone,
+          customerEmail: formData.customerEmail,
+          vehicleMake: formData.vehicleMake,
+          vehicleModel: formData.vehicleModel,
+          vehicleYear: formData.vehicleYear,
+          vehicleColor: formData.vehicleColor,
+          fuelType: formData.fuelType,
+          motExpiry: formData.motExpiry || undefined,
+          services: formData.services,
+          scheduledDate: scheduledDateTime.toISOString(),
+          estimatedCost: formData.estimatedCost,
+          notes: formData.notes,
+          status: formData.status as Job["status"],
+        },
+      });
+
+      // Offer to update Google Calendar event
+      const endDateTime = new Date(scheduledDateTime);
+      endDateTime.setHours(hours + 2, minutes, 0, 0);
+
+      const calendarUrl = generateCalendarEventUrl({
+        title: `${job.vehicleReg} - ${formData.customerName} - ${formData.services[0]}`,
+        description:
+          `Vehicle: ${formData.vehicleMake} ${formData.vehicleModel} (${job.vehicleReg})\n` +
+          `Customer: ${formData.customerName} (${formData.customerPhone})\n` +
+          `Services: ${formData.services.join(", ")}\n` +
+          `Status: ${formData.status}\n` +
+          (formData.notes ? `\nNotes: ${formData.notes}` : ""),
+        startDate: scheduledDateTime,
+        endDate: endDateTime,
+        location: "Sleek Automotive Garage",
+      });
+
+      const openCal = confirm(
+        "✅ Job updated successfully!\n\nWould you like to update Google Calendar too?",
+      );
+      if (openCal) window.open(calendarUrl, "_blank");
+
+      onSuccess();
+    } catch (err) {
+      console.error("Edit job error:", err);
+      alert(err instanceof Error ? err.message : "Failed to update job");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 overflow-y-auto"
+    >
+      <motion.div
+        initial={{ scale: 0.95, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.95, y: 20 }}
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-8 shadow-2xl my-8"
+      >
+        <h2 className="text-2xl font-extrabold text-ink">Edit Job</h2>
+        <p className="mt-1 text-sm text-ink-soft">
+          {job.vehicleReg} — {job.customerName}
+        </p>
+
+        <div className="mt-8 space-y-6">
+          {/* Customer */}
+          <div className="rounded-xl border border-border bg-gray-50 p-6">
+            <h3 className="font-bold text-ink">Customer Details</h3>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Name *</label>
+                <input type="text" value={formData.customerName}
+                  onChange={(e) => setFormData((p) => ({ ...p, customerName: e.target.value }))}
+                  className="mt-1 w-full rounded-xl border border-border px-4 py-2 text-sm outline-none focus:border-primary" />
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Phone *</label>
+                <input type="tel" value={formData.customerPhone}
+                  onChange={(e) => setFormData((p) => ({ ...p, customerPhone: e.target.value }))}
+                  className="mt-1 w-full rounded-xl border border-border px-4 py-2 text-sm outline-none focus:border-primary" />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Email</label>
+                <input type="email" value={formData.customerEmail}
+                  onChange={(e) => setFormData((p) => ({ ...p, customerEmail: e.target.value }))}
+                  className="mt-1 w-full rounded-xl border border-border px-4 py-2 text-sm outline-none focus:border-primary" />
+              </div>
+            </div>
+          </div>
+
+          {/* Vehicle */}
+          <div className="rounded-xl border border-border bg-gray-50 p-6">
+            <h3 className="font-bold text-ink">Vehicle Details</h3>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Make</label>
+                <input type="text" value={formData.vehicleMake}
+                  onChange={(e) => setFormData((p) => ({ ...p, vehicleMake: e.target.value }))}
+                  className="mt-1 w-full rounded-xl border border-border px-4 py-2 text-sm outline-none focus:border-primary" />
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Model</label>
+                <input type="text" value={formData.vehicleModel}
+                  onChange={(e) => setFormData((p) => ({ ...p, vehicleModel: e.target.value }))}
+                  className="mt-1 w-full rounded-xl border border-border px-4 py-2 text-sm outline-none focus:border-primary" />
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Year</label>
+                <input type="number" value={formData.vehicleYear}
+                  onChange={(e) => setFormData((p) => ({ ...p, vehicleYear: parseInt(e.target.value) }))}
+                  className="mt-1 w-full rounded-xl border border-border px-4 py-2 text-sm outline-none focus:border-primary" />
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Color</label>
+                <input type="text" value={formData.vehicleColor}
+                  onChange={(e) => setFormData((p) => ({ ...p, vehicleColor: e.target.value }))}
+                  className="mt-1 w-full rounded-xl border border-border px-4 py-2 text-sm outline-none focus:border-primary" />
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-ink-soft">MOT Expiry</label>
+                <input type="date" value={formData.motExpiry}
+                  onChange={(e) => setFormData((p) => ({ ...p, motExpiry: e.target.value }))}
+                  className="mt-1 w-full rounded-xl border border-border px-4 py-2 text-sm outline-none focus:border-primary" />
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Status</label>
+                <select value={formData.status}
+                  onChange={(e) => setFormData((p) => ({ ...p, status: e.target.value }))}
+                  className="mt-1 w-full rounded-xl border border-border px-4 py-2 text-sm outline-none focus:border-primary">
+                  <option value="pending">Pending</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Services */}
+          <div className="rounded-xl border border-border bg-gray-50 p-6">
+            <h3 className="font-bold text-ink">Services *</h3>
+            <div className="mt-4 grid gap-2 sm:grid-cols-3">
+              {SERVICES.map((service) => (
+                <label key={service} className="flex cursor-pointer items-center gap-2 text-sm">
+                  <input type="checkbox"
+                    checked={formData.services.includes(service)}
+                    onChange={() => toggleService(service)}
+                    className="h-4 w-4 rounded border-border text-primary focus:ring-primary" />
+                  <span className="text-ink">{service}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Schedule */}
+          <div className="rounded-xl border border-border bg-gray-50 p-6">
+            <h3 className="font-bold text-ink">Schedule & Notes</h3>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Date</label>
+                <input type="date" value={formData.scheduledDate}
+                  onChange={(e) => setFormData((p) => ({ ...p, scheduledDate: e.target.value }))}
+                  className="mt-1 w-full rounded-xl border border-border px-4 py-2 text-sm outline-none focus:border-primary" />
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Time</label>
+                <input type="time" value={formData.scheduledTime}
+                  onChange={(e) => setFormData((p) => ({ ...p, scheduledTime: e.target.value }))}
+                  className="mt-1 w-full rounded-xl border border-border px-4 py-2 text-sm outline-none focus:border-primary" />
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Estimated Cost (£)</label>
+                <input type="number" value={formData.estimatedCost}
+                  onChange={(e) => setFormData((p) => ({ ...p, estimatedCost: parseFloat(e.target.value) || 0 }))}
+                  className="mt-1 w-full rounded-xl border border-border px-4 py-2 text-sm outline-none focus:border-primary" />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Notes</label>
+                <textarea value={formData.notes} rows={3}
+                  onChange={(e) => setFormData((p) => ({ ...p, notes: e.target.value }))}
+                  className="mt-1 w-full rounded-xl border border-border px-4 py-2 text-sm outline-none focus:border-primary" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 flex gap-3">
+          <button onClick={onClose}
+            className="flex-1 rounded-xl border border-border px-4 py-3 text-sm font-semibold transition hover:bg-gray-50">
+            Cancel
+          </button>
+          <button onClick={handleSave} disabled={loading}
+            className="flex-1 rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-50">
+            {loading ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </motion.div>

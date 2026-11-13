@@ -80,6 +80,19 @@ const JobUpdateSchema = z.object({
   status: z.enum(["pending", "in_progress", "completed", "cancelled"]).optional(),
   notes: z.string().max(2000).optional(),
   completedAt: z.string().optional(),
+  // Editable fields
+  customerName: z.string().min(2).max(100).optional(),
+  customerPhone: z.string().max(20).optional(),
+  customerEmail: z.string().email().optional().or(z.literal("")).optional(),
+  vehicleMake: z.string().max(100).optional(),
+  vehicleModel: z.string().max(100).optional(),
+  vehicleYear: z.number().int().min(1900).optional(),
+  vehicleColor: z.string().max(50).optional(),
+  fuelType: z.string().max(50).optional(),
+  motExpiry: z.string().optional(),
+  services: z.array(z.string()).min(1).optional(),
+  scheduledDate: z.string().optional(),
+  estimatedCost: z.number().optional(),
 });
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -689,6 +702,20 @@ export const updateJob = createServerFn({ method: "POST" })
       updateData.completedAt = new Date();
     }
 
+    // Editable job fields
+    if (data.customerName) updateData.customerName = data.customerName;
+    if (data.customerPhone) updateData.customerPhone = data.customerPhone;
+    if (data.customerEmail !== undefined) updateData.customerEmail = data.customerEmail;
+    if (data.vehicleMake) updateData.vehicleMake = data.vehicleMake;
+    if (data.vehicleModel) updateData.vehicleModel = data.vehicleModel;
+    if (data.vehicleYear) updateData.vehicleYear = data.vehicleYear;
+    if (data.vehicleColor !== undefined) updateData.vehicleColor = data.vehicleColor;
+    if (data.fuelType !== undefined) updateData.fuelType = data.fuelType;
+    if (data.motExpiry !== undefined) updateData.motExpiry = data.motExpiry;
+    if (data.services) updateData.services = data.services;
+    if (data.scheduledDate) updateData.scheduledDate = new Date(data.scheduledDate);
+    if (data.estimatedCost !== undefined) updateData.estimatedCost = data.estimatedCost;
+
     await db.collection("jobs").updateOne({ _id: new ObjectId(data.id) }, { $set: updateData });
 
     return { success: true };
@@ -724,6 +751,7 @@ const InvoiceSchema = z.object({
       quantity: z.number().int().min(1),
     }),
   ),
+  taxRate: z.number().min(0).max(100).optional(), // custom tax %, default 0
   notes: z.string().optional(),
 });
 
@@ -756,8 +784,8 @@ export const generateInvoice = createServerFn({ method: "POST" })
     const invoiceSequence = counterResult?.sequence || 1;
     const invoiceNumber = `INV-${String(invoiceSequence).padStart(3, "0")}`; // INV-001, INV-002, etc.
 
-    // Calculate totals
-    const { subtotal, vat, total } = calculateInvoiceTotal(data.services);
+    // Calculate totals — use custom taxRate if provided, else 0
+    const { subtotal, vat, total } = calculateInvoiceTotal(data.services, data.taxRate ?? 0);
 
     // Generate invoice data
     const invoiceData: InvoiceData = {
@@ -794,6 +822,7 @@ export const generateInvoice = createServerFn({ method: "POST" })
       services: data.services,
       subtotal,
       vat,
+      taxRate: data.taxRate ?? 0,
       total,
       notes: data.notes,
     };
