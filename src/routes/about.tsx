@@ -10,10 +10,10 @@ import { generateBreadcrumbSchema, toJsonLdScript } from "@/lib/seo";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Sleek Automotive Bolton | Expert Mechanics Manchester M38" },
+      { title: "About Us | Master Technicians Bolton | Sleek Automotive" },
       {
         name: "description",
-        content: "Meet the team at Sleek Automotive. 20+ years experience in MOT testing, car servicing & repairs. Serving Bolton, Manchester, Salford & Walkden M38 area.",
+        content: "5,000+ vehicles serviced. Master technicians with main-dealer experience — without main-dealer prices. Serving Bolton, Walkden, Manchester & Salford since 2018.",
       },
       { name: "keywords", content: "about Sleek Automotive Bolton, garage team Manchester, qualified mechanics, IMI certified, car service experts Walkden" },
       { name: "robots", content: "index, follow" },

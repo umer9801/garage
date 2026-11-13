@@ -31,7 +31,7 @@ export const Route = createFileRoute("/blog/$slug")({
     const description = excerpt || post.title;
     return {
       meta: [
-        { title: `${post.title} | Sleek Automotive Bolton` },
+        { title: `${post.title} | Bolton Garage Guide` },
         { name: "description", content: description },
         {
           name: "keywords",
@@ -72,6 +72,337 @@ export const Route = createFileRoute("/blog/$slug")({
 
 // SEO-optimized blog content with trending automotive keywords 2026
 const blogContent: Record<string, any> = {
+  "mot-near-me-bolton-walkden": {
+    title: "MOT Near Me Bolton: Same-Day Slots, £39.99, Free Retest",
+    category: "MOT Testing",
+    date: "2026-11-28",
+    readTime: "5 min",
+    content: `
+<h2>Looking for an MOT Near Bolton or Walkden?</h2>
+<p>If you've searched "MOT near me Bolton" or "MOT Walkden", you've found us. Sleek Automotive is located at Unit 7, Walkden Business Park, Manchester M38 9AL — 2 minutes off Junction 4 of the M61, serving Bolton, Walkden, Salford, Worsley, and Little Hulton.</p>
+
+<h3>Our MOT Pricing</h3>
+<ul>
+  <li><strong>MOT Test: £39.99</strong> — DVSA maximum is £54.85, we charge less</li>
+  <li><strong>Free retest</strong> — if your car fails and returns within 10 working days</li>
+  <li><strong>Free pre-MOT check</strong> — we flag issues before the test so there are no surprises</li>
+</ul>
+
+<h3>Same-Day MOT Slots Available</h3>
+<p>Unlike bigger chains, we don't make you wait weeks. Most days we have same-day or next-day availability. Call 01617 063 645 before 10am and we'll usually fit you in that afternoon.</p>
+
+<h3>What We Check in Your MOT</h3>
+<ul>
+  <li><strong>Lights:</strong> Headlights, brake lights, indicators, number plate lights</li>
+  <li><strong>Brakes:</strong> Pads, discs, handbrake, brake fluid</li>
+  <li><strong>Tyres:</strong> Tread depth (min 1.6mm), condition, pressure</li>
+  <li><strong>Steering:</strong> Play, response, power steering</li>
+  <li><strong>Suspension:</strong> Shock absorbers, springs, bushings</li>
+  <li><strong>Emissions:</strong> Exhaust gases for petrol & diesel</li>
+  <li><strong>Body & Structure:</strong> Rust, damage, wipers, horn, seatbelts</li>
+</ul>
+
+<h3>Most Common MOT Failures We See in Bolton</h3>
+<p>Based on the thousands of MOTs we've done since 2018:</p>
+<ol>
+  <li><strong>Lighting faults (32%)</strong> — a bulb costs £5-15 and takes 5 minutes</li>
+  <li><strong>Tyre condition (21%)</strong> — worn below 1.6mm or cracked sidewalls</li>
+  <li><strong>Brake issues (18%)</strong> — worn pads or seized caliper</li>
+  <li><strong>Suspension (12%)</strong> — worn shock absorbers from Bolton's potholes</li>
+  <li><strong>Emissions (9%)</strong> — DPF issues on diesels</li>
+</ol>
+
+<h3>How to Prepare for Your MOT</h3>
+<p>Takes 5 minutes the night before — could save your MOT fee:</p>
+<ul>
+  <li>Walk around the car and check all lights work</li>
+  <li>Check tyre tread with a 20p coin (can't see the outer band = illegal)</li>
+  <li>Make sure windscreen washer fluid is topped up</li>
+  <li>Check number plates are clean and secure</li>
+  <li>Make sure horn works</li>
+</ul>
+
+<h3>Can I Drive to an MOT Without a Valid MOT?</h3>
+<p><strong>Yes — but only to a pre-booked test.</strong> This is the one exception to the law. If your MOT has expired, you can drive directly to your pre-booked test appointment and back — nothing else.</p>
+<p>Driving anywhere else with an expired MOT is illegal: up to £1,000 fine + insurance void.</p>
+
+<h3>How Far Are We From Bolton Town Centre?</h3>
+<p>We're in Walkden, Little Hulton — approximately:</p>
+<ul>
+  <li><strong>Bolton town centre:</strong> 8 minutes (via A6053)</li>
+  <li><strong>Worsley:</strong> 5 minutes</li>
+  <li><strong>Salford:</strong> 12 minutes</li>
+  <li><strong>Swinton:</strong> 8 minutes</li>
+  <li><strong>M61 Junction 4:</strong> 2 minutes</li>
+</ul>
+<p><strong>Address:</strong> Unit 7, Walkden Business Park, Mount Skip Lane, Walkden, Manchester M38 9AL</p>
+
+<h3>Book Your MOT Today</h3>
+<p>Call <strong>01617 063 645</strong> or book online. Mon–Fri 9am–6pm, Sat 9am–4pm.</p>
+<p>We're DVSA approved, fully insured, and we've passed over 15,000 vehicles since 2018.</p>
+    `,
+  },
+
+  "how-much-does-car-service-cost-uk-2026": {
+    title: "How Much Does a Car Service Cost in 2026? Honest UK Prices",
+    category: "Car Servicing",
+    date: "2026-11-26",
+    readTime: "6 min",
+    content: `
+<h2>What Does a Car Service Actually Cost in 2026?</h2>
+<p>It's one of the most Googled questions about cars — and the answers online are either vague or wildly out of date. Here's what you'll actually pay at an independent garage in the North West, and what's included.</p>
+
+<h3>Service Prices at Sleek Automotive (2026)</h3>
+
+<h4>Interim Service — £89</h4>
+<p><strong>Best for:</strong> High-mileage drivers (15,000+ miles/year) or every 6 months</p>
+<p><strong>Includes:</strong></p>
+<ul>
+  <li>Engine oil change (up to 5L quality oil)</li>
+  <li>Oil filter replacement</li>
+  <li>Fluid level checks (coolant, brake, washer, power steering)</li>
+  <li>Tyre condition & pressure check (all 4)</li>
+  <li>Visual brake inspection</li>
+  <li>Lights check</li>
+  <li>Digital inspection report</li>
+</ul>
+
+<h4>Full Service — £149</h4>
+<p><strong>Best for:</strong> Annual service for most drivers</p>
+<p><strong>Everything in interim, plus:</strong></p>
+<ul>
+  <li>Air filter replacement</li>
+  <li>Cabin pollen filter replacement</li>
+  <li>Spark plugs inspection (petrol)</li>
+  <li>Coolant concentration check</li>
+  <li>Exhaust system check</li>
+  <li>Suspension & steering inspection</li>
+  <li>Full diagnostic scan (checks for hidden fault codes)</li>
+  <li>50-point inspection with photos</li>
+  <li>Service history stamp</li>
+</ul>
+
+<h4>Major Service — £249</h4>
+<p><strong>Best for:</strong> Every 2 years or 24,000 miles</p>
+<p><strong>Everything in full service, plus:</strong></p>
+<ul>
+  <li>Brake fluid replacement</li>
+  <li>Coolant flush & replacement</li>
+  <li>Fuel filter (diesel cars)</li>
+  <li>Timing belt inspection (or replacement if due)</li>
+  <li>Gearbox fluid check</li>
+</ul>
+
+<h3>What Affects the Price?</h3>
+
+<h4>1. Engine Oil Grade</h4>
+<p>Standard semi-synthetic is included in our price. If your car requires fully synthetic (most modern cars do), add £15-25. We'll always confirm before we start.</p>
+
+<h4>2. Vehicle Type</h4>
+<p>Diesel cars sometimes cost slightly more — DPF checks, diesel-specific filters. We'll quote upfront.</p>
+
+<h4>3. Additional Parts Found During Inspection</h4>
+<p>If we find worn spark plugs, a cracked air filter, or low brake fluid — we'll quote before touching anything. You choose what to fix.</p>
+
+<h3>Main Dealer vs Independent Garage — The Real Cost Difference</h3>
+<table style="width:100%; border-collapse:collapse; font-size:14px;">
+  <thead style="background:#1a56db; color:white;">
+    <tr><th style="padding:10px; text-align:left;">Service</th><th style="padding:10px;">Main Dealer</th><th style="padding:10px;">Sleek Automotive</th></tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom:1px solid #ddd;"><td style="padding:10px;">Interim Service</td><td style="padding:10px; text-align:center;">£140-180</td><td style="padding:10px; text-align:center;"><strong>£89</strong></td></tr>
+    <tr style="border-bottom:1px solid #ddd;"><td style="padding:10px;">Full Service</td><td style="padding:10px; text-align:center;">£220-320</td><td style="padding:10px; text-align:center;"><strong>£149</strong></td></tr>
+    <tr style="border-bottom:1px solid #ddd;"><td style="padding:10px;">Major Service</td><td style="padding:10px; text-align:center;">£380-500</td><td style="padding:10px; text-align:center;"><strong>£249</strong></td></tr>
+  </tbody>
+</table>
+<p style="margin-top:10px; font-size:13px; color:#666;">We use the same quality OEM-spec parts. Your manufacturer warranty stays valid under Block Exemption Regulation.</p>
+
+<h3>Does Independent Servicing Void My Warranty?</h3>
+<p><strong>No.</strong> Under EU Block Exemption Regulation (retained in UK law), manufacturers cannot void your warranty because you used an independent garage — as long as the service is carried out to their schedule using equivalent quality parts. We always use OEM-spec parts and stamp your service book.</p>
+
+<h3>How Often Should You Service Your Car?</h3>
+<ul>
+  <li><strong>Under 10,000 miles/year:</strong> Full service annually</li>
+  <li><strong>10,000-15,000 miles/year:</strong> Full service annually</li>
+  <li><strong>Over 15,000 miles/year:</strong> Interim service every 6 months + full service annually</li>
+</ul>
+
+<h3>Book a Service in Bolton</h3>
+<p>Call <strong>01617 063 645</strong> or book online. We'll confirm the exact price for your vehicle before you arrive — no surprises.</p>
+<p>Walkden, Manchester M38 9AL — 8 minutes from Bolton town centre.</p>
+    `,
+  },
+
+  "dpf-cleaning-bolton-manchester": {
+    title: "DPF Warning Light On? DPF Cleaning Bolton — What It Costs & How It Works",
+    category: "Diagnostics",
+    date: "2026-11-22",
+    readTime: "7 min",
+    content: `
+<h2>DPF Warning Light On? Don't Ignore It</h2>
+<p>The DPF (Diesel Particulate Filter) warning light is one of the most misunderstood dashboard lights on modern diesel cars. Many drivers ignore it — and end up paying £1,200+ for a replacement that could have been avoided with a £150 clean.</p>
+
+<h3>What Is a DPF?</h3>
+<p>The DPF traps soot from your diesel exhaust to reduce emissions. Over time — especially in town driving — it fills up. When it gets too full, the warning light comes on.</p>
+<p>Normally the DPF cleans itself through a process called <strong>passive regeneration</strong> — when you drive at motorway speeds, the exhaust gets hot enough to burn off the soot automatically. If you mostly do short town trips, it never gets hot enough and soot builds up.</p>
+
+<h3>DPF Warning Light — What It Means</h3>
+
+<h4>Amber DPF Light (Early Warning)</h4>
+<p>The filter is getting full but can still be saved. At this stage:</p>
+<ul>
+  <li><strong>Try a motorway run first:</strong> Drive at 60mph+ for 30 minutes. This may trigger passive regeneration and clear the light</li>
+  <li><strong>If the light stays on after the motorway run:</strong> Come in for a forced regeneration</li>
+</ul>
+
+<h4>Orange/Red DPF Light (Serious)</h4>
+<p>The filter is critically blocked. Do not attempt a motorway run. Come straight to us — forced regeneration in our workshop is needed.</p>
+
+<h4>DPF Light + Other Warning Lights</h4>
+<p>If you see DPF light alongside engine management light, glow plug light, or limp mode — stop driving and call us on 01617 063 645. This usually means the DPF is beyond forced regeneration and may need replacement.</p>
+
+<h3>DPF Cleaning Options & Costs</h3>
+
+<h4>Option 1: Forced Regeneration (In-Workshop) — From £150</h4>
+<p>We connect our diagnostic equipment and run a forced regeneration cycle. The workshop computer controls the process — raising exhaust temperatures to burn off the soot safely. Takes 45-90 minutes.</p>
+<p><strong>Works when:</strong> Soot loading below 85%, no other faults present</p>
+<p><strong>Success rate:</strong> ~85% of cases at this stage</p>
+
+<h4>Option 2: DPF Chemical Clean — From £250</h4>
+<p>We inject specialist cleaning solution into the DPF and run a hot forced regeneration cycle. This tackles stubborn blockages that forced regen alone can't clear.</p>
+<p><strong>Works when:</strong> Soot loading 85-95%, heavy ash accumulation</p>
+
+<h4>Option 3: DPF Replacement — £600-1,400</h4>
+<p>When the filter is damaged, cracked, or beyond cleaning. Price depends heavily on the vehicle:</p>
+<ul>
+  <li>Ford Focus/Fiesta diesel: £600-800 fitted</li>
+  <li>VW Golf/Passat TDI: £750-950 fitted</li>
+  <li>BMW 3 Series diesel: £900-1,200 fitted</li>
+  <li>Range Rover: £1,100-1,400 fitted</li>
+</ul>
+
+<h3>Why Bolton Drivers Get DPF Problems</h3>
+<p>Short journeys dominate Bolton driving patterns — school runs, town centre trips, A580 stop-start traffic. These short trips don't give the DPF time to regenerate.</p>
+<p><strong>If you drive mostly in town:</strong></p>
+<ul>
+  <li>Take a 30-minute motorway run every 2-3 weeks</li>
+  <li>Use quality diesel (Shell V-Power, BP Ultimate) occasionally — better for DPF</li>
+  <li>Consider an annual DPF service as preventive maintenance</li>
+</ul>
+
+<h3>Can I Drive With the DPF Light On?</h3>
+<ul>
+  <li><strong>Amber light only:</strong> Try a motorway run. If it stays on, book same week.</li>
+  <li><strong>Red/orange light:</strong> Stop motorway driving immediately. Book within 24 hours.</li>
+  <li><strong>Multiple warning lights:</strong> Stop driving. Call us.</li>
+</ul>
+<p>Continuing to drive with a critically blocked DPF can damage the turbo, catalytic converter, and engine — turning a £150 problem into a £3,000+ repair.</p>
+
+<h3>DPF Diagnostic & Cleaning in Bolton</h3>
+<p>We use the latest diagnostic equipment to read exact soot loading levels before recommending any work. We'll always tell you honestly whether cleaning will work or if replacement is needed.</p>
+<p><strong>DPF diagnostic:</strong> £45 (free if you proceed with cleaning or repair)</p>
+<p><strong>Call 01617 063 645</strong> — same-day diagnostic appointments usually available.</p>
+<p>Unit 7, Walkden Business Park, Manchester M38 9AL — 8 minutes from Bolton.</p>
+    `,
+  },
+
+  "pothole-damage-car-bolton": {
+    title: "Hit a Pothole in Bolton? Here's What to Check (And Who to Claim From)",
+    category: "Repairs",
+    date: "2026-11-18",
+    readTime: "6 min",
+    content: `
+<h2>Bolton's Potholes Are Getting Worse — And Your Car Is Paying the Price</h2>
+<p>Greater Manchester has some of the worst road surfaces in England. A 2024 RAC report ranked Greater Manchester in the bottom 5 regions for road quality. If you've hit a pothole on the A6, A580, or any of Bolton's residential roads recently, here's exactly what to do.</p>
+
+<h3>Check These Immediately After Hitting a Pothole</h3>
+<p>Pull over safely as soon as you can and check:</p>
+
+<h4>1. Tyres (Most Common Damage)</h4>
+<ul>
+  <li><strong>Bulge or bubble on sidewall:</strong> Stop driving immediately — tyre could blow out at any moment</li>
+  <li><strong>Flat tyre:</strong> Obvious, but check all 4 — sometimes slow punctures take minutes to show</li>
+  <li><strong>Cuts or gashes:</strong> Even small cuts in the sidewall mean replacement</li>
+  <li><strong>Cracking along tread:</strong> May indicate impact damage inside</li>
+</ul>
+<p><strong>Important:</strong> A sidewall bulge is NOT repairable. The tyre must be replaced — usually £60-100 fitted.</p>
+
+<h4>2. Wheels (Alloy Damage)</h4>
+<ul>
+  <li>Look for cracks, bends, or chips on the rim</li>
+  <li>A bent alloy causes vibration and uneven tyre wear</li>
+  <li>Cracked alloy is dangerous — the tyre can deflate suddenly</li>
+</ul>
+<p>Minor cosmetic scuffs are fine. Structural damage needs repair or replacement (£80-200 per wheel).</p>
+
+<h4>3. Steering (Do This Test)</h4>
+<p>On a safe, straight empty road, briefly let go of the steering wheel. If the car pulls to one side, your wheel alignment is out. Pothole hits commonly knock alignment out — causing:</p>
+<ul>
+  <li>Uneven tyre wear (can destroy a tyre in weeks)</li>
+  <li>Worse fuel economy</li>
+  <li>Pulling to one side under braking (dangerous)</li>
+</ul>
+<p><strong>Wheel alignment check & adjustment: £45</strong> — always worth doing after a big pothole hit.</p>
+
+<h4>4. Suspension</h4>
+<p>Serious pothole hits can damage:</p>
+<ul>
+  <li><strong>Shock absorbers</strong> — if car bounces more than once after a bump</li>
+  <li><strong>Springs</strong> — car sitting lower on one corner</li>
+  <li><strong>Wishbones & control arms</strong> — clunking noise over bumps</li>
+  <li><strong>Steering rack</strong> — stiff steering or pulling</li>
+</ul>
+
+<h4>5. Exhaust</h4>
+<p>Deep potholes can catch your exhaust — especially on lowered cars. Listen for loud rattling or scraping underneath. A cracked exhaust gets worse quickly and will fail MOT.</p>
+
+<h3>How to Claim Compensation from Bolton Council</h3>
+<p>You can claim for pothole damage from the local authority responsible for that road. Here's how:</p>
+
+<h4>Step 1: Document Everything</h4>
+<ul>
+  <li>Take photos of the pothole (with something for scale — your foot or a coin)</li>
+  <li>Note the exact location (street name, nearest landmark)</li>
+  <li>Time and date of the incident</li>
+  <li>Photos of your tyre/wheel damage</li>
+  <li>Keep all repair receipts</li>
+</ul>
+
+<h4>Step 2: Who Is Responsible?</h4>
+<ul>
+  <li><strong>Bolton Council:</strong> Local roads, residential streets — <a href="https://www.bolton.gov.uk/roads" style="color:#1a56db;">www.bolton.gov.uk/roads</a></li>
+  <li><strong>Transport for Greater Manchester:</strong> Some A-roads</li>
+  <li><strong>National Highways:</strong> Motorways (M61, M60, M62)</li>
+</ul>
+
+<h4>Step 3: Submit Your Claim</h4>
+<p>Visit <strong>www.bolton.gov.uk</strong> → Highways → Report a pothole / Make a claim. Include:</p>
+<ul>
+  <li>Your photos and incident details</li>
+  <li>Repair quotes or receipts</li>
+  <li>Your vehicle details</li>
+</ul>
+
+<h4>Realistic Expectations</h4>
+<p>Councils often reject first claims — especially if the pothole was recently reported. Keep all evidence and appeal if rejected. Many drivers get £100-300 back on successful claims.</p>
+
+<h3>How Much Does Pothole Damage Repair Cost?</h3>
+<ul>
+  <li><strong>Tyre replacement:</strong> £65-150 fitted (most common)</li>
+  <li><strong>Wheel alignment:</strong> £45</li>
+  <li><strong>Alloy wheel repair:</strong> £80-120 per wheel</li>
+  <li><strong>Shock absorber replacement:</strong> £120-200 per corner</li>
+  <li><strong>Suspension arm:</strong> £150-350</li>
+  <li><strong>Exhaust repair:</strong> £60-150</li>
+</ul>
+
+<h3>Get Your Car Checked After a Pothole Hit</h3>
+<p>Even if the car seems fine, internal damage to tyres, wheels, and suspension can appear days later. A free visual check takes 10 minutes.</p>
+<p><strong>Call 01617 063 645</strong> — we're in Walkden, 8 minutes from Bolton. Same-day appointments usually available.</p>
+<p>Unit 7, Walkden Business Park, Mount Skip Lane, Manchester M38 9AL.</p>
+    `,
+  },
+
   "christmas-car-care-guide-2026": {
     title: "Christmas Car Care Guide 2026: Drive Safe This Festive Season",
     category: "Seasonal",

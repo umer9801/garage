@@ -15,10 +15,10 @@ export const Route = createFileRoute("/services")({
   validateSearch: searchSchema,
   head: () => ({
     meta: [
-      { title: "Car Services Bolton | MOT, Servicing, Brakes, Tyres & Repairs Manchester" },
+      { title: "Car Services Bolton | MOT £39.99 | Brakes, Tyres, Servicing" },
       {
         name: "description",
-        content: "Complete car services in Bolton: MOT £39.99, full service £159, diagnostics, brake repair, tyre fitting, clutch & engine repairs. Fleet services available. Book now.",
+        content: "MOT £39.99 ✓ Full service from £149 ✓ Same-day available ✓ Brakes, tyres, diagnostics, clutch & engine repairs in Bolton & Manchester. No hidden charges. Book now.",
       },
       { name: "keywords", content: "car services Bolton, MOT test price, full service Manchester, brake repair, tyre fitting, clutch replacement, fleet servicing, diagnostics Walkden" },
       { name: "robots", content: "index, follow" },

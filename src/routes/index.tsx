@@ -29,11 +29,11 @@ import { generateFaqSchema, toJsonLdScript } from "@/lib/seo";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sleek Automotive Bolton | MOT Testing, Car Servicing & Repairs Manchester M38" },
+      { title: "MOT Test Bolton £39.99 | Same-Day MOT | Sleek Automotive" },
       {
         name: "description",
         content:
-          "Trusted garage in Bolton & Manchester. MOT from £39.99, full servicing, diagnostics, brakes, tyres & repairs. Book online or call 01617 063 645. Walkden M38 9AL.",
+          "MOT from £39.99 ✓ Same-day slots ✓ Free retest ✓ Walkden, Manchester M38. Trusted by 5,000+ drivers. Book online in 60 seconds or call 01617 063 645.",
       },
       { name: "keywords", content: "MOT Bolton, car service Manchester, garage Walkden, MOT test near me, car repairs Bolton, brake replacement, diagnostics, tyre fitting M38" },
       { name: "robots", content: "index, follow" },

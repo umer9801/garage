@@ -78,7 +78,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Sleek Automotive Bolton | MOT, Servicing & Car Repairs Manchester" },
+      { title: "MOT Bolton | Car Service & Repairs | Sleek Automotive" },
       {
         name: "description",
         content:

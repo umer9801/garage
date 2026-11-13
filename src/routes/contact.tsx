@@ -62,10 +62,10 @@ const FLEET_SERVICES = [
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact Sleek Automotive Bolton | Book MOT & Service Online" },
+      { title: "Book a Garage in Bolton | MOT & Car Service | Sleek Automotive" },
       {
         name: "description",
-        content: "Get in touch with Sleek Automotive. Book MOT, servicing or repairs online. Call 01617 063 645. Unit 7, Walkden Business Park, Manchester M38 9AL. Open Mon-Sat.",
+        content: "Book your MOT, service or repair online in 60 seconds. Same-day slots available ✓ Call 01617 063 645. Open Mon–Fri 9–6, Sat 9–4. Walkden, Manchester M38 9AL.",
       },
       { name: "keywords", content: "contact Sleek Automotive, book MOT Bolton, garage opening hours Walkden, car service booking Manchester, M38 garage" },
       { name: "robots", content: "index, follow" },
