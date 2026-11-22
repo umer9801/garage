@@ -3,7 +3,7 @@ import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "motion/
 import { useState } from "react";
 import { Menu, X, Phone, CalendarCheck, ChevronDown, Car, Truck } from "lucide-react";
 import { cn } from "@/lib/utils";
-import logoImgUrl from "../assets/logo.png?url";
+import logoImgUrl from "../assets/logo.PNG?url";
 
 const NAV_BASE = [
   { to: "/", label: "Home" },

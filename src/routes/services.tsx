@@ -5,7 +5,13 @@ import { ChevronRight, Truck, Car } from "lucide-react";
 import { useState, useEffect } from "react";
 import { z } from "zod";
 import { BookingWidget } from "@/components/booking-widget";
-import { generateBreadcrumbSchema, generateItemListSchema, toJsonLdScript, absoluteUrl } from "@/lib/seo";
+import {
+  generateBreadcrumbSchema,
+  generateItemListSchema,
+  generateSEOHead,
+  toJsonLdScript,
+  absoluteUrl,
+} from "@/lib/seo";
 
 const searchSchema = z.object({
   tab: z.enum(["public", "fleet"]).optional().default("public"),
@@ -14,21 +20,14 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/services")({
   validateSearch: searchSchema,
   head: () => ({
-    meta: [
-      { title: "Car Services Bolton | MOT £39.99 | Brakes, Tyres, Servicing" },
-      {
-        name: "description",
-        content: "MOT £39.99 ✓ Full service from £149 ✓ Same-day available ✓ Brakes, tyres, diagnostics, clutch & engine repairs in Bolton & Manchester. No hidden charges. Book now.",
-      },
-      { name: "keywords", content: "car services Bolton, MOT test price, full service Manchester, brake repair, tyre fitting, clutch replacement, fleet servicing, diagnostics Walkden" },
-      { name: "robots", content: "index, follow" },
-      { property: "og:title", content: "Car Services Bolton | MOT, Servicing & Repairs" },
-      { property: "og:description", content: "Complete car services: MOT £39.99, full service, diagnostics, brakes, tyres & repairs in Bolton, Manchester." },
-      { property: "og:url", content: "https://www.sleekautomotive.uk/services" },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.sleekautomotive.uk/services" },
-    ],
+    ...generateSEOHead({
+      title: "Garage Services in Bolton | MOT, Servicing & Repairs",
+      description:
+        "Explore MOT testing, car servicing, diagnostics, brakes, tyres and repairs at Sleek Automotive in Walkden, serving Bolton and Manchester. See our services and book online.",
+      keywords:
+        "garage services Bolton, MOT testing Walkden, car servicing Manchester, car diagnostics Bolton, brake repair Walkden, tyre fitting Bolton, fleet vehicle servicing",
+      canonical: "/services",
+    }),
     scripts: [
       {
         children: toJsonLdScript([

@@ -4,6 +4,7 @@ import { blogPosts } from "./blog";
 import {
   generateArticleSchema,
   generateBreadcrumbSchema,
+  generateSEOHead,
   absoluteUrl,
   toJsonLdScript,
 } from "@/lib/seo";
@@ -24,33 +25,36 @@ export const Route = createFileRoute("/blog/$slug")({
         meta: [
           { title: "Article Not Found | Sleek Automotive Bolton" },
           { name: "robots", content: "noindex, follow" },
+          { property: "og:url", content: absoluteUrl(`/blog/${slug}`) },
         ],
+        links: [{ rel: "canonical", href: absoluteUrl(`/blog/${slug}`) }],
       };
     }
     const url = absoluteUrl(`/blog/${slug}`);
     const description = excerpt || post.title;
+    const keywords = [
+      post.title,
+      `${post.category} Bolton`,
+      `${post.category} Walkden`,
+      `${post.category} Manchester`,
+      `${post.category} near me`,
+      "Sleek Automotive",
+    ].join(", ");
+    const seoHead = generateSEOHead({
+      title: `${post.title} | Sleek Automotive`,
+      description,
+      keywords,
+      canonical: url,
+      ogImage: "/logo.png",
+      type: "article",
+      publishedTime: post.date,
+    });
     return {
       meta: [
-        { title: `${post.title} | Bolton Garage Guide` },
-        { name: "description", content: description },
-        {
-          name: "keywords",
-          content: `${post.category}, car maintenance Bolton, automotive advice, MOT guide, Sleek Automotive`,
-        },
-        { name: "robots", content: "index, follow" },
-        { property: "og:type", content: "article" },
-        { property: "og:title", content: post.title },
-        { property: "og:description", content: description },
-        { property: "og:url", content: url },
-        { property: "og:image", content: absoluteUrl("/logo.png") },
-        { property: "article:published_time", content: post.date },
+        ...seoHead.meta,
         { property: "article:section", content: post.category },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: post.title },
-        { name: "twitter:description", content: description },
-        { name: "twitter:image", content: absoluteUrl("/logo.png") },
       ],
-      links: [{ rel: "canonical", href: url }],
+      links: seoHead.links,
       scripts: [
         {
           children: toJsonLdScript([
@@ -72,6 +76,108 @@ export const Route = createFileRoute("/blog/$slug")({
 
 // SEO-optimized blog content with trending automotive keywords 2026
 const blogContent: Record<string, any> = {
+  "mot-failed-what-to-do-next-bolton": {
+    title: "MOT Failed in Bolton? What to Do Next and How to Get Back on the Road",
+    category: "MOT Testing",
+    date: "2026-11-22",
+    readTime: "5 min",
+    content: `
+<h2>Your MOT failed — take it one step at a time</h2>
+<p>An MOT failure can be stressful, but the result gives you a clear list of what needs attention. Read the failure report carefully, ask the tester to explain anything unclear and get a written quote before authorising repairs.</p>
+
+<h3>Understand the result</h3>
+<p>The report separates defects by severity and may also list advisories. Advisories are items to monitor or repair soon; they are not the same as a failed test. Major or dangerous defects cause a failure, and dangerous defects mean the vehicle should not be driven until they are repaired. If you are unsure whether your car is safe or legal to move, ask the test centre before driving it.</p>
+
+<h3>What to do after a failed MOT</h3>
+<ol>
+  <li><strong>Get the full report.</strong> Keep the defect list and ask for an explanation in plain language.</li>
+  <li><strong>Compare repair options.</strong> Request an itemised quote and ask which work is needed to address the failure.</li>
+  <li><strong>Choose where to repair it.</strong> You can ask the test centre to do the repairs or arrange another garage. Confirm retest arrangements and any fees before work starts.</li>
+  <li><strong>Keep the paperwork.</strong> Save the repair invoice and retest result with your vehicle records.</li>
+</ol>
+
+<h3>Can you drive a car that has failed its MOT?</h3>
+<p>It depends on the vehicle's current MOT status and the defects recorded. A dangerous defect must be fixed before the vehicle is driven. If the previous MOT has expired, there are only limited circumstances in which you may drive to a pre-booked test or to a place for repairs. Check the report and get advice from the test centre rather than guessing.</p>
+
+<h3>Common issues to discuss with the tester</h3>
+<ul>
+  <li>Lighting, visibility and number plate faults</li>
+  <li>Tyre tread, damage or pressure problems</li>
+  <li>Brake performance and warning lights</li>
+  <li>Steering, suspension or excessive play</li>
+  <li>Emissions or engine warning-light concerns</li>
+</ul>
+<p>The report is specific to your vehicle, so avoid replacing parts based on a general checklist alone.</p>
+
+<h3>Need an MOT retest or repair in Bolton?</h3>
+<p>Sleek Automotive is in Walkden, serving Bolton, Worsley and Greater Manchester. Read about our <a href="/services/mot-service">MOT and servicing</a>, then <a href="/contact">contact the garage</a> to discuss your report and available appointments. Retest terms depend on the work and timing, so confirm them when you book.</p>
+    `,
+  },
+  "car-battery-replacement-bolton-warning-signs": {
+    title: "Car Battery Replacement in Bolton: Warning Signs You Shouldn't Ignore",
+    category: "Car Maintenance",
+    date: "2026-11-22",
+    readTime: "5 min",
+    content: `
+<h2>Is your car battery losing its charge?</h2>
+<p>A weak battery can turn a normal morning into a car that will not start. Short journeys, cold weather, an ageing battery or an electrical fault can all contribute. The symptoms can overlap with charging-system problems, so testing is better than replacing parts by guesswork.</p>
+
+<h3>Six signs your battery needs checking</h3>
+<ul>
+  <li><strong>Slow engine cranking:</strong> the engine turns over more slowly than usual.</li>
+  <li><strong>Repeated jump-starts:</strong> the car starts with assistance but goes flat again.</li>
+  <li><strong>Dim or flickering lights:</strong> especially when starting the engine.</li>
+  <li><strong>Battery warning light:</strong> this can indicate a charging fault as well as a battery issue.</li>
+  <li><strong>Electrical features behaving oddly:</strong> such as central locking or dashboard electronics cutting out.</li>
+  <li><strong>Visible damage:</strong> corrosion around terminals, a swollen case or a leaking battery needs professional attention.</li>
+</ul>
+
+<h3>Battery, alternator or something else?</h3>
+<p>A flat battery is not always the cause. The alternator may not be charging correctly, a connection may be loose or an electrical component may be draining power while the car is parked. A proper battery and charging-system test helps identify the cause and prevents fitting a new battery that could go flat too.</p>
+
+<h3>How to help your battery last</h3>
+<ul>
+  <li>Have the battery checked if starting becomes noticeably slower.</li>
+  <li>Switch off lights and accessories when leaving the vehicle.</li>
+  <li>If the car is used mainly for short trips, ask a technician whether the charging system is keeping up.</li>
+  <li>Do not handle a damaged or leaking battery; arrange professional help.</li>
+</ul>
+<p>Battery life varies with the vehicle, usage and conditions. A test can tell you more than the battery's age alone.</p>
+
+<h3>Book a battery test in Bolton</h3>
+<p>Sleek Automotive offers battery testing and replacement in Walkden, near Bolton. See our <a href="/services/aircon-battery">battery and electrical services</a> or <a href="/contact">get in touch</a> to arrange a check. If the battery warning light is on or the car repeatedly fails to start, describe the symptoms when booking.</p>
+    `,
+  },
+  "wheel-alignment-bolton-symptoms": {
+    title: "Wheel Alignment in Bolton: 6 Signs Your Car Needs Its Tracking Checked",
+    category: "Tyres",
+    date: "2026-11-22",
+    readTime: "5 min",
+    content: `
+<h2>What does wheel alignment mean?</h2>
+<p>Wheel alignment, often called tracking, is the adjustment of wheel angles to the vehicle manufacturer's specifications. Correct alignment helps the car travel predictably and can reduce uneven tyre wear. It is different from wheel balancing, which addresses vibration caused by how a wheel and tyre rotate.</p>
+
+<h3>Six signs to look out for</h3>
+<ul>
+  <li><strong>The car pulls to one side</strong> on a reasonably level road.</li>
+  <li><strong>The steering wheel sits off-centre</strong> when you are travelling straight.</li>
+  <li><strong>Tyres wear unevenly</strong> across the inner or outer edge.</li>
+  <li><strong>The steering feels less settled</strong> or needs frequent correction.</li>
+  <li><strong>You have recently hit a pothole or kerb</strong> and the handling feels different.</li>
+  <li><strong>New tyres wear unusually quickly</strong> despite correct pressure and sensible use.</li>
+</ul>
+<p>These symptoms can also come from tyre pressure, worn suspension parts, brakes or road camber. An inspection is needed to identify the actual cause.</p>
+
+<h3>Why alignment can change</h3>
+<p>A hard impact with a pothole or kerb can alter wheel settings. Normal wear to steering and suspension components can also affect alignment. If a component is damaged or worn, adjusting the tracking alone may not solve the problem, so the condition of the tyres and suspension should be checked first.</p>
+
+<h3>What happens during an alignment check?</h3>
+<p>A technician checks the tyres and steering, measures the wheel angles with alignment equipment and compares the results with the vehicle's specifications. If adjustment is suitable, the angles are corrected and checked again. Ask for the readings and an explanation if any parts need attention before adjustment.</p>
+
+<h3>Book a wheel alignment check in Bolton</h3>
+<p>If your car pulls or your tyres are wearing unevenly, have it inspected before replacing tyres. Sleek Automotive serves Walkden, Bolton and nearby areas. Explore our <a href="/services/tyres-brakes">tyre and brake services</a> or <a href="/contact">book an inspection</a>. Checking tyre pressures regularly and having new steering or suspension parts inspected can also help keep handling predictable.</p>
+    `,
+  },
   "mot-near-me-bolton-walkden": {
     title: "MOT Near Me Bolton: Same-Day Slots, £39.99, Free Retest",
     category: "MOT Testing",

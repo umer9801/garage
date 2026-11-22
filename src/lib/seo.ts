@@ -23,6 +23,38 @@ export interface SEOData {
   modifiedTime?: string;
 }
 
+export function generateSEOHead(data: SEOData) {
+  const canonical = absoluteUrl(data.canonical ?? "/");
+  const image = absoluteUrl(data.ogImage ?? "/logo.png");
+
+  return {
+    meta: [
+      { title: data.title },
+      { name: "description", content: data.description },
+      ...(data.keywords ? [{ name: "keywords", content: data.keywords }] : []),
+      { name: "robots", content: "index, follow" },
+      { property: "og:site_name", content: businessInfo.shortName },
+      { property: "og:locale", content: "en_GB" },
+      { property: "og:type", content: data.type ?? "website" },
+      { property: "og:title", content: data.title },
+      { property: "og:description", content: data.description },
+      { property: "og:url", content: canonical },
+      { property: "og:image", content: image },
+      ...(data.publishedTime
+        ? [{ property: "article:published_time", content: data.publishedTime }]
+        : []),
+      ...(data.modifiedTime
+        ? [{ property: "article:modified_time", content: data.modifiedTime }]
+        : []),
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: data.title },
+      { name: "twitter:description", content: data.description },
+      { name: "twitter:image", content: image },
+    ],
+    links: [{ rel: "canonical", href: canonical }],
+  };
+}
+
 // Business Information
 export const businessInfo = {
   name: "Sleek Automotive And Fleet Specialists",

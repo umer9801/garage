@@ -2,27 +2,27 @@ import { createFileRoute, Link, Outlet, useMatchRoute } from "@tanstack/react-ro
 import { Reveal, SectionHeading } from "@/components/ui-bits";
 import { Calendar, Clock, ArrowRight, Search } from "lucide-react";
 import { useState } from "react";
-import { generateBreadcrumbSchema, generateBlogSchema, generateItemListSchema, absoluteUrl, toJsonLdScript } from "@/lib/seo";
+import {
+  generateBreadcrumbSchema,
+  generateBlogSchema,
+  generateItemListSchema,
+  generateSEOHead,
+  absoluteUrl,
+  toJsonLdScript,
+} from "@/lib/seo";
 
 export const Route = createFileRoute("/blog")({
   component: BlogLayout,
   head: () => ({
-    meta: [
-      { title: "Car Repair Tips & MOT Guides | Bolton Mechanics | Sleek Automotive" },
-      {
-        name: "description",
-        content:
-          "Free advice from Bolton mechanics. MOT checklists, service cost guides, brake & tyre tips, winter prep — honest answers to your car questions.",
-      },
-      { name: "keywords", content: "car maintenance tips Bolton, MOT preparation guide, winter car care, brake problems, tyre safety, check engine light, clutch replacement cost" },
-      { name: "robots", content: "index, follow" },
-      { property: "og:title", content: "Automotive Blog | Sleek Automotive Bolton" },
-      { property: "og:description", content: "Expert car maintenance tips, MOT guides & repair advice from Bolton mechanics." },
-      { property: "og:url", content: "https://www.sleekautomotive.uk/blog" },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.sleekautomotive.uk/blog" },
-    ],
+    ...generateSEOHead({
+      title: "Car Repair Tips & MOT Guides | Sleek Automotive Bolton",
+      description:
+        "Practical advice from local mechanics: MOT guides, car maintenance, repair costs, tyres and diagnostics for drivers in Bolton, Walkden and Manchester.",
+      keywords:
+        "car maintenance advice Bolton, MOT guides Manchester, car repair tips Walkden, tyre safety, brake problems, vehicle diagnostics, service costs UK",
+      canonical: "/blog",
+      type: "website",
+    }),
     scripts: [
       {
         children: toJsonLdScript([
@@ -48,6 +48,30 @@ function BlogLayout() {
 }
 
 export const blogPosts = [
+  {
+    slug: "mot-failed-what-to-do-next-bolton",
+    title: "MOT Failed in Bolton? What to Do Next and How to Get Back on the Road",
+    excerpt: "Understand MOT fail categories, what to ask your tester, repair choices and retest steps. A practical guide for drivers in Bolton and Walkden.",
+    category: "MOT Testing",
+    date: "2026-11-22",
+    readTime: "5 min",
+  },
+  {
+    slug: "car-battery-replacement-bolton-warning-signs",
+    title: "Car Battery Replacement in Bolton: Warning Signs You Shouldn't Ignore",
+    excerpt: "Slow starts, dim lights or repeated flat batteries? Learn what the signs mean, when to test your battery and how to avoid replacing the wrong part.",
+    category: "Car Maintenance",
+    date: "2026-11-22",
+    readTime: "5 min",
+  },
+  {
+    slug: "wheel-alignment-bolton-symptoms",
+    title: "Wheel Alignment in Bolton: 6 Signs Your Car Needs Its Tracking Checked",
+    excerpt: "A car that pulls, a crooked steering wheel or uneven tyre wear can point to poor alignment. Find out what to check and when to book a tracking inspection.",
+    category: "Tyres",
+    date: "2026-11-22",
+    readTime: "5 min",
+  },
   {
     slug: "mot-near-me-bolton-walkden",
     title: "MOT Near Me Bolton: Same-Day Slots, £39.99, Free Retest",

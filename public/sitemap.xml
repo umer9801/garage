@@ -103,6 +103,28 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- New Blog Articles -->
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/mot-failed-what-to-do-next-bolton</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/car-battery-replacement-bolton-warning-signs</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sleekautomotive.uk/blog/wheel-alignment-bolton-symptoms</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Blog Articles -->
   <url>
     <loc>https://www.sleekautomotive.uk/blog/mot-test-checklist-2026-manchester</loc>

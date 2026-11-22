@@ -5,25 +5,19 @@ import aboutImg from "@/assets/about-workshop.jpg";
 import teamImg from "@/assets/team.jpg";
 import certImg from "@/assets/certificate.jpg";
 import { BookingWidget } from "@/components/booking-widget";
-import { generateBreadcrumbSchema, toJsonLdScript } from "@/lib/seo";
+import { generateBreadcrumbSchema, generateSEOHead, toJsonLdScript } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
-    meta: [
-      { title: "About Us | Master Technicians Bolton | Sleek Automotive" },
-      {
-        name: "description",
-        content: "5,000+ vehicles serviced. Master technicians with main-dealer experience — without main-dealer prices. Serving Bolton, Walkden, Manchester & Salford since 2018.",
-      },
-      { name: "keywords", content: "about Sleek Automotive Bolton, garage team Manchester, qualified mechanics, IMI certified, car service experts Walkden" },
-      { name: "robots", content: "index, follow" },
-      { property: "og:title", content: "About Sleek Automotive Bolton | Expert Mechanics" },
-      { property: "og:description", content: "Meet our expert team. 20+ years experience in MOT, servicing & repairs in Bolton, Manchester." },
-      { property: "og:url", content: "https://www.sleekautomotive.uk/about" },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.sleekautomotive.uk/about" },
-    ],
+    ...generateSEOHead({
+      title: "About Sleek Automotive | Bolton & Walkden Garage Team",
+      description:
+        "Meet the Sleek Automotive team in Walkden. Our technicians bring main-dealer experience to MOT testing, servicing and car repairs for Bolton and Greater Manchester drivers.",
+      keywords:
+        "Sleek Automotive team, garage Bolton, mechanics Walkden, car repair specialists Manchester, MOT garage Greater Manchester",
+      canonical: "/about",
+      ogImage: "/logo.png",
+    }),
     scripts: [
       {
         children: toJsonLdScript(generateBreadcrumbSchema("/about")),

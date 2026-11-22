@@ -24,28 +24,19 @@ import repairsImg from "@/assets/repairs.jpg";
 import img7 from "@/assets/7.jpg";
 import { useState } from "react";
 import { BookingWidget } from "@/components/booking-widget";
-import { generateFaqSchema, toJsonLdScript } from "@/lib/seo";
+import { generateFaqSchema, generateSEOHead, toJsonLdScript } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
-    meta: [
-      { title: "MOT Test Bolton £39.99 | Same-Day MOT | Sleek Automotive" },
-      {
-        name: "description",
-        content:
-          "MOT from £39.99 ✓ Same-day slots ✓ Free retest ✓ Walkden, Manchester M38. Trusted by 5,000+ drivers. Book online in 60 seconds or call 01617 063 645.",
-      },
-      { name: "keywords", content: "MOT Bolton, car service Manchester, garage Walkden, MOT test near me, car repairs Bolton, brake replacement, diagnostics, tyre fitting M38" },
-      { name: "robots", content: "index, follow" },
-      { property: "og:title", content: "Sleek Automotive Bolton | MOT, Servicing & Car Repairs" },
-      { property: "og:description", content: "Trusted garage in Bolton & Manchester. MOT from £39.99, servicing, diagnostics & repairs. Book online today." },
-      { property: "og:url", content: "https://www.sleekautomotive.uk/" },
-      { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://www.sleekautomotive.uk/logo.png" },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.sleekautomotive.uk/" },
-    ],
+    ...generateSEOHead({
+      title: "MOT Test Bolton £39.99 | Same-Day MOT | Sleek Automotive",
+      description:
+        "Book an MOT in Bolton from £39.99, with same-day slots and free retests. Sleek Automotive serves Walkden, Manchester M38 and nearby areas. Book online or call 01617 063 645.",
+      keywords:
+        "MOT test Bolton, MOT near me, same-day MOT Walkden, MOT Manchester M38, MOT retest Bolton, car servicing Bolton, car repairs Manchester, garage Walkden",
+      canonical: "/",
+      ogImage: "/hero-garage.jpg",
+    }),
     scripts: [
       {
         children: toJsonLdScript(generateFaqSchema(FAQS)),

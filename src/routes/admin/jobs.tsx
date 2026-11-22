@@ -1109,6 +1109,7 @@ function InvoiceModal({ job, token, onClose }: { job: Job; token: string; onClos
     Array<{ name: string; price: number; quantity: number }>
   >([]);
   const [notes, setNotes] = useState("");
+  const [taxRate, setTaxRate] = useState(0);
   const [invoiceHTML, setInvoiceHTML] = useState<string | null>(null);
 
   // Initialize with job services
@@ -1139,7 +1140,7 @@ function InvoiceModal({ job, token, onClose }: { job: Job; token: string; onClos
   }
 
   const subtotal = services.reduce((sum, s) => sum + s.price * s.quantity, 0);
-  const vat = subtotal * 0.2;
+  const vat = subtotal * (taxRate / 100);
   const total = subtotal + vat;
 
   async function handleGenerate() {
@@ -1160,6 +1161,7 @@ function InvoiceModal({ job, token, onClose }: { job: Job; token: string; onClos
           token,
           jobId: job._id,
           services,
+          taxRate,
           notes,
         },
       });
@@ -1332,15 +1334,33 @@ function InvoiceModal({ job, token, onClose }: { job: Job; token: string; onClos
 
           {/* Totals */}
           <div className="rounded-xl border border-border bg-gray-50 p-4">
+            <div className="mb-3 flex items-center gap-3">
+              <label className="whitespace-nowrap text-sm font-semibold text-ink">
+                VAT Rate (%):
+              </label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                step="0.1"
+                value={taxRate}
+                onChange={(e) => setTaxRate(parseFloat(e.target.value) || 0)}
+                className="w-24 rounded-xl border border-border px-3 py-1.5 text-sm outline-none focus:border-primary"
+                placeholder="0"
+              />
+              <span className="text-xs text-ink-soft">Leave 0 for no VAT</span>
+            </div>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span>Subtotal:</span>
                 <span className="font-semibold">£{subtotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span>VAT (20%):</span>
-                <span className="font-semibold">£{vat.toFixed(2)}</span>
-              </div>
+              {taxRate > 0 && (
+                <div className="flex justify-between text-sm">
+                  <span>VAT ({taxRate}%):</span>
+                  <span className="font-semibold">£{vat.toFixed(2)}</span>
+                </div>
+              )}
               <div className="flex justify-between border-t border-border pt-2 text-lg font-bold text-primary">
                 <span>Total:</span>
                 <span>£{total.toFixed(2)}</span>
