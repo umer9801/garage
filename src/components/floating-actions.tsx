@@ -24,7 +24,7 @@ export function FloatingActions() {
       <div className="fixed bottom-28 right-5 sm:bottom-5 sm:right-20 z-[45] flex flex-col items-end gap-3">
         {/* WhatsApp */}
         <a
-          href="https://wa.me/441617063645"
+          href="https://wa.me/447774142254"
           target="_blank"
           rel="noopener noreferrer"
           className="grid h-14 w-14 place-items-center rounded-full bg-[oklch(0.7_0.18_150)] text-white shadow-elegant transition-transform hover:scale-110"

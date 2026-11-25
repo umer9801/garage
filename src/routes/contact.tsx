@@ -15,6 +15,7 @@ import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { submitContact } from "@/lib/server-fns";
 import { BookingWidget } from "@/components/booking-widget";
+import { PaymentBanner } from "@/components/payment-banner";
 import {
   generateBreadcrumbSchema,
   generateLocalBusinessSchema,
@@ -223,6 +224,8 @@ function ContactPage() {
           subtitle="Same-day MOTs, free quotes, and a friendly welcome at every visit."
         />
       </section>
+
+      <PaymentBanner />
 
       {/* Booking Widget */}
       <section className="container-px mx-auto max-w-7xl px-6 pb-12">

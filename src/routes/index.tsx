@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Hero } from "@/components/hero";
+import { PaymentBanner } from "@/components/payment-banner";
 import { Reveal, SectionHeading, PrimaryButton, GhostButton } from "@/components/ui-bits";
 import { getPublicServices, getFleetServices } from "@/data/services";
 import { motion } from "motion/react";
@@ -119,6 +120,7 @@ function HomePage() {
   return (
     <>
       <Hero />
+      <PaymentBanner />
 
       {/* Booking Widget - Prominently displayed */}
       <section className="container-px mx-auto max-w-7xl px-6 py-16 sm:py-20">
